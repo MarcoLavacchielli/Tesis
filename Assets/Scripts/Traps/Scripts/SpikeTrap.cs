@@ -6,7 +6,7 @@ public class SpikeTrap : Trap
 {
     public Animator spikeTrap;
 
-    public int damageAmount = 5;
+    public int damageAmount;
 
     private void OnTriggerEnter(Collider other)
     {

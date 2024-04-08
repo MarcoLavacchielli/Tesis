@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Laser : Trap
 {
-    public int damageAmount = 10;
+    public int damageAmount;
 
     private void OnTriggerEnter(Collider other)
     {
