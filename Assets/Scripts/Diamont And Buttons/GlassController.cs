@@ -1,18 +1,17 @@
 using UnityEngine;
 
-public class DiamontController : MonoBehaviour
+public class GlassController : MonoBehaviour
 {
-    public static DiamontController Instance;
+    public static GlassController Instance;
 
     [SerializeField] private ButtonController[] buttons;
+    [SerializeField] private GameObject glassObject;
 
-    private Renderer rend;
     private bool allButtonsActive = false;
 
     private void Awake()
     {
         Instance = this;
-        rend = GetComponent<Renderer>();
     }
 
     public void CheckButtons()
@@ -32,7 +31,7 @@ public class DiamontController : MonoBehaviour
 
         if (allButtonsActive)
         {
-            rend.material.color = Color.green;
+            Destroy(glassObject);
         }
     }
 }

@@ -51,6 +51,6 @@ public class ButtonController : MonoBehaviour
     {
         isActive = true;
         rend.material.color = activeColor;
-        DiamontController.Instance.CheckButtons();
+        GlassController.Instance.CheckButtons();
     }
 }
