@@ -7723,17 +7723,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7047a9e5e0e97a4abc153aef0bf5d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 7
-  sprintSpeed: 17
+  walkSpeed: 4
+  sprintSpeed: 6
   slideSpeed: 17
   wallrunSpeed: 6
   climbSpeed: 3
   speedIncreaseMultiplier: 1.5
   slopeIncreaseMultiplier: 2.5
   groundDrag: 7
-  jumpForce: 10
+  jumpForce: 8
   jumpCooldown: 1
-  airMultiplier: 1
+  airMultiplier: 0.5
   crouchSpeed: 3.5
   crouchYScale: 0.5
   jumpKey: 32
