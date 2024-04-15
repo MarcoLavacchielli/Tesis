@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 40255942}
   m_Layer: 6
   m_Name: CameraPos
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1060,7 +1060,7 @@ GameObject:
   - component: {fileID: 196146723}
   m_Layer: 6
   m_Name: Orientation
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7035,7 +7035,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -7100,8 +7100,8 @@ Transform:
   m_GameObject: {fileID: 953335701}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.08, y: -0.95, z: -6.12}
-  m_LocalScale: {x: 5, y: 0.1, z: 5}
+  m_LocalPosition: {x: 4.43, y: 2.88, z: -6.12}
+  m_LocalScale: {x: 7.9973507, y: 8.602106, z: 7.2494807}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -7118,10 +7118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d604a0686a7ef14b8218ee0a143c94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  isIn: 0
+  playerIsInside: 0
+  playerMovement: {fileID: 987709675}
 --- !u!1001 &981574772
 PrefabInstance:
   m_ObjectHideFlags: 0

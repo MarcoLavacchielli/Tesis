@@ -2,33 +2,26 @@ using UnityEngine;
 
 public class SpeedDownTrap : MonoBehaviour
 {
-    public LayerMask playerLayer;
-    public bool isIn = false;
+    public bool playerIsInside = false;
+    public PlayerMovementAdvanced playerMovement;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (playerLayer == (playerLayer | (1 << collision.gameObject.layer)))
+        if (other.CompareTag("Player"))
         {
-            PlayerMovementAdvanced playerMovement = collision.gameObject.GetComponent<PlayerMovementAdvanced>();
-
-            if (playerMovement != null)
-            {
-                playerMovement.walkSpeed /= 2f;
-                playerMovement.sprintSpeed /= 2f;
-                playerMovement.slideSpeed /= 2f;
-                playerMovement.wallrunSpeed /= 2f;
-                playerMovement.climbSpeed /= 2f;
-                playerMovement.groundDrag /= 20f;
-                isIn = true;
-            }
+            playerMovement.walkSpeed /= 2f;
+            playerMovement.sprintSpeed /= 2f;
+            playerMovement.slideSpeed /= 2f;
+            playerMovement.wallrunSpeed /= 2f;
+            playerMovement.climbSpeed /= 2f;
+            playerMovement.groundDrag /= 20f;
+            playerIsInside = true;
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        PlayerMovementAdvanced playerMovement = collision.gameObject.GetComponent<PlayerMovementAdvanced>();
-
-        if (playerMovement != null)
+        if (other.CompareTag("Player"))
         {
             playerMovement.walkSpeed *= 2f;
             playerMovement.sprintSpeed *= 2f;
@@ -36,7 +29,7 @@ public class SpeedDownTrap : MonoBehaviour
             playerMovement.wallrunSpeed *= 2f;
             playerMovement.climbSpeed *= 2f;
             playerMovement.groundDrag *= 20f;
-            isIn = false;
+            playerIsInside = false;
         }
     }
 }
