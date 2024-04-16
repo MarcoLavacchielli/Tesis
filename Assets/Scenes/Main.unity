@@ -7900,7 +7900,7 @@ MonoBehaviour:
   whatIsWall:
     serializedVersion: 2
     m_Bits: 128
-  climbSpeed: 1
+  climbSpeed: 3
   maxClimbTime: 3
   climbJumpUpForce: 5
   climbJumpBackForce: 5
@@ -7978,7 +7978,7 @@ MonoBehaviour:
   moveSpeed: 0
   walkSpeed: 4
   sprintSpeed: 6
-  slideSpeed: 17
+  slideSpeed: 5
   wallrunSpeed: 6
   climbSpeed: 3
   speedIncreaseMultiplier: 1.5
