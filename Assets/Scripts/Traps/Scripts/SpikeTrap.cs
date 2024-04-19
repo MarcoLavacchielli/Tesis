@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpikeTrap : Trap
+public class SpikeTrap : MonoBehaviour
 {
     public Transform spikeTransform;
     public float moveDistance = 1f;
     public float moveSpeed = 1f;
-    public int damageAmount;
 
     private bool playerInside = false;
     private Vector3 initialPosition;
@@ -36,7 +35,6 @@ public class SpikeTrap : Trap
         if (other.CompareTag("Player"))
         {
             playerInside = true;
-            Activate();
         }
     }
 
@@ -45,17 +43,6 @@ public class SpikeTrap : Trap
         if (other.CompareTag("Player"))
         {
             playerInside = false;
-        }
-    }
-
-    public override void Activate()
-    {
-        Debug.Log("Spike trap activated!");
-
-        PlayerHealth playerHealth = FindObjectOfType<PlayerHealth>();
-        if (playerHealth != null)
-        {
-            playerHealth.TakeDamage(damageAmount);
         }
     }
 }
