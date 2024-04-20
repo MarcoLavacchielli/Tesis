@@ -5,7 +5,8 @@ using UnityEngine;
 public class VigilantCam : MonoBehaviour
 {
     public float rotationSpeed = 30f; // Velocidad de rotación en grados por segundo
-
+    [SerializeField] float _radius;
+    public Transform PlayerTransform;
     private bool movingForward = true;
 
     void Update()
@@ -33,5 +34,14 @@ public class VigilantCam : MonoBehaviour
                 movingForward = true;
             }
         }
+    }
+    public void OnDrawGizmos()
+    {
+        
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(PlayerTransform.position + PlayerTransform.up * 0.5f, PlayerTransform.position + PlayerTransform.up * 0.5f + PlayerTransform.right * _radius);
+        Gizmos.DrawLine(PlayerTransform.position - PlayerTransform.up * 0.5f, PlayerTransform.position - PlayerTransform.up * 0.5f + PlayerTransform.right * _radius);
+
     }
 }
