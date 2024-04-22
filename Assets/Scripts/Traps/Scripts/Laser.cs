@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Laser : Trap
 {
-    public int damageAmount;
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -18,10 +16,10 @@ public class Laser : Trap
     {
         Debug.Log("Player touch laser!");
 
-        PlayerHealth playerHealth = FindObjectOfType<PlayerHealth>();
-        if (playerHealth != null)
+        EnergyBar energyBar = FindObjectOfType<EnergyBar>();
+        if (energyBar != null)
         {
-            playerHealth.TakeDamage(damageAmount);
+            energyBar.EnergyConsumptionFunction();
         }
     }
 }
