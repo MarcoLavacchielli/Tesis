@@ -51,7 +51,7 @@ public class FieldOfView : MonoBehaviour
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
                     canSeePlayer = true;
-                    EnergyBarScript.BeingWatchEnergyConsumption();
+                    EnergyBarScript.EnergyConsumptionFunction();
                 }
 
                 else

@@ -11,10 +11,7 @@ public class DetectionSystem : MonoBehaviour
     {
         if (BeingWatch==true)
         {
-            EnergyBarScript.BeingWatchEnergyConsumption();
+            EnergyBarScript.EnergyConsumptionFunction();
         }
-        
     }
-
-   
 }
