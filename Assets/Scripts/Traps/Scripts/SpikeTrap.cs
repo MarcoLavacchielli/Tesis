@@ -20,7 +20,7 @@ public class SpikeTrap : MonoBehaviour
 
     private void Update()
     {
-        if (playerInside)
+        if (playerInside && !IsPlayerCrouching())
         {
             spikeTransform.position = Vector3.MoveTowards(spikeTransform.position, targetPosition, moveSpeed * Time.deltaTime);
         }
@@ -44,5 +44,11 @@ public class SpikeTrap : MonoBehaviour
         {
             playerInside = false;
         }
+    }
+
+    private bool IsPlayerCrouching()
+    {
+        PlayerMovementAdvanced playerMovement = FindObjectOfType<PlayerMovementAdvanced>();
+        return playerMovement != null && playerMovement.state == PlayerMovementAdvanced.MovementState.crouching;
     }
 }
