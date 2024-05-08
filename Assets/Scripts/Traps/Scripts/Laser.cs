@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Laser : Trap
 {
+    public PlayerMovementAdvanced playerMovement;
+    private bool isSlowed = false;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -16,10 +19,30 @@ public class Laser : Trap
     {
         Debug.Log("Player touch laser!");
 
-        EnergyBar energyBar = FindObjectOfType<EnergyBar>();
-        if (energyBar != null)
+        if (!isSlowed)
         {
-            energyBar.EnergyConsumptionFunction();
+            StartCoroutine(SlowDownAndRestore());
         }
+    }
+
+    IEnumerator SlowDownAndRestore()
+    {
+        isSlowed = true;
+
+        playerMovement.walkSpeed /= 3f;
+        playerMovement.sprintSpeed /= 3f;
+        playerMovement.slideSpeed /= 3f;
+        playerMovement.wallrunSpeed /= 3f;
+        playerMovement.climbSpeed /= 3f;
+
+        yield return new WaitForSeconds(2f);
+
+        playerMovement.walkSpeed *= 3f;
+        playerMovement.sprintSpeed *= 3f;
+        playerMovement.slideSpeed *= 3f;
+        playerMovement.wallrunSpeed *= 3f;
+        playerMovement.climbSpeed *= 3f;
+
+        isSlowed = false;
     }
 }

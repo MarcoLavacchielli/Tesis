@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &9910178
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -640,6 +641,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 1426644406275020249, guid: cade55552fdd0f14a8ad59926f56ab4c,
+        type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 987709675}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1175,6 +1181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &65879648
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1734,6 +1741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &72593399
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3936,6 +3944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &131635854
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4866,6 +4875,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 1426644406275020249, guid: cade55552fdd0f14a8ad59926f56ab4c,
+        type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 987709675}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4949,6 +4963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &165394149
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5928,6 +5943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &188443896
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6048,6 +6064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &193112160
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7668,6 +7685,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 1426644406275020249, guid: cade55552fdd0f14a8ad59926f56ab4c,
+        type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 987709675}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8217,6 +8239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &325861148
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8829,6 +8852,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 1426644406275020249, guid: cade55552fdd0f14a8ad59926f56ab4c,
+        type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 987709675}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9304,6 +9332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &367390098
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9481,6 +9510,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1426644406275020249, guid: cade55552fdd0f14a8ad59926f56ab4c,
+        type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 987709675}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19590,6 +19624,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 1426644406275020249, guid: cade55552fdd0f14a8ad59926f56ab4c,
+        type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 987709675}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21893,6 +21932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &743786820
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -23128,6 +23168,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 1426644406275020249, guid: cade55552fdd0f14a8ad59926f56ab4c,
+        type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 987709675}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23541,6 +23586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &803396485
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -23919,6 +23965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &819778897
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -24995,6 +25042,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 1426644406275020249, guid: cade55552fdd0f14a8ad59926f56ab4c,
+        type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 987709675}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -27251,6 +27303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &934913579
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -31495,6 +31548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1077984277
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -32945,6 +32999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1134189105
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -35172,6 +35227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &1197958930
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -36113,6 +36169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1224084230
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -37677,6 +37734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1256143795
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -40278,6 +40336,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 1426644406275020249, guid: cade55552fdd0f14a8ad59926f56ab4c,
+        type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 987709675}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -43236,6 +43299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &1453990269
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -43566,6 +43630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1464382680
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -45496,6 +45561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1536295347
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -49371,6 +49437,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 1426644406275020249, guid: cade55552fdd0f14a8ad59926f56ab4c,
+        type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 987709675}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -49841,6 +49912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1723226986
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -50237,6 +50309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1740515886
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -50900,6 +50973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1769198340
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -51292,6 +51366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1782562333
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -51993,6 +52068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &1799159110
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -52886,6 +52962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1826840940
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -53132,6 +53209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &1840408868
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -53766,6 +53844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1878596620
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -54011,6 +54090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1886637142
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -55454,6 +55534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 987709675}
 --- !u!136 &1961453713
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -57738,6 +57819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7456795f37e0b834da4ed4ffdbad6094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
 --- !u!136 &2036142131
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -61763,6 +61845,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 1426644406275020249, guid: cade55552fdd0f14a8ad59926f56ab4c,
+        type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 987709675}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
