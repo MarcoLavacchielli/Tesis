@@ -6186,6 +6186,75 @@ Transform:
   - {fileID: 873615621}
   m_Father: {fileID: 819341096}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &208917809 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: aa63324bf3a367e4e80e9d9b9272a10a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1500473025}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &208917813
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208917809}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 50, y: 301.2856, z: 50.5}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &208917814
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208917809}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 72.2, y: 102.3, z: 72}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &208917815
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208917809}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 100, y: 92.85, z: 100}
+  m_Center: {x: 0, y: -97.6, z: 0}
 --- !u!65 &213034657
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29190,7 +29259,6 @@ GameObject:
   - component: {fileID: 987709671}
   - component: {fileID: 987709670}
   - component: {fileID: 987709677}
-  - component: {fileID: 987709676}
   - component: {fileID: 987709680}
   - component: {fileID: 987709679}
   - component: {fileID: 987709678}
@@ -29274,8 +29342,9 @@ MonoBehaviour:
   gunTip: {fileID: 112616328}
   whatIsGrappleable:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 2048
   lr: {fileID: 2129481358}
+  pauseM: {fileID: 1821316483}
   maxGrappleDistance: 25
   grappleDelayTime: 0.1
   overshootYAxis: 2
@@ -29439,23 +29508,6 @@ MonoBehaviour:
   wallrunning: 0
   climbing: 0
   velocityToSet: {x: 0, y: 0, z: 0}
---- !u!114 &987709676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 987709661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 011c0b76d8d7cb44fa3f023f9c6b6367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fpsCam: {fileID: 330585545}
-  attackPoint: {fileID: 112616328}
-  spread: 0
-  shootForce: 300
-  upwardForce: 0
 --- !u!114 &987709677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44768,10 +44820,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: Escaleras para el diamante
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aa63324bf3a367e4e80e9d9b9272a10a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aa63324bf3a367e4e80e9d9b9272a10a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 208917815}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aa63324bf3a367e4e80e9d9b9272a10a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 208917814}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aa63324bf3a367e4e80e9d9b9272a10a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 208917813}
   m_SourcePrefab: {fileID: 100100000, guid: aa63324bf3a367e4e80e9d9b9272a10a, type: 3}
 --- !u!1 &1503105855
 GameObject:
@@ -52427,6 +52496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseCanvas: {fileID: 1703913352}
+  isPaused: 0
 --- !u!114 &1821316484
 MonoBehaviour:
   m_ObjectHideFlags: 0

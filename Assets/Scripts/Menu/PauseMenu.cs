@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseCanvas;
-    private bool isPaused = false;
+    public bool isPaused = false;
 
     private void Update()
     {

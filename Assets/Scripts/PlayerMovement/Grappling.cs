@@ -10,6 +10,7 @@ public class Grappling : MonoBehaviour
     public Transform gunTip;
     public LayerMask whatIsGrappleable;
     public LineRenderer lr;
+    [SerializeField] private PauseMenu pauseM;
 
     [Header("Grappling")]
     public float maxGrappleDistance;
@@ -34,7 +35,7 @@ public class Grappling : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(grappleKey)) StartGrapple();
+        if (Input.GetKeyDown(grappleKey) && pauseM.isPaused == false) StartGrapple();
 
         if (grapplingCdTimer > 0)
             grapplingCdTimer -= Time.deltaTime;
