@@ -7,6 +7,8 @@ public class PlayerInputs : MonoBehaviour
 {
     public event Action MovementFuncInputs = delegate { };
     public event Action ShootPistolFuncInput = delegate { };
+    public BulletSlider ReactivationTimeScript;
+    public bool canShoot=true;
     /*private void FixedUpdate()
     {
         MovementFuncInputs();
@@ -14,12 +16,18 @@ public class PlayerInputs : MonoBehaviour
 
     }
     */
+    private void Start()
+    {
+        canShoot=true;
+    }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0)&& canShoot==true)
         {
             ShootPistolFuncInput();
-
+            //Debug.Log("shoot");
+            ReactivationTimeScript.ReactivationTimeTrigger();
+            canShoot = false;
         }
     }
 }

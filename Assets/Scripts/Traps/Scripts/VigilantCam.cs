@@ -82,6 +82,7 @@ public class VigilantCam : MonoBehaviour
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -viewAngle / 2, 0) * vector);
     }
 
+   
 
     /*
     public float rotationSpeed = 30f; // Velocidad de rotación en grados por segundo
@@ -127,5 +128,5 @@ public class VigilantCam : MonoBehaviour
     */
 
 
-    
+
 }
