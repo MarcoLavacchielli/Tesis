@@ -38,17 +38,15 @@ public class VigilantCam : MonoBehaviour
         if (dir.magnitude > viewRadius)
             return false;
 
-        if (dir.magnitude < senseRadius)
-            return true;
+       
 
-        var angle = Vector3.Angle(dir, transform.forward);
+        var angle = Vector3.Angle(transform.forward, dir);
         return angle <= viewAngle / 2;
     }
 
     public bool InLineOfSight(Vector3 point)
     {
-        if (!InFieldOfView(point))
-            return false;
+       
 
         var dir = point - transform.position;
         return !Physics.Raycast(transform.position, dir, dir.magnitude, wallMask);

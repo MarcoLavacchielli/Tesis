@@ -53609,7 +53609,7 @@ MonoBehaviour:
   viewAngle: 25
   wallMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 128
   playerTransform: {fileID: 987709662}
 --- !u!65 &2143360374
 BoxCollider:
