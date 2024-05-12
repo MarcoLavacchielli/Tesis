@@ -19,6 +19,12 @@ public class Laser : Trap
     {
         Debug.Log("Player touch laser!");
 
+        EnergyBar energyBar = FindAnyObjectByType<EnergyBar>();
+        if (energyBar != null)
+        {
+            energyBar.EnergyConsumptionFunction();
+        }
+
         if (!isSlowed)
         {
             StartCoroutine(SlowDownAndRestore());
