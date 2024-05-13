@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
-    public float radius;
+    /*public float radius;
     [Range(0,360)]
     public float angle;
 
@@ -62,5 +62,5 @@ public class FieldOfView : MonoBehaviour
         }
         else if (canSeePlayer)
             canSeePlayer = false;
-    }
+    }*/
 }

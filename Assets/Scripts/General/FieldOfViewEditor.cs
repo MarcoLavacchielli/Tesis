@@ -1,9 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(FieldOfView))]
-public class FieldOfViewEditor : Editor
-{
+public class FieldOfViewEditor //: Editor
+{/*
 #if UNITY_EDITOR
     private void OnSceneGUI()
     {
@@ -32,5 +31,5 @@ public class FieldOfViewEditor : Editor
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
    
     }
-#endif
+#endif*/
 }
