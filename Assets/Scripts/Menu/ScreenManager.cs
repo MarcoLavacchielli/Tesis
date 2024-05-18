@@ -10,6 +10,8 @@ public class ScreenManager : MonoBehaviour
 
     private readonly Stack<int> order = new Stack<int>();
 
+    public AudioManager audioManager;
+
     private void Start()
     {
         SwitchPanel(0);
@@ -17,6 +19,9 @@ public class ScreenManager : MonoBehaviour
 
     public void SwitchPanel(int index)
     {
+
+        audioManager.PlaySfx(0);
+
         if (order.Count > 0)
         {
             int previousIndex = order.Peek();
@@ -29,6 +34,8 @@ public class ScreenManager : MonoBehaviour
 
     public void GoBack()
     {
+        audioManager.PlaySfx(0);
+
         if (order.Count > 1)
         {
             int currentIndex = order.Pop();
@@ -41,11 +48,17 @@ public class ScreenManager : MonoBehaviour
 
     public void LoadLevel(string level)
     {
+
+        audioManager.PlaySfx(0);
+
         SceneManager.LoadScene(level);
     }
 
     public void QuitGame()
     {
+
+        audioManager.PlaySfx(0);
+
         Debug.Log("salio");
         Application.Quit();
     }
