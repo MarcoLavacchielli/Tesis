@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseCanvas;
+    [SerializeField] private GameObject pauseImage;
     public bool isPaused = false;
 
     private void Update()
@@ -24,6 +25,7 @@ public class PauseMenu : MonoBehaviour
 
             Time.timeScale = 0f;
             pauseCanvas.SetActive(true);
+            pauseImage.SetActive(true);
         }
         else
         {
@@ -32,6 +34,7 @@ public class PauseMenu : MonoBehaviour
 
             Time.timeScale = 1f;
             pauseCanvas.SetActive(false);
+            pauseImage.SetActive(false);
         }
     }
 
@@ -39,5 +42,12 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(scenename);
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1f;  
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
     }
 }
