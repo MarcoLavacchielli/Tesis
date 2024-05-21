@@ -26,8 +26,8 @@ public class PlayerInputs : MonoBehaviour
         {
             ShootPistolFuncInput();
             //Debug.Log("shoot");
-            ReactivationTimeScript.ReactivationTimeTrigger();
-            canShoot = false;
+            //ReactivationTimeScript.ReactivationTimeTrigger();
+            //canShoot = false;
         }
     }
 }

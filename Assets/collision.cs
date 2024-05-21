@@ -4,8 +4,21 @@ using UnityEngine;
 
 public class collision : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 8) Destroy(this.gameObject);
+        if (other.gameObject.layer == 8)
+        {
+            Debug.Log("deberia estar muerta la cámara");
+            this.gameObject.SetActive(false);
+            //Destroy(this.gameObject);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.layer == 8)
+        {
+            Debug.Log("deberia estar muerta la cámara");
+            this.gameObject.SetActive(false);
+        }
     }
 }

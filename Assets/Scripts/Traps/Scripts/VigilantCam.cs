@@ -20,13 +20,15 @@ public class VigilantCam : MonoBehaviour
 
     public Transform playerTransform;
 
-
+    public EnergyBar energyBar;
 
     private void Update()
     {
         if (InFieldOfView(playerTransform.transform.position) && InLineOfSight(playerTransform.transform.position))
         {
             Debug.Log("visto");
+
+            energyBar.EnergyConsumptionFunction();
         }
     }
 
