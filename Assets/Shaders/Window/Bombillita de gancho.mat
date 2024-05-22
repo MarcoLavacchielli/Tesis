@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TuboLed
+  m_Name: Bombillita de gancho
   m_Shader: {fileID: -6465566751694194690, guid: 75a9e5ca58894fc4982f61f9840eaa18,
     type: 3}
   m_Parent: {fileID: 0}
@@ -263,8 +263,8 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
-    - _WindowColor: {r: 2.9960785, g: 1.7116069, b: 0, a: 0}
-    - _WindowEmisive: {r: 31.999998, g: 6.682032, b: 0, a: 0}
+    - _WindowColor: {r: 16, g: 16, b: 16, a: 0}
+    - _WindowEmisive: {r: 128, g: 0, b: 78.54645, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1282720578847920995
 MonoBehaviour:
