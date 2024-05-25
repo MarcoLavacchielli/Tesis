@@ -45,4 +45,21 @@ public class Bullet : MonoBehaviour
         b.Reset();
         b.gameObject.SetActive(false);
     }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 10)
+        {
+            Debug.Log("mate a la cámara");
+            other.gameObject.SetActive(false);
+            //Destroy(this.gameObject);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 10)
+        {
+            Debug.Log("mate la cámara");
+            collision.gameObject.SetActive(false);
+        }
+    }
 }
