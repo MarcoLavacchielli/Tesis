@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Laser : Trap
 {
@@ -18,6 +19,7 @@ public class Laser : Trap
     public override void Activate()
     {
         Debug.Log("Player touch laser!");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         EnergyBar energyBar = FindAnyObjectByType<EnergyBar>();
         if (energyBar != null)
