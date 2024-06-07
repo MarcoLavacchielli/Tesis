@@ -3,9 +3,9 @@ using UnityEngine;
 public class ButtonController : MonoBehaviour
 {
     [SerializeField] private KeyCode activationKey = KeyCode.E;
-    [SerializeField] private Color activeColor = Color.green;
+    [SerializeField] private Material activeMaterial; // Cambiado a material
 
-    private Color originalColor;
+    private Material originalMaterial;
     private Renderer rend;
     private bool playerNearby;
     private bool isActive = false;
@@ -15,7 +15,7 @@ public class ButtonController : MonoBehaviour
     private void Start()
     {
         rend = GetComponent<Renderer>();
-        originalColor = rend.material.color;
+        originalMaterial = rend.material;
     }
 
     private void Update()
@@ -44,13 +44,13 @@ public class ButtonController : MonoBehaviour
 
     private void OnDestroy()
     {
-        rend.material.color = originalColor;
+        rend.material = originalMaterial;
     }
 
     private void SetButtonActive()
     {
         isActive = true;
-        rend.material.color = activeColor;
+        rend.material = activeMaterial; // Cambiado a material
         GlassController.Instance.CheckButtons();
     }
 }
