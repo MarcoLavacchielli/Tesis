@@ -9,6 +9,8 @@ public class PlayerInputs : MonoBehaviour
     public event Action ShootPistolFuncInput = delegate { };
     public BulletSlider ReactivationTimeScript;
     public bool canShoot=true;
+
+    public ParticleSystem shootParticles; //Particulas
     /*private void FixedUpdate()
     {
         MovementFuncInputs();
@@ -27,7 +29,8 @@ public class PlayerInputs : MonoBehaviour
             ShootPistolFuncInput();
             //Debug.Log("shoot");
             ReactivationTimeScript.ReactivationTimeTrigger();
-           canShoot = false;
+            canShoot = false;
+            shootParticles.Play();
         }
     }
 }
