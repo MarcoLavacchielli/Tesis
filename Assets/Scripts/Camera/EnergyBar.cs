@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EnergyBar : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class EnergyBar : MonoBehaviour
     {
         currentEnergyValue = Mathf.Min(currentEnergyValue + IncreaseSpeedOfEnergy * Time.deltaTime, MaxEnergy);
         UpdateEnergyBar();
+        if (currentEnergyValue >= 1)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     public void EnergyRecoveryFunction()
