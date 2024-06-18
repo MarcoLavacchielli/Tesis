@@ -6,7 +6,8 @@ public class GlassController : MonoBehaviour
 
     [SerializeField] private ButtonController[] buttons;
     [SerializeField] private GameObject glassObject;
-    [SerializeField] private GameObject teleporter;
+
+    public bool IsGlassDestroyed { get; private set; } = false;
 
     private bool allButtonsActive = false;
 
@@ -33,7 +34,7 @@ public class GlassController : MonoBehaviour
         if (allButtonsActive)
         {
             Destroy(glassObject);
-            teleporter.SetActive(true);
+            IsGlassDestroyed = true;
         }
     }
 }
