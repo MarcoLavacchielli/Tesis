@@ -5,6 +5,8 @@ public class ButtonController : MonoBehaviour
     [SerializeField] private KeyCode activationKey = KeyCode.E;
     [SerializeField] private Material activeMaterial; // Cambiado a material
 
+    AudioManager audioM;
+
     private Material originalMaterial;
     private Renderer rend;
     private bool playerNearby;
@@ -16,6 +18,13 @@ public class ButtonController : MonoBehaviour
     {
         rend = GetComponent<Renderer>();
         originalMaterial = rend.material;
+
+        audioM = FindObjectOfType<AudioManager>();
+
+        if (audioM == null)
+        {
+            Debug.LogError("No AudioManager found in the scene!");
+        }
     }
 
     private void Update()
@@ -51,6 +60,7 @@ public class ButtonController : MonoBehaviour
     {
         isActive = true;
         rend.material = activeMaterial; // Cambiado a material
+        audioM.PlaySfx(5);
         GlassController.Instance.CheckButtons();
     }
 }
