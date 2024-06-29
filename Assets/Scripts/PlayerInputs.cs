@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.VFX;
 
 public class PlayerInputs : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class PlayerInputs : MonoBehaviour
     public BulletSlider ReactivationTimeScript;
     public bool canShoot=true;
 
-    public ParticleSystem shootParticles; //Particulas
+    public VisualEffect shootVisualEffect; //Particulas
     /*private void FixedUpdate()
     {
         MovementFuncInputs();
@@ -30,7 +31,7 @@ public class PlayerInputs : MonoBehaviour
             //Debug.Log("shoot");
             ReactivationTimeScript.ReactivationTimeTrigger();
             canShoot = false;
-            shootParticles.Play();
+            shootVisualEffect.Play();
         }
     }
 }
