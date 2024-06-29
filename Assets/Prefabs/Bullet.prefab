@@ -312,6 +312,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rayo
       objectReference: {fileID: 0}
+    - target: {fileID: 6337582918017904593, guid: da6e543659fb5d0409efd38b51f5c5cd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6337582918017904595, guid: da6e543659fb5d0409efd38b51f5c5cd,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -405,6 +410,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Chispas
+      objectReference: {fileID: 0}
+    - target: {fileID: 9207207144110167749, guid: 362180a658b40464e8a2d68c9863a3c0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9207207144110167754, guid: 362180a658b40464e8a2d68c9863a3c0,
         type: 3}
