@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMovementAdvanced : MonoBehaviour
 {
+
+    AudioManager audioM;
+
     [Header("Movement")]
     public float moveSpeed;
     public float walkSpeed;
@@ -88,6 +91,13 @@ public class PlayerMovementAdvanced : MonoBehaviour
         readyToJump = true;
 
         startYScale = transform.localScale.y;
+
+        audioM = FindObjectOfType<AudioManager>();
+
+        if (audioM == null)
+        {
+            Debug.LogError("No AudioManager found in the scene!");
+        }
     }
 
     private void Update()
@@ -122,6 +132,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
             readyToJump = false;
 
             Jump();
+            audioM.PlaySfx(3);
 
             Invoke(nameof(ResetJump), jumpCooldown);
         }

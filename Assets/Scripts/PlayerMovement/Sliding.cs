@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Sliding : MonoBehaviour
 {
+
+    AudioManager audioM;
+
     [Header("References")]
     public Transform orientation;
     public Transform playerObj;
@@ -30,6 +33,13 @@ public class Sliding : MonoBehaviour
         pm = GetComponent<PlayerMovementAdvanced>();
 
         startYScale = playerObj.localScale.y;
+
+        audioM = FindObjectOfType<AudioManager>();
+
+        if (audioM == null)
+        {
+            Debug.LogError("No AudioManager found in the scene!");
+        }
     }
 
     private void Update()
@@ -52,6 +62,7 @@ public class Sliding : MonoBehaviour
 
     private void StartSlide()
     {
+        audioM.PlaySfx(4);
         pm.sliding = true;
 
         playerObj.localScale = new Vector3(playerObj.localScale.x, slideYScale, playerObj.localScale.z);

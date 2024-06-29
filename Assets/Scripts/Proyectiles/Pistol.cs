@@ -11,8 +11,7 @@ public class Pistol : MonoBehaviour
 
     public GameObject _bullet;
 
-
-
+    AudioManager audioM;
 
     private void Awake()
     {
@@ -22,10 +21,18 @@ public class Pistol : MonoBehaviour
 
         InputsScript.ShootPistolFuncInput += Shoot2;
 
+        audioM = FindObjectOfType<AudioManager>();
+
+        if (audioM == null)
+        {
+            Debug.LogError("No AudioManager found in the scene!");
+        }
 
     }
+
     public void Shoot2()
     {
+        audioM.PlaySfx(1);
         //Find the exact hit position using a raycast
         Ray ray = fpsCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //Just a ray through the middle of your current view
         RaycastHit hit;

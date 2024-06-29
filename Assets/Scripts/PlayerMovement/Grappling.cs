@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Grappling : MonoBehaviour
 {
+
+    AudioManager audioM;
+
     [Header("References")]
     private PlayerMovementAdvanced pm;
     public Transform cam;
@@ -31,6 +34,13 @@ public class Grappling : MonoBehaviour
     private void Start()
     {
         pm = GetComponent<PlayerMovementAdvanced>();
+
+        audioM = FindObjectOfType<AudioManager>();
+
+        if (audioM == null)
+        {
+            Debug.LogError("No AudioManager found in the scene!");
+        }
     }
 
     private void Update()
@@ -50,6 +60,7 @@ public class Grappling : MonoBehaviour
 
     private void StartGrapple()
     {
+        audioM.PlaySfx(2);
         if (grapplingCdTimer > 0) return;
 
         grappling = true;
