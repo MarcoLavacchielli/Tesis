@@ -48,7 +48,7 @@ public class SpikeTrap : MonoBehaviour
 
     private bool IsPlayerCrouching()
     {
-        PlayerMovementAdvanced playerMovement = FindObjectOfType<PlayerMovementAdvanced>();
-        return playerMovement != null && playerMovement.state == PlayerMovementAdvanced.MovementState.crouching;
+        PlayerMovementGrappling playerMovement = FindObjectOfType<PlayerMovementGrappling>();
+        return playerMovement != null && playerMovement.state == PlayerMovementGrappling.MovementState.crouching;
     }
 }
