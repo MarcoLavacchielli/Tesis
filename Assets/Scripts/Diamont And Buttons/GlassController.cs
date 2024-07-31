@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GlassController : MonoBehaviour
 {
@@ -8,7 +7,8 @@ public class GlassController : MonoBehaviour
 
     [SerializeField] private ButtonController[] buttons;
     [SerializeField] private GameObject glassObject;
-    [SerializeField] private TextMeshProUGUI counterText;
+    [SerializeField] private TextMeshProUGUI buttonText;
+    [SerializeField] private TextMeshProUGUI objectiveText;
 
     public bool IsGlassDestroyed { get; private set; } = false;
 
@@ -23,6 +23,7 @@ public class GlassController : MonoBehaviour
     private void Start()
     {
         UpdateCounterText();
+        UpdateObjectiveText("Objetivo: Desactiva la seguridad");
     }
 
     public void CheckButtons()
@@ -51,11 +52,25 @@ public class GlassController : MonoBehaviour
         {
             Destroy(glassObject);
             IsGlassDestroyed = true;
+            UpdateObjectiveText("Objetivo: Toma el Diamante");
         }
     }
 
     private void UpdateCounterText()
     {
-        counterText.text = $"Botones: {activeButtonCount}/{buttons.Length}";
+        buttonText.text = $"Botones: {activeButtonCount}/{buttons.Length}";
+    }
+
+    public void UpdateObjectiveText(string newObjective)
+    {
+        objectiveText.text = newObjective;
+    }
+
+    public void DestroyButtonText()
+    {
+        if (buttonText != null)
+        {
+            Destroy(buttonText.gameObject);
+        }
     }
 }

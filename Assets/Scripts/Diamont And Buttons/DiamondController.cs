@@ -5,8 +5,8 @@ public class DiamondController : MonoBehaviour
     [SerializeField] private GameObject teleporter;
     public float pickUpRadius = 5f;
     private GameObject player;
-    [SerializeField] GameObject AlwaysVisibleDiamond;
-    [SerializeField] DistanceDisplay distanceDisplay;
+    [SerializeField] private GameObject AlwaysVisibleDiamond;
+    [SerializeField] private DistanceDisplay distanceDisplay;
 
     void Start()
     {
@@ -25,6 +25,8 @@ public class DiamondController : MonoBehaviour
                     distanceDisplay.MyShutdown();
                     Destroy(gameObject);
                     teleporter.SetActive(true);
+                    GlassController.Instance.UpdateObjectiveText("Objetivo: Escapa");
+                    GlassController.Instance.DestroyButtonText();
                 }
             }
         }
