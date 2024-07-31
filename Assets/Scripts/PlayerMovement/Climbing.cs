@@ -63,8 +63,10 @@ public class Climbing : MonoBehaviour
         if (lg.holding)
         {
             if (climbing) StopClimbing();
-        }
 
+            // everything else gets handled by the SubStateMachine() in the ledge grabbing script
+        }
+        
         // State 1 - Climbing
         else if (wallFront && Input.GetKey(KeyCode.W) && wallLookAngle < maxWallLookAngle && !exitingWall)
         {
@@ -138,6 +140,8 @@ public class Climbing : MonoBehaviour
     {
         if (pm.grounded) return;
         if (lg.holding || lg.exitingLedge) return;
+
+        print("climbjump");
 
         exitingWall = true;
         exitWallTimer = exitWallTime;

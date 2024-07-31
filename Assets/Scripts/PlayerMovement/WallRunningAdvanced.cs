@@ -44,8 +44,8 @@ public class WallRunningAdvanced : MonoBehaviour
     public Transform orientation;
     public PlayerCam cam;
     private PlayerMovementAdvanced pm;
-    private Rigidbody rb;
     private LedgeGrabbing lg;
+    private Rigidbody rb;
 
     private void Start()
     {
@@ -87,7 +87,7 @@ public class WallRunningAdvanced : MonoBehaviour
         downwardsRunning = Input.GetKey(downwardsRunKey);
 
         // State 1 - Wallrunning
-        if ((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall)
+        if((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall)
         {
             if (!pm.wallrunning)
                 StartWallRun();
@@ -96,7 +96,7 @@ public class WallRunningAdvanced : MonoBehaviour
             if (wallRunTimer > 0)
                 wallRunTimer -= Time.deltaTime;
 
-            if (wallRunTimer <= 0 && pm.wallrunning)
+            if(wallRunTimer <= 0 && pm.wallrunning)
             {
                 exitingWall = true;
                 exitWallTimer = exitWallTime;
@@ -136,6 +136,7 @@ public class WallRunningAdvanced : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         // apply camera effects
+        if (cam == null) return;
         cam.DoFov(90f);
         if (wallLeft) cam.DoTilt(-5f);
         if (wallRight) cam.DoTilt(5f);
@@ -175,6 +176,7 @@ public class WallRunningAdvanced : MonoBehaviour
         pm.wallrunning = false;
 
         // reset camera effects
+        if (cam == null) return;
         cam.DoFov(80f);
         cam.DoTilt(0f);
     }

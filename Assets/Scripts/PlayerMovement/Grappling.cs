@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class Grappling : MonoBehaviour
 {
-
-    AudioManager audioM;
-
     [Header("References")]
-    private PlayerMovementAdvanced pm;
+    private PlayerMovementGrappling pm;
     public Transform cam;
     public Transform gunTip;
     public LayerMask whatIsGrappleable;
     public LineRenderer lr;
-    [SerializeField] private PauseMenu pauseM;
 
     [Header("Grappling")]
     public float maxGrappleDistance;
@@ -33,19 +29,12 @@ public class Grappling : MonoBehaviour
 
     private void Start()
     {
-        pm = GetComponent<PlayerMovementAdvanced>();
-
-        audioM = FindObjectOfType<AudioManager>();
-
-        if (audioM == null)
-        {
-            Debug.LogError("No AudioManager found in the scene!");
-        }
+        pm = GetComponent<PlayerMovementGrappling>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(grappleKey) && pauseM.isPaused == false) StartGrapple();
+        if (Input.GetKeyDown(grappleKey)) StartGrapple();
 
         if (grapplingCdTimer > 0)
             grapplingCdTimer -= Time.deltaTime;
@@ -53,14 +42,12 @@ public class Grappling : MonoBehaviour
 
     private void LateUpdate()
     {
-        //
-         if (grappling)
-            lr.SetPosition(0, gunTip.position);
+        // if (grappling)
+        //    lr.SetPosition(0, gunTip.position);
     }
 
     private void StartGrapple()
     {
-        audioM.PlaySfx(2);
         if (grapplingCdTimer > 0) return;
 
         grappling = true;
@@ -68,7 +55,7 @@ public class Grappling : MonoBehaviour
         pm.freeze = true;
 
         RaycastHit hit;
-        if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
+        if(Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
         {
             grapplePoint = hit.point;
 
@@ -81,9 +68,8 @@ public class Grappling : MonoBehaviour
             Invoke(nameof(StopGrapple), grappleDelayTime);
         }
 
-        //
-        lr.enabled = true;
-        lr.SetPosition(1, grapplePoint);
+        //lr.enabled = true;
+        //lr.SetPosition(1, grapplePoint);
     }
 
     private void ExecuteGrapple()
@@ -110,8 +96,7 @@ public class Grappling : MonoBehaviour
 
         grapplingCdTimer = grapplingCd;
 
-        //
-        lr.enabled = false;
+        //lr.enabled = false;
     }
 
     public bool IsGrappling()
