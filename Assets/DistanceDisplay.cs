@@ -24,7 +24,7 @@ public class DistanceDisplay : MonoBehaviour
         float distance = Vector3.Distance(player.position, target.position);
 
         // Actualiza el texto con la distancia en metros
-        distanceText.text = distance.ToString("F2") + " meters";
+        distanceText.text = distance.ToString("F2") + " meters to objective";
 
         // Ajusta la escala del objetivo en función de la distancia
         float t = Mathf.Clamp01((distance - minDistance) / (maxDistance - minDistance));

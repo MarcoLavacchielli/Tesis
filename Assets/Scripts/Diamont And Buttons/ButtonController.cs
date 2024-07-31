@@ -3,7 +3,7 @@ using UnityEngine;
 public class ButtonController : MonoBehaviour
 {
     [SerializeField] private KeyCode activationKey = KeyCode.E;
-    [SerializeField] private Material activeMaterial; // Cambiado a material
+    [SerializeField] private Material activeMaterial;
 
     AudioManager audioM;
 
@@ -59,7 +59,7 @@ public class ButtonController : MonoBehaviour
     private void SetButtonActive()
     {
         isActive = true;
-        rend.material = activeMaterial; // Cambiado a material
+        rend.material = activeMaterial;
         audioM.PlaySfx(5);
         GlassController.Instance.CheckButtons();
     }

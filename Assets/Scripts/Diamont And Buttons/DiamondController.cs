@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DiamondController : MonoBehaviour
 {
@@ -26,7 +25,6 @@ public class DiamondController : MonoBehaviour
                     distanceDisplay.MyShutdown();
                     Destroy(gameObject);
                     teleporter.SetActive(true);
-
                 }
             }
         }
