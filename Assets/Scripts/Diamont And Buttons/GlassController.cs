@@ -23,7 +23,7 @@ public class GlassController : MonoBehaviour
     private void Start()
     {
         UpdateCounterText();
-        UpdateObjectiveText("Objetivo: Desactiva la seguridad");
+        UpdateObjectiveText("Objective: Disable security");
     }
 
     public void CheckButtons()
@@ -52,13 +52,13 @@ public class GlassController : MonoBehaviour
         {
             Destroy(glassObject);
             IsGlassDestroyed = true;
-            UpdateObjectiveText("Objetivo: Toma el Diamante");
+            UpdateObjectiveText("Objective: Take the Diamond");
         }
     }
 
     private void UpdateCounterText()
     {
-        buttonText.text = $"Botones: {activeButtonCount}/{buttons.Length}";
+        buttonText.text = $"Buttons: {activeButtonCount}/{buttons.Length}";
     }
 
     public void UpdateObjectiveText(string newObjective)

@@ -25,7 +25,7 @@ public class DiamondController : MonoBehaviour
                     distanceDisplay.MyShutdown();
                     Destroy(gameObject);
                     teleporter.SetActive(true);
-                    GlassController.Instance.UpdateObjectiveText("Objetivo: Escapa");
+                    GlassController.Instance.UpdateObjectiveText("Objective: Escape");
                     GlassController.Instance.DestroyButtonText();
                 }
             }
