@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DiamondController : MonoBehaviour
 {
     [SerializeField] private GameObject teleporter;
     public float pickUpRadius = 5f;
     private GameObject player;
+    [SerializeField] GameObject AlwaysVisibleDiamond;
+    [SerializeField] DistanceDisplay distanceDisplay;
 
     void Start()
     {
@@ -19,8 +22,11 @@ public class DiamondController : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    Destroy(AlwaysVisibleDiamond);
+                    distanceDisplay.MyShutdown();
                     Destroy(gameObject);
                     teleporter.SetActive(true);
+
                 }
             }
         }
