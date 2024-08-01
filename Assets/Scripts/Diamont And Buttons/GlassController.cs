@@ -9,6 +9,7 @@ public class GlassController : MonoBehaviour
     [SerializeField] private GameObject glassObject;
     [SerializeField] private TextMeshProUGUI buttonText;
     [SerializeField] private TextMeshProUGUI objectiveText;
+    public GameObject diamontText;
 
     public bool IsGlassDestroyed { get; private set; } = false;
 
@@ -24,6 +25,11 @@ public class GlassController : MonoBehaviour
     {
         UpdateCounterText();
         UpdateObjectiveText("Objective: Disable security");
+
+        if (diamontText != null)
+        {
+            diamontText.SetActive(false);
+        }
     }
 
     public void CheckButtons()
@@ -53,6 +59,11 @@ public class GlassController : MonoBehaviour
             Destroy(glassObject);
             IsGlassDestroyed = true;
             UpdateObjectiveText("Objective: Take the Diamond");
+
+            if (diamontText != null)
+            {
+                diamontText.SetActive(true);
+            }
         }
     }
 

@@ -27,6 +27,11 @@ public class DiamondController : MonoBehaviour
                     teleporter.SetActive(true);
                     GlassController.Instance.UpdateObjectiveText("Objective: Escape");
                     GlassController.Instance.DestroyButtonText();
+
+                    if (GlassController.Instance.diamontText != null)
+                    {
+                        GlassController.Instance.diamontText.SetActive(false);
+                    }
                 }
             }
         }
