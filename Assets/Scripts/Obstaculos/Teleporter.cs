@@ -7,12 +7,16 @@ public class Teleporter : MonoBehaviour
 
     [SerializeField] private bool toco = false;
 
+
+    [SerializeField] private BlackScreenOnDeath loseCanvas;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             toco = true;
             player.transform.position = teleportPos;
+            loseCanvas.fade();
         }
     }
 }
