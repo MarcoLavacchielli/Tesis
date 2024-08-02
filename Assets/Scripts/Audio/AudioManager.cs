@@ -37,12 +37,25 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayMusic(musicaIndex);
+        PlayMusic(0);
+        StopMusic(1);
     }
 
     public void PlayMusic(int index)
     {
         musicSource[index]?.Play();
+    }
+
+    public void StopMusic(int index)
+    {
+        if (musicSource[index] == null)
+        {
+            Debug.Log("Music Source Not Found");
+        }
+        else
+        {
+            musicSource[index].Stop();
+        }
     }
 
     public void PlaySfx(int index)
