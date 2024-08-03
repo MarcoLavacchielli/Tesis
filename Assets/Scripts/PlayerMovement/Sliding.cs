@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class Sliding : MonoBehaviour
 {
+
+    AudioManager audioM;
+
     [Header("References")]
     public Transform orientation;
     public Transform playerObj;
@@ -27,6 +30,16 @@ public class Sliding : MonoBehaviour
     private float verticalInput;
 
 
+    private void Awake()
+    {
+        audioM = FindObjectOfType<AudioManager>();
+
+        if (audioM == null)
+        {
+            Debug.LogError("No AudioManager found in the scene!");
+        }
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -41,10 +54,16 @@ public class Sliding : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         if (Input.GetKeyDown(slideKey) && (horizontalInput != 0 || verticalInput != 0))
+        {
+            audioM.PlaySfx(4);
             StartSlide();
+        }
 
         if (Input.GetKeyUp(slideKey) && pm.sliding)
+        {
+            audioM.StopSFX(4);
             StopSlide();
+        }
     }
 
     private void FixedUpdate()
@@ -70,7 +89,7 @@ public class Sliding : MonoBehaviour
         Vector3 inputDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         // sliding normal
-        if(!pm.OnSlope() || rb.velocity.y > -0.1f)
+        if (!pm.OnSlope() || rb.velocity.y > -0.1f)
         {
             rb.AddForce(inputDirection.normalized * slideForce, ForceMode.Force);
 

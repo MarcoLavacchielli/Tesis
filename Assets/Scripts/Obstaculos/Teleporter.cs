@@ -10,6 +10,18 @@ public class Teleporter : MonoBehaviour
 
     [SerializeField] private BlackScreenOnDeath loseCanvas;
 
+    AudioManager audioM;
+
+    private void Awake()
+    {
+        audioM = FindObjectOfType<AudioManager>();
+
+        if (audioM == null)
+        {
+            Debug.LogError("No AudioManager found in the scene!");
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -17,6 +29,7 @@ public class Teleporter : MonoBehaviour
             toco = true;
             player.transform.position = teleportPos;
             loseCanvas.fade();
+            audioM.StopSFX(7);
         }
     }
 }

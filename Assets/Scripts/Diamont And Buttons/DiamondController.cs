@@ -62,6 +62,7 @@ public class DiamondController : MonoBehaviour
     {
         audioM.StopMusic(0);
         audioM.PlayMusic(1);
+        audioM.PlaySfx(7);
     }
 
     void OnDrawGizmosSelected()

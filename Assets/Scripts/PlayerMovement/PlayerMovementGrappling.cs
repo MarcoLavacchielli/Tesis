@@ -5,6 +5,9 @@ using TMPro;
 
 public class PlayerMovementGrappling : MonoBehaviour
 {
+
+    AudioManager audioM;
+
     [Header("Movement")]
     private float moveSpeed;
     public float walkSpeed;
@@ -68,6 +71,16 @@ public class PlayerMovementGrappling : MonoBehaviour
 
     public bool activeGrapple;
     public bool swinging;
+
+    private void Awake()
+    {
+        audioM = FindObjectOfType<AudioManager>();
+
+        if (audioM == null)
+        {
+            Debug.LogError("No AudioManager found in the scene!");
+        }
+    }
 
     private void Start()
     {
@@ -243,7 +256,10 @@ public class PlayerMovementGrappling : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+
+        audioM.PlaySfx(3);
     }
+
     private void ResetJump()
     {
         readyToJump = true;

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Grappling : MonoBehaviour
 {
+
+    AudioManager audioM;
+
     [Header("References")]
     private PlayerMovementGrappling pm;
     public Transform cam;
@@ -26,6 +29,16 @@ public class Grappling : MonoBehaviour
     public KeyCode grappleKey = KeyCode.Mouse1;
 
     private bool grappling;
+
+    private void Awake()
+    {
+        audioM = FindObjectOfType<AudioManager>();
+
+        if (audioM == null)
+        {
+            Debug.LogError("No AudioManager found in the scene!");
+        }
+    }
 
     private void Start()
     {
@@ -51,6 +64,7 @@ public class Grappling : MonoBehaviour
         if (grapplingCdTimer > 0) return;
 
         grappling = true;
+        audioM.PlaySfx(2);
 
         pm.freeze = true;
 
@@ -58,6 +72,8 @@ public class Grappling : MonoBehaviour
         if(Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
         {
             grapplePoint = hit.point;
+
+            //audioM.PlaySfx(6);
 
             Invoke(nameof(ExecuteGrapple), grappleDelayTime);
         }
@@ -75,6 +91,8 @@ public class Grappling : MonoBehaviour
     private void ExecuteGrapple()
     {
         pm.freeze = false;
+
+        audioM.PlaySfx(6);
 
         Vector3 lowestPoint = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);
 
