@@ -6,6 +6,7 @@ public class collision : MonoBehaviour
 {
 
     AudioManager audioM;
+    public ParticleSystem camaraDestroy;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class collision : MonoBehaviour
             Debug.Log("deberia estar muerta la cámara");
             this.gameObject.SetActive(false);
             audioM.PlaySfx(8);
+            camaraDestroy.Play();
             //Destroy(this.gameObject);
         }
     }

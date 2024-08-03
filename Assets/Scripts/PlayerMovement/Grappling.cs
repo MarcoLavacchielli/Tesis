@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Grappling : MonoBehaviour
 {
-
     AudioManager audioM;
 
     [Header("References")]
@@ -13,6 +12,7 @@ public class Grappling : MonoBehaviour
     public Transform gunTip;
     public LayerMask whatIsGrappleable;
     public LineRenderer lr;
+    public Material LuzGancho; // Añadir referencia al material
 
     [Header("Grappling")]
     public float maxGrappleDistance;
@@ -29,6 +29,9 @@ public class Grappling : MonoBehaviour
     public KeyCode grappleKey = KeyCode.Mouse1;
 
     private bool grappling;
+    private Color targetColor;
+    private float colorTransitionSpeed = 2.0f; // Ajusta la velocidad de transición del color
+    private bool isCoolingDown;
 
     private void Awake()
     {
@@ -43,6 +46,7 @@ public class Grappling : MonoBehaviour
     private void Start()
     {
         pm = GetComponent<PlayerMovementGrappling>();
+        targetColor = Color.cyan; // Color inicial
     }
 
     private void Update()
@@ -50,7 +54,30 @@ public class Grappling : MonoBehaviour
         if (Input.GetKeyDown(grappleKey)) StartGrapple();
 
         if (grapplingCdTimer > 0)
+        {
             grapplingCdTimer -= Time.deltaTime;
+            targetColor = Color.red; // Cambiar objetivo a rojo cuando está en cooldown
+            isCoolingDown = true;
+        }
+        else
+        {
+            if (isCoolingDown)
+            {
+                targetColor = Color.cyan; // Cambiar objetivo a cian cuando no está en cooldown
+                isCoolingDown = false;
+            }
+        }
+
+        if (isCoolingDown)
+        {
+            // Cambiar bruscamente a rojo cuando está en cooldown
+            LuzGancho.SetColor("_Color", Color.red);
+        }
+        else
+        {
+            // Transición suave de rojo a cian
+            LuzGancho.SetColor("_Color", Color.Lerp(LuzGancho.GetColor("_Color"), targetColor, Time.deltaTime * colorTransitionSpeed));
+        }
     }
 
     private void LateUpdate()
@@ -69,7 +96,7 @@ public class Grappling : MonoBehaviour
         pm.freeze = true;
 
         RaycastHit hit;
-        if(Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
+        if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
         {
             grapplePoint = hit.point;
 
