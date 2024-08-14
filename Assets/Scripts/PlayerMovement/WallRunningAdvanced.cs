@@ -58,6 +58,23 @@ public class WallRunningAdvanced : MonoBehaviour
     {
         CheckForWall();
         StateMachine();
+
+        if (Input.GetKeyDown(upwardsRunKey))
+        {
+            upwardsRunning = true;
+        }
+        if (Input.GetKeyUp(upwardsRunKey))
+        {
+            upwardsRunning = false;
+        }
+        if (Input.GetKeyDown(downwardsRunKey))
+        {
+            downwardsRunning = true;
+        }
+        if (Input.GetKeyUp(downwardsRunKey))
+        {
+            downwardsRunning = false;
+        }
     }
 
     private void FixedUpdate()
@@ -83,8 +100,8 @@ public class WallRunningAdvanced : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        upwardsRunning = Input.GetKey(upwardsRunKey);
-        downwardsRunning = Input.GetKey(downwardsRunKey);
+        //upwardsRunning = Input.GetKey(upwardsRunKey);
+        //downwardsRunning = Input.GetKey(downwardsRunKey);
 
         // State 1 - Wallrunning
         if((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall)
@@ -157,8 +174,14 @@ public class WallRunningAdvanced : MonoBehaviour
         rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
 
         // upwards/downwards force
-        if (upwardsRunning)
+        if (upwardsRunning==true)
+        {
             rb.velocity = new Vector3(rb.velocity.x, wallClimbSpeed, rb.velocity.z);
+        }
+        else if (upwardsRunning == false)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        }
         if (downwardsRunning)
             rb.velocity = new Vector3(rb.velocity.x, -wallClimbSpeed, rb.velocity.z);
 
