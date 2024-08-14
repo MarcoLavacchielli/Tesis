@@ -46,6 +46,10 @@ public class PlayerMovementGrappling : MonoBehaviour
     public PlayerCam cam;
     public float grappleFov = 95f;
 
+    [Header("Coyote Time")]
+    public float coyoteTimeDuration = 0.5f; // Duración del coyote time en segundos
+    private float coyoteTimeCounter;
+
     public Transform orientation;
 
     float horizontalInput;
@@ -94,14 +98,26 @@ public class PlayerMovementGrappling : MonoBehaviour
 
     private void Update()
     {
-        // ground check
+        // Ground check
+        bool wasGrounded = grounded;
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+
+        if (grounded)
+        {
+            // Reseteamos el contador de coyote time si estamos en el suelo
+            coyoteTimeCounter = coyoteTimeDuration;
+        }
+        else if (wasGrounded && !grounded)
+        {
+            // Empezamos a contar coyote time cuando dejamos de estar en el suelo
+            coyoteTimeCounter -= Time.deltaTime;
+        }
 
         MyInput();
         SpeedControl();
         StateHandler();
 
-        // handle drag
+        // Handle drag
         if (grounded && !activeGrapple)
             rb.drag = groundDrag;
         else
@@ -118,8 +134,8 @@ public class PlayerMovementGrappling : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        // when to jump
-        if (Input.GetKey(jumpKey) && readyToJump && grounded)
+        // When to jump
+        if (Input.GetKey(jumpKey) && readyToJump && (grounded || coyoteTimeCounter > 0f))
         {
             readyToJump = false;
 
@@ -128,14 +144,14 @@ public class PlayerMovementGrappling : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
-        // start crouch
+        // Start crouch
         if (Input.GetKeyDown(crouchKey))
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
         }
 
-        // stop crouch
+        // Stop crouch
         if (Input.GetKeyUp(crouchKey))
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
@@ -252,12 +268,15 @@ public class PlayerMovementGrappling : MonoBehaviour
     {
         exitingSlope = true;
 
-        // reset y velocity
+        // Reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
         audioM.PlaySfx(3);
+
+        // Reset coyote time counter after jumping
+        coyoteTimeCounter = 0f;
     }
 
     private void ResetJump()
