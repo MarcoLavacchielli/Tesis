@@ -53,6 +53,7 @@ public class Grappling : MonoBehaviour
     {
         if (Input.GetKeyDown(grappleKey)) StartGrapple();
 
+        // Manejo del cooldown principal
         if (grapplingCdTimer > 0)
         {
             grapplingCdTimer -= Time.deltaTime;
@@ -88,7 +89,7 @@ public class Grappling : MonoBehaviour
 
     private void StartGrapple()
     {
-        if (grapplingCdTimer > 0) return;
+        if (grapplingCdTimer > 0 || grappling) return;
 
         grappling = true;
         audioM.PlaySfx(2);
@@ -100,8 +101,10 @@ public class Grappling : MonoBehaviour
         {
             grapplePoint = hit.point;
 
-            //audioM.PlaySfx(6);
+            // Activamos el cooldown de bloqueo del gancho al golpear un objeto grapleable
+            grapplingCdTimer = grapplingCd;
 
+            // Ejecutamos el gancho después de un pequeño retraso
             Invoke(nameof(ExecuteGrapple), grappleDelayTime);
         }
         else
@@ -111,8 +114,8 @@ public class Grappling : MonoBehaviour
             Invoke(nameof(StopGrapple), grappleDelayTime);
         }
 
-        //lr.enabled = true;
-        //lr.SetPosition(1, grapplePoint);
+        // lr.enabled = true;
+        // lr.SetPosition(1, grapplePoint);
     }
 
     private void ExecuteGrapple()
@@ -139,9 +142,13 @@ public class Grappling : MonoBehaviour
 
         grappling = false;
 
-        grapplingCdTimer = grapplingCd;
+        // Activa el cooldown general cuando se detiene el grappling
+        if (grapplingCdTimer <= 0)
+        {
+            grapplingCdTimer = grapplingCd;
+        }
 
-        //lr.enabled = false;
+        // lr.enabled = false;
     }
 
     public bool IsGrappling()
