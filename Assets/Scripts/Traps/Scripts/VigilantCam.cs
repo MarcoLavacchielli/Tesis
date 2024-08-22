@@ -17,11 +17,12 @@ public class VigilantCam : MonoBehaviour
     LayerMask wallMask;
 
     public Transform playerTransform;
-
     public EnergyBar energyBar;
+    public GameObject shaderGraphObject; // Reference to the GameObject with Shader Graph material
 
     private CameraWatcher cameraWatcher;
     private Renderer renderer;
+    private Material shaderGraphMaterial;
 
     private bool playerDetected = false;
     private Coroutine energyRecoveryCoroutine;
@@ -30,6 +31,9 @@ public class VigilantCam : MonoBehaviour
     {
         cameraWatcher = GetComponent<CameraWatcher>();
         renderer = GetComponent<Renderer>();
+
+        // Get the material from the Shader Graph object
+        shaderGraphMaterial = shaderGraphObject.GetComponent<Renderer>().material;
     }
 
     private void Update()
@@ -45,6 +49,9 @@ public class VigilantCam : MonoBehaviour
             cameraWatcher.SetPlayerDetected(true);
             renderer.material.color = Color.red;
 
+            // Change the Shader Graph material color to red
+            shaderGraphMaterial.SetColor("_my_color", Color.red);
+
             if (energyRecoveryCoroutine != null)
             {
                 StopCoroutine(energyRecoveryCoroutine);
@@ -55,6 +62,9 @@ public class VigilantCam : MonoBehaviour
         {
             cameraWatcher.SetPlayerDetected(false);
             renderer.material.color = Color.white;
+
+            // Change the Shader Graph material color to orange
+            shaderGraphMaterial.SetColor("_my_color", new Color(1f, 0.64f, 0f)); // RGB for orange
 
             if (playerDetected && energyRecoveryCoroutine == null)
             {
