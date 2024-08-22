@@ -23,18 +23,20 @@ public class VigilantCam : MonoBehaviour
     private CameraWatcher cameraWatcher;
     private Renderer renderer;
 
+    private bool playerDetected = false;
+    private Coroutine energyRecoveryCoroutine;
+
     private void Start()
     {
         cameraWatcher = GetComponent<CameraWatcher>();
-
         renderer = GetComponent<Renderer>();
     }
 
     private void Update()
     {
-        bool playerDetected = InFieldOfView(playerTransform.transform.position) && InLineOfSight(playerTransform.transform.position);
+        bool currentlyDetected = InFieldOfView(playerTransform.transform.position) && InLineOfSight(playerTransform.transform.position);
 
-        if (playerDetected)
+        if (currentlyDetected)
         {
             Debug.Log("visto");
 
@@ -42,12 +44,38 @@ public class VigilantCam : MonoBehaviour
 
             cameraWatcher.SetPlayerDetected(true);
             renderer.material.color = Color.red;
+
+            if (energyRecoveryCoroutine != null)
+            {
+                StopCoroutine(energyRecoveryCoroutine);
+                energyRecoveryCoroutine = null;
+            }
         }
         else
         {
             cameraWatcher.SetPlayerDetected(false);
             renderer.material.color = Color.white;
+
+            if (playerDetected && energyRecoveryCoroutine == null)
+            {
+                energyRecoveryCoroutine = StartCoroutine(StartEnergyRecovery());
+            }
         }
+
+        playerDetected = currentlyDetected;
+    }
+
+    private IEnumerator StartEnergyRecovery()
+    {
+        yield return new WaitForSeconds(3f);
+
+        while (!playerDetected)
+        {
+            energyBar.EnergyRecoveryFunction();
+            yield return null;
+        }
+
+        energyRecoveryCoroutine = null;
     }
 
     public bool InFieldOfView(Vector3 point)
