@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class VigilantCam : MonoBehaviour
 {
-
-
     [SerializeField]
     float viewRadius = 10f;
 
@@ -22,13 +20,33 @@ public class VigilantCam : MonoBehaviour
 
     public EnergyBar energyBar;
 
+    private CameraWatcher cameraWatcher;
+    private Renderer renderer;
+
+    private void Start()
+    {
+        cameraWatcher = GetComponent<CameraWatcher>();
+
+        renderer = GetComponent<Renderer>();
+    }
+
     private void Update()
     {
-        if (InFieldOfView(playerTransform.transform.position) && InLineOfSight(playerTransform.transform.position))
+        bool playerDetected = InFieldOfView(playerTransform.transform.position) && InLineOfSight(playerTransform.transform.position);
+
+        if (playerDetected)
         {
             Debug.Log("visto");
 
             energyBar.EnergyConsumptionFunction();
+
+            cameraWatcher.SetPlayerDetected(true);
+            renderer.material.color = Color.red;
+        }
+        else
+        {
+            cameraWatcher.SetPlayerDetected(false);
+            renderer.material.color = Color.white;
         }
     }
 
@@ -38,33 +56,15 @@ public class VigilantCam : MonoBehaviour
         if (dir.magnitude > viewRadius)
             return false;
 
-       
-
         var angle = Vector3.Angle(transform.forward, dir);
         return angle <= viewAngle / 2;
     }
 
     public bool InLineOfSight(Vector3 point)
     {
-       
-
         var dir = point - transform.position;
         return !Physics.Raycast(transform.position, dir, dir.magnitude, wallMask);
     }
-    /*
-    public Node GetClosestNodeInView()
-    {
-        foreach (var node in nodeGrid.AllNodes)
-        {
-            if (InFieldOfView(node.transform.position) && InLineOfSight(node.transform.position))
-            {
-                return node;
-            }
-        }
-
-        return null;
-    }
-    */
 
     private void OnDrawGizmos()
     {
@@ -79,52 +79,4 @@ public class VigilantCam : MonoBehaviour
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, viewAngle / 2, 0) * vector);
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -viewAngle / 2, 0) * vector);
     }
-
-   
-
-    /*
-    public float rotationSpeed = 30f; // Velocidad de rotación en grados por segundo
-    [SerializeField] float _radius;
-    public Transform PlayerTransform;
-    private bool movingForward = true;
-
-    void Update()
-    {
-        // Si estamos moviéndonos hacia adelante
-        if (movingForward)
-        {
-            // Rotar hacia la derecha (45 grados en el eje Y)
-            transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
-
-            // Si hemos alcanzado los 45 grados, cambiar dirección
-            if (transform.rotation.eulerAngles.y >= 90)
-            {
-                movingForward = false;
-            }
-        }
-        else
-        {
-            // Rotar hacia la izquierda (-45 grados en el eje Y)
-            transform.Rotate(Vector3.up, -rotationSpeed * Time.deltaTime);
-
-            // Si hemos alcanzado los -45 grados, cambiar dirección
-            if (transform.rotation.eulerAngles.y <= 0)
-            {
-                movingForward = true;
-            }
-        }
-    }
-    public void OnDrawGizmos()
-    {
-        
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(PlayerTransform.position + PlayerTransform.up * 0.5f, PlayerTransform.position + PlayerTransform.up * 0.5f + PlayerTransform.right * _radius);
-        Gizmos.DrawLine(PlayerTransform.position - PlayerTransform.up * 0.5f, PlayerTransform.position - PlayerTransform.up * 0.5f + PlayerTransform.right * _radius);
-
-    }
-    */
-
-
-
 }
