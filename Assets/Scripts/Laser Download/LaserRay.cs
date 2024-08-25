@@ -20,12 +20,12 @@ public class LaserRay : MonoBehaviour
     {
         ray = new Ray(transform.position, transform.forward);
 
-        if (Physics.Raycast(ray, out rayHit))
+        if (Physics.Raycast(ray, out rayHit, laserDistance, ~ignoreMask))
         {
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, rayHit.point);
 
-            //must have a MonoBehaviour script called Target with public method Hit
+            // Debe existir un script MonoBehaviour llamado Target con un método público Hit
             if (rayHit.collider.TryGetComponent(out Target target))
             {
                 target.Hit();
@@ -42,10 +42,12 @@ public class LaserRay : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        //Gizmos.DrawRay(ray.origin, ray.direction * laserDistance);
-        Gizmos.DrawRay(transform.position, ray.direction * laserDistance);
+        Gizmos.DrawRay(transform.position, transform.forward * laserDistance);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(rayHit.point, 0.23f);
+        if (rayHit.collider != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(rayHit.point, 0.23f);
+        }
     }
 }
