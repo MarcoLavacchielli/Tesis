@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,19 +8,21 @@ public class LaserRay : MonoBehaviour
     [SerializeField] private float laserDistance = 8f;
     [SerializeField] private LayerMask ignoreMask;
     [SerializeField] private UnityEvent OnHitTarget;
-    [SerializeField] private GameObject startPrefab; // Prefab para el inicio del láser
-    [SerializeField] private GameObject hitPrefab;   // Prefab para el punto de impacto
+    [SerializeField] private GameObject startPrefab;
+    [SerializeField] private GameObject hitPrefab;
 
     private RaycastHit rayHit;
     private Ray ray;
-    private GameObject instantiatedStartPrefab; // Referencia al startPrefab instanciado
-    private GameObject instantiatedHitPrefab;   // Referencia al hitPrefab instanciado
+    private GameObject instantiatedStartPrefab;
+    private GameObject instantiatedHitPrefab;
+    private Queue<GameObject> hitPrefabPool = new Queue<GameObject>();
+    [SerializeField] private float updateInterval = 0.1f;
+    private float lastUpdateTime;
 
     private void Awake()
     {
         lineRenderer.positionCount = 2;
 
-        // Instanciar el prefab en el inicio del láser una vez
         if (startPrefab != null && instantiatedStartPrefab == null)
         {
             instantiatedStartPrefab = Instantiate(startPrefab, transform.position, Quaternion.identity);
@@ -28,9 +31,17 @@ public class LaserRay : MonoBehaviour
 
     private void Update()
     {
+        if (Time.time >= lastUpdateTime + updateInterval)
+        {
+            lastUpdateTime = Time.time;
+            PerformRaycast();
+        }
+    }
+
+    private void PerformRaycast()
+    {
         ray = new Ray(transform.position, transform.forward);
 
-        // Actualizar la posición del startPrefab
         if (instantiatedStartPrefab != null)
         {
             instantiatedStartPrefab.transform.position = transform.position;
@@ -41,23 +52,19 @@ public class LaserRay : MonoBehaviour
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, rayHit.point);
 
-            // Instanciar el prefab en el punto de impacto una vez y actualizar su posición
             if (hitPrefab != null)
             {
                 if (instantiatedHitPrefab == null)
                 {
-                    // Instancia el prefab la primera vez
-                    Quaternion rotation = Quaternion.Euler(0, 180, 0); // Rotación de 180 grados en el eje Y
-                    instantiatedHitPrefab = Instantiate(hitPrefab, rayHit.point, rotation);
+                    Quaternion rotation = Quaternion.Euler(0, 180, 0);
+                    instantiatedHitPrefab = GetPooledHitPrefab(rayHit.point, rotation);
                 }
                 else
                 {
-                    // Actualiza la posición del prefab instanciado
                     instantiatedHitPrefab.transform.position = rayHit.point;
                 }
             }
 
-            // Debe existir un script MonoBehaviour llamado Target con un método público Hit
             if (rayHit.collider.TryGetComponent(out Target target))
             {
                 target.Hit();
@@ -69,6 +76,28 @@ public class LaserRay : MonoBehaviour
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, transform.position + transform.forward * laserDistance);
         }
+    }
+
+    private GameObject GetPooledHitPrefab(Vector3 position, Quaternion rotation)
+    {
+        if (hitPrefabPool.Count > 0)
+        {
+            GameObject pooledObject = hitPrefabPool.Dequeue();
+            pooledObject.SetActive(true);
+            pooledObject.transform.position = position;
+            pooledObject.transform.rotation = rotation;
+            return pooledObject;
+        }
+        else
+        {
+            return Instantiate(hitPrefab, position, rotation);
+        }
+    }
+
+    private void ReturnHitPrefabToPool(GameObject obj)
+    {
+        obj.SetActive(false);
+        hitPrefabPool.Enqueue(obj);
     }
 
     private void OnDrawGizmos()
