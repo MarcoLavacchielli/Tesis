@@ -1,12 +1,17 @@
 using UnityEngine;
 
-
 public class GameManager : MonoBehaviour
 {
     public EnemyFactory enemyFactoryPrefab;
     public GameObject playerCheckerPrefab;
 
     private IEnemyFactory enemyFactoryInstance;
+
+    private void Start()
+    {
+        // Establece la tasa de fotogramas deseada en 60 FPS
+        Application.targetFrameRate = 60;
+    }
 
     public void SetEnemyFactory(string enemyType)
     {
