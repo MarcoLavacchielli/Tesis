@@ -15,6 +15,8 @@ public class CameraTransition : MonoBehaviour
     public string animationName; // Nombre de la animación o trigger
     public GameObject Player;
     public MoveCamera moveCameraScript;
+    public Camera mainCamera;
+    public Camera transitionCamera;
     void Start()
     {
         // Asegúrate de que la animación no se reproduzca al inicio
@@ -34,11 +36,16 @@ public class CameraTransition : MonoBehaviour
 
         Player.gameObject.SetActive(false);
         moveCameraScript.enabled = false;
-        transform.position = new Vector3(197, 14, -137);
+        //transform.position = new Vector3(197, 14, -137);
         //transform.rotation = new Quaternion(0f,0f,0f);
-        yield return new WaitForSeconds(2f);
+        mainCamera.enabled = false;
+        transitionCamera.gameObject.SetActive(true);
+        transitionCamera.enabled = true;
+
+        //yield return new WaitForSeconds(2f);
         Transitionanimator.enabled = true;  // Activa el Animator
         Transitionanimator.Play(animationName);  // Reproduce la animación
+        yield return null;
     }
 
     public void PlayAnimation()
@@ -47,7 +54,8 @@ public class CameraTransition : MonoBehaviour
         moveCameraScript.enabled = false;
         transform.position = new Vector3(197, 14, -137);
         //transform.rotation = new Quaternion(0f,0f,0f);
-        
+        mainCamera.enabled = false;
+        transitionCamera.enabled = true;
         
         Transitionanimator.enabled = true;  // Activa el Animator
         Transitionanimator.Play(animationName);  // Reproduce la animación
