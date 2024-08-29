@@ -10,13 +10,17 @@ public class LaserRay : MonoBehaviour
     [SerializeField] private UnityEvent OnHitTarget;
     [SerializeField] private GameObject startPrefab;
     [SerializeField] private GameObject hitPrefab;
+    [SerializeField] private Vector2 detectionRange = new Vector2(5f, 5f);  // Square range dimensions
+    [SerializeField] private Vector3 detectionOffset = Vector3.zero;        // Offset for the detection pivot
+    [SerializeField] private Vector3 detectionInclination = Vector3.zero;   // Inclination for the detection area
+    [SerializeField] private float updateInterval = 0.1f;
+    [SerializeField] public bool alwaysUpdateLineRenderer = false;          // Control for continuous LineRenderer update
 
     private RaycastHit rayHit;
     private Ray ray;
     private GameObject instantiatedStartPrefab;
     private GameObject instantiatedHitPrefab;
     private Queue<GameObject> hitPrefabPool = new Queue<GameObject>();
-    [SerializeField] private float updateInterval = 0.1f;
     private float lastUpdateTime;
 
     private void Awake()
@@ -27,18 +31,37 @@ public class LaserRay : MonoBehaviour
         {
             instantiatedStartPrefab = Instantiate(startPrefab, transform.position, Quaternion.identity);
         }
+
+        // Perform an initial raycast to draw the LineRenderer immediately
+        PerformRaycast(forceUpdate: true);
     }
 
     private void Update()
     {
-        if (Time.time >= lastUpdateTime + updateInterval)
+        /*
+        // Update the LineRenderer continuously if the option is enabled
+        if (alwaysUpdateLineRenderer)
         {
-            lastUpdateTime = Time.time;
+            PerformRaycast();
+        }
+        */
+
+        // Check if player is within the detection range
+        if (IsPlayerWithinRange())
+        {
+            if (Time.time >= lastUpdateTime + updateInterval)
+            {
+                lastUpdateTime = Time.time;
+                PerformRaycast();
+            }
+        }
+        else if (Time.time >= lastUpdateTime + updateInterval)
+        {
             PerformRaycast();
         }
     }
 
-    private void PerformRaycast()
+    private void PerformRaycast(bool forceUpdate = false)
     {
         ray = new Ray(transform.position, transform.forward);
 
@@ -65,7 +88,7 @@ public class LaserRay : MonoBehaviour
                 }
             }
 
-            if (rayHit.collider.TryGetComponent(out Target target))
+            if (!forceUpdate && rayHit.collider.TryGetComponent(out Target target))
             {
                 target.Hit();
                 OnHitTarget?.Invoke();
@@ -100,8 +123,25 @@ public class LaserRay : MonoBehaviour
         hitPrefabPool.Enqueue(obj);
     }
 
+    private bool IsPlayerWithinRange()
+    {
+        Vector3 detectionCenter = transform.position + detectionOffset;
+        Quaternion inclinationRotation = Quaternion.Euler(detectionInclination);
+        Collider[] hits = Physics.OverlapBox(detectionCenter, new Vector3(detectionRange.x / 2, 1, detectionRange.y / 2), inclinationRotation, LayerMask.GetMask("Player"));
+        return hits.Length > 0;
+    }
+
     private void OnDrawGizmos()
     {
+        // Draw detection range with offset and inclination
+        Gizmos.color = Color.green;
+        Vector3 detectionCenter = transform.position + detectionOffset;
+        Quaternion inclinationRotation = Quaternion.Euler(detectionInclination);
+        Gizmos.matrix = Matrix4x4.TRS(detectionCenter, inclinationRotation, Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, new Vector3(detectionRange.x, 1, detectionRange.y));
+
+        Gizmos.matrix = Matrix4x4.identity;  // Reset Gizmos matrix to avoid affecting other Gizmos
+
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.forward * laserDistance);
 
