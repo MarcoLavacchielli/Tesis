@@ -5,7 +5,6 @@ using TMPro;
 
 public class PlayerMovementGrappling : MonoBehaviour
 {
-
     AudioManager audioM;
 
     [Header("Movement")]
@@ -20,7 +19,7 @@ public class PlayerMovementGrappling : MonoBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    bool readyToJump;
+    private bool readyToJump;
 
     [Header("Crouching")]
     public float crouchSpeed;
@@ -35,7 +34,7 @@ public class PlayerMovementGrappling : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
-    bool grounded;
+    private bool grounded;
 
     [Header("Slope Handling")]
     public float maxSlopeAngle;
@@ -47,17 +46,18 @@ public class PlayerMovementGrappling : MonoBehaviour
     public float grappleFov = 95f;
 
     [Header("Coyote Time")]
-    public float coyoteTimeDuration = 0.5f; // Duración del coyote time en segundos
+    public float coyoteTimeDuration = 0.5f;
     private float coyoteTimeCounter;
+    [SerializeField] private bool hasJumped;
 
     public Transform orientation;
 
-    float horizontalInput;
-    float verticalInput;
+    private float horizontalInput;
+    private float verticalInput;
 
-    Vector3 moveDirection;
+    private Vector3 moveDirection;
 
-    Rigidbody rb;
+    private Rigidbody rb;
 
     public MovementState state;
     public enum MovementState
@@ -72,7 +72,6 @@ public class PlayerMovementGrappling : MonoBehaviour
     }
 
     public bool freeze;
-
     public bool activeGrapple;
     public bool swinging;
 
@@ -92,25 +91,29 @@ public class PlayerMovementGrappling : MonoBehaviour
         rb.freezeRotation = true;
 
         readyToJump = true;
-
         startYScale = transform.localScale.y;
     }
 
     private void Update()
     {
         // Ground check
-        bool wasGrounded = grounded;
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
         if (grounded)
         {
-            // Reseteamos el contador de coyote time si estamos en el suelo
+            // Reset coyote time and hasJumped when grounded
             coyoteTimeCounter = coyoteTimeDuration;
+            hasJumped = false;
         }
-        else if (wasGrounded && !grounded)
+        else if (!grounded && coyoteTimeCounter > 0 && !hasJumped)
         {
-            // Empezamos a contar coyote time cuando dejamos de estar en el suelo
+            // Count down coyote time when in the air and hasn't jumped
             coyoteTimeCounter -= Time.deltaTime;
+        }
+        else if (coyoteTimeCounter <= 0)
+        {
+            // Deactivate coyote time after duration ends
+            hasJumped = true;
         }
 
         MyInput();
@@ -134,24 +137,22 @@ public class PlayerMovementGrappling : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        // When to jump
-        if (Input.GetKey(jumpKey) && readyToJump && (grounded || coyoteTimeCounter > 0f))
+        // Jumping logic
+        if (Input.GetKey(jumpKey) && readyToJump && (grounded || (coyoteTimeCounter > 0 && !hasJumped)))
         {
             readyToJump = false;
-
+            hasJumped = true;
             Jump();
-
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
-        // Start crouch
+        // Crouch logic
         if (Input.GetKeyDown(crouchKey))
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
         }
 
-        // Stop crouch
         if (Input.GetKeyUp(crouchKey))
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
@@ -160,50 +161,37 @@ public class PlayerMovementGrappling : MonoBehaviour
 
     private void StateHandler()
     {
-        // Mode - Freeze
         if (freeze)
         {
             state = MovementState.freeze;
             moveSpeed = 0;
             rb.velocity = Vector3.zero;
         }
-
-        // Mode - Grappling
         else if (activeGrapple)
         {
             state = MovementState.grappling;
             moveSpeed = sprintSpeed;
         }
-
-        // Mode - Swinging
         else if (swinging)
         {
             state = MovementState.swinging;
             moveSpeed = swingSpeed;
         }
-
-        // Mode - Crouching
         else if (Input.GetKey(crouchKey))
         {
             state = MovementState.crouching;
             moveSpeed = crouchSpeed;
         }
-
-        // Mode - Sprinting
         else if (grounded && Input.GetKey(sprintKey))
         {
             state = MovementState.sprinting;
             moveSpeed = sprintSpeed;
         }
-
-        // Mode - Walking
         else if (grounded)
         {
             state = MovementState.walking;
             moveSpeed = walkSpeed;
         }
-
-        // Mode - Air
         else
         {
             state = MovementState.air;
@@ -212,13 +200,10 @@ public class PlayerMovementGrappling : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (activeGrapple) return;
-        if (swinging) return;
+        if (activeGrapple || swinging) return;
 
-        // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        // on slope
         if (OnSlope() && !exitingSlope)
         {
             rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 20f, ForceMode.Force);
@@ -226,16 +211,15 @@ public class PlayerMovementGrappling : MonoBehaviour
             if (rb.velocity.y > 0)
                 rb.AddForce(Vector3.down * 80f, ForceMode.Force);
         }
-
-        // on ground
         else if (grounded)
+        {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-
-        // in air
-        else if (!grounded)
+        }
+        else
+        {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+        }
 
-        // turn gravity off while on slope
         rb.useGravity = !OnSlope();
     }
 
@@ -243,19 +227,15 @@ public class PlayerMovementGrappling : MonoBehaviour
     {
         if (activeGrapple) return;
 
-        // limiting speed on slope
         if (OnSlope() && !exitingSlope)
         {
             if (rb.velocity.magnitude > moveSpeed)
                 rb.velocity = rb.velocity.normalized * moveSpeed;
         }
-
-        // limiting speed on ground or in air
         else
         {
             Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-            // limit velocity if needed
             if (flatVel.magnitude > moveSpeed)
             {
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
@@ -268,21 +248,15 @@ public class PlayerMovementGrappling : MonoBehaviour
     {
         exitingSlope = true;
 
-        // Reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
         audioM.PlaySfx(3);
-
-        // Reset coyote time counter after jumping
-        coyoteTimeCounter = 0f;
     }
 
     private void ResetJump()
     {
         readyToJump = true;
-
         exitingSlope = false;
     }
 
@@ -346,8 +320,8 @@ public class PlayerMovementGrappling : MonoBehaviour
         Vector3 displacementXZ = new Vector3(endPoint.x - startPoint.x, 0f, endPoint.z - startPoint.z);
 
         Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * trajectoryHeight);
-        Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajectoryHeight / gravity) 
-            + Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
+        Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajectoryHeight / gravity) +
+                                                Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
 
         return velocityXZ + velocityY;
     }
