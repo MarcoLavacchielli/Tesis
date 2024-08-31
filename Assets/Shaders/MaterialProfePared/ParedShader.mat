@@ -74,7 +74,12 @@ Material:
     - _DstBlend: 0
     - _EnableBlendModePreserveSpecularLighting: 0
     - _EnableFogOnTransparent: 1
+    - _NoiseIntensity: 1
     - _OpaqueCullMode: 2
+    - _Power: 2
+    - _PowerHalf: 2
+    - _PowerHalfButtom: 20
+    - _Range: 7
     - _RenderQueueType: 1
     - _SrcBlend: 1
     - _StencilRef: 0
@@ -98,6 +103,9 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
+    - _ColorHalf: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
+    - _ColorLuz: {r: 0.745283, g: 0.745283, b: 0.745283, a: 0}
+    - _ColorSombra: {r: 0.11320752, g: 0.11320752, b: 0.11320752, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
