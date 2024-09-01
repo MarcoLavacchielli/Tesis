@@ -31,12 +31,12 @@ public class CameraTransitionsEvents : MonoBehaviour
 
         }
 
-        NewTraps[4].gameObject.SetActive(true);
         NewTraps[5].gameObject.SetActive(true);
         NewTraps[6].gameObject.SetActive(true);
         NewTraps[7].gameObject.SetActive(true);
+        NewTraps[8].gameObject.SetActive(true);
         pieza.transform.position = destino;
-        CurrentTrap = 8;
+        CurrentTrap = 9;
     }
     public void TransitionFunction()
     {
