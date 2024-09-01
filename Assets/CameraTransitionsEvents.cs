@@ -40,7 +40,7 @@ public class CameraTransitionsEvents : MonoBehaviour
     }
     public void TransitionFunction()
     {
-        if (CurrentTrap == 3)
+        if (CurrentTrap == 4)
         {
             StartCoroutine(MultipleLaserAnimation(NewTraps[CurrentTrap]));
             Debug.Log("animacion");
