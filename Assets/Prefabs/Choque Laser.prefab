@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5087435020167498381}
   - component: {fileID: 3923135010968743280}
   - component: {fileID: 8197414614522002170}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4838,7 +4838,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 954533721354588917}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Choque Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4873,7 +4873,7 @@ GameObject:
   - component: {fileID: 3082458796722780077}
   - component: {fileID: 3147658332424526218}
   - component: {fileID: 3032645805605635041}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Humo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
