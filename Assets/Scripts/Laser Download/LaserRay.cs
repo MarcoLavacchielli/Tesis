@@ -22,7 +22,6 @@ public class LaserRay : MonoBehaviour
     private GameObject instantiatedHitPrefab;
     private Queue<GameObject> hitPrefabPool = new Queue<GameObject>();
     private float lastUpdateTime;
-    private GameObject lastHitObject = null; // Para guardar el último objeto golpeado
 
     private void Awake()
     {
@@ -39,6 +38,14 @@ public class LaserRay : MonoBehaviour
 
     private void Update()
     {
+        /*
+        // Update the LineRenderer continuously if the option is enabled
+        if (alwaysUpdateLineRenderer)
+        {
+            PerformRaycast();
+        }
+        */
+
         // Check if player is within the detection range
         if (IsPlayerWithinRange())
         {
@@ -68,7 +75,6 @@ public class LaserRay : MonoBehaviour
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, rayHit.point);
 
-            // Actualiza la posición del prefab de impacto
             if (hitPrefab != null)
             {
                 if (instantiatedHitPrefab == null)
@@ -80,16 +86,7 @@ public class LaserRay : MonoBehaviour
                 {
                     instantiatedHitPrefab.transform.position = rayHit.point;
                 }
-
-                // Asegúrate de que el prefab esté activado
-                if (!instantiatedHitPrefab.activeSelf)
-                {
-                    instantiatedHitPrefab.SetActive(true);
-                }
             }
-
-            // Guarda el objeto actual como el último golpeado
-            lastHitObject = rayHit.collider.gameObject;
 
             if (!forceUpdate && rayHit.collider.TryGetComponent(out Target target))
             {
@@ -101,15 +98,6 @@ public class LaserRay : MonoBehaviour
         {
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, transform.position + transform.forward * laserDistance);
-
-            // Si no golpea nada, desactiva el prefab de impacto si estaba activado
-            if (instantiatedHitPrefab != null)
-            {
-                instantiatedHitPrefab.SetActive(false);
-            }
-
-            // Resetea el último objeto golpeado
-            lastHitObject = null;
         }
     }
 
