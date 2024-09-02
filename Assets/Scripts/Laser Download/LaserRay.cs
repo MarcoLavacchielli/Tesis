@@ -22,6 +22,7 @@ public class LaserRay : MonoBehaviour
     private GameObject instantiatedHitPrefab;
     private Queue<GameObject> hitPrefabPool = new Queue<GameObject>();
     private float lastUpdateTime;
+    private GameObject lastHitObject = null; // Para guardar el último objeto golpeado
 
     private void Awake()
     {
@@ -38,14 +39,6 @@ public class LaserRay : MonoBehaviour
 
     private void Update()
     {
-        /*
-        // Update the LineRenderer continuously if the option is enabled
-        if (alwaysUpdateLineRenderer)
-        {
-            PerformRaycast();
-        }
-        */
-
         // Check if player is within the detection range
         if (IsPlayerWithinRange())
         {
@@ -84,9 +77,29 @@ public class LaserRay : MonoBehaviour
                 }
                 else
                 {
+                    // Desactivar y reactivar el Trail Renderer para evitar borrosidad
+                    var trailRenderer = instantiatedHitPrefab.GetComponent<TrailRenderer>();
+                    if (trailRenderer != null)
+                    {
+                        trailRenderer.enabled = false;
+                    }
+
                     instantiatedHitPrefab.transform.position = rayHit.point;
+
+                    if (trailRenderer != null)
+                    {
+                        trailRenderer.enabled = true;
+                    }
+                }
+
+                // Asegúrate de que el prefab esté activado
+                if (!instantiatedHitPrefab.activeSelf)
+                {
+                    instantiatedHitPrefab.SetActive(true);
                 }
             }
+
+            lastHitObject = rayHit.collider.gameObject;
 
             if (!forceUpdate && rayHit.collider.TryGetComponent(out Target target))
             {
@@ -98,6 +111,13 @@ public class LaserRay : MonoBehaviour
         {
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, transform.position + transform.forward * laserDistance);
+
+            if (instantiatedHitPrefab != null)
+            {
+                instantiatedHitPrefab.SetActive(false);
+            }
+
+            lastHitObject = null;
         }
     }
 
