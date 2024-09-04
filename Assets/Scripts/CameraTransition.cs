@@ -14,6 +14,7 @@ public class CameraTransition : MonoBehaviour
     public Animator Transitionanimator;  // Asigna esto desde el Inspector
     public string animationName; // Nombre de la animación o trigger
     public GameObject Player;
+    public GameObject CanvasHud;
     public MoveCamera moveCameraScript;
     public Camera mainCamera;
     public Camera transitionCamera;
@@ -41,6 +42,7 @@ public class CameraTransition : MonoBehaviour
     {
 
         Player.gameObject.SetActive(false);
+        CanvasHud.gameObject.SetActive(false);
         moveCameraScript.enabled = false;
         //transform.position = new Vector3(197, 14, -137);
         //transform.rotation = new Quaternion(0f,0f,0f);
@@ -57,6 +59,7 @@ public class CameraTransition : MonoBehaviour
     public void PlayAnimation()
     {
         Player.gameObject.SetActive(false);
+        CanvasHud.gameObject.SetActive(false);
         moveCameraScript.enabled = false;
         transform.position = new Vector3(197, 14, -137);
         //transform.rotation = new Quaternion(0f,0f,0f);
