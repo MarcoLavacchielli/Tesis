@@ -19,7 +19,7 @@ public class CameraTransitionsEvents : MonoBehaviour
 
     private IEnumerator MultipleLaserAnimation(GameObject pieza)
     {
-        Vector3 destino = pieza.transform.position + new Vector3(0, 1.7f, 0);
+        Vector3 destino = pieza.transform.position + new Vector3(0, 1.9f, 0);
 
         float duracion = 1.5f; // Duración de la animación
         float velocidad = 7f / duracion; // Velocidad constante
