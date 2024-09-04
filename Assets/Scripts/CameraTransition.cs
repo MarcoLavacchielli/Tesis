@@ -31,6 +31,12 @@ public class CameraTransition : MonoBehaviour
             //PlayAnimation();
         }
     }
+
+    public void callCinematic()
+    {
+        StartCoroutine(x());
+    }
+
     public IEnumerator x()
     {
 

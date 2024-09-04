@@ -7,6 +7,8 @@ public class TakeDiamont : MonoBehaviour
     public float pickupRange = 2.0f;
     public Transform player;
 
+    public CameraTransition camTransition;
+
     void Update()
     {
         float distance = Vector3.Distance(player.position, transform.position);
@@ -20,5 +22,6 @@ public class TakeDiamont : MonoBehaviour
     void PickUp()
     {
         Destroy(gameObject);
+        camTransition.callCinematic();
     }
 }
