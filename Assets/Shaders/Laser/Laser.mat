@@ -202,12 +202,12 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color_emissive: {r: 1, g: 0, b: 0, a: 0}
+    - _Color_emissive: {r: 2.9960787, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _LaserColor: {r: 47.93726, g: 0, b: 0, a: 0}
     - _Main_color: {r: 103.96829, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TimeController: {r: 0.5, g: 0, b: 0, a: 0}
-    - _Velocity: {r: 1, g: 0, b: 0, a: 0}
+    - _Velocity: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

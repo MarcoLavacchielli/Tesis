@@ -7,6 +7,7 @@ public class ButtonOpener : MonoBehaviour
     [SerializeField] private KeyCode activationKey = KeyCode.E;
     [SerializeField] private Material activeMaterial;
     [SerializeField] private List<GameObject> objectsToDestroy;
+    [SerializeField] private float rotationDuration = 1.0f; // Duración de la animación de rotación
 
     AudioManager audioM;
 
@@ -59,16 +60,46 @@ public class ButtonOpener : MonoBehaviour
     private void ActivateButton()
     {
         rend.material = activeMaterial;
+        RotateFirstObject();
         DestroyObjects();
         audioM.PlaySfx(5);
     }
 
-    private void DestroyObjects()
+    private void RotateFirstObject()
     {
         if (objectsToDestroy != null && objectsToDestroy.Count > 0)
         {
-            foreach (GameObject obj in objectsToDestroy)
+            GameObject firstObject = objectsToDestroy[0];
+            if (firstObject != null)
             {
+                StartCoroutine(RotateObject(firstObject, Vector3.up * 90, rotationDuration));
+            }
+        }
+    }
+
+    private IEnumerator RotateObject(GameObject obj, Vector3 byAngles, float duration)
+    {
+        Quaternion originalRotation = obj.transform.rotation;
+        Quaternion targetRotation = originalRotation * Quaternion.Euler(byAngles);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            obj.transform.rotation = Quaternion.Slerp(originalRotation, targetRotation, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        obj.transform.rotation = targetRotation;
+    }
+
+    private void DestroyObjects()
+    {
+        if (objectsToDestroy != null && objectsToDestroy.Count > 1)
+        {
+            for (int i = 1; i < objectsToDestroy.Count; i++)
+            {
+                GameObject obj = objectsToDestroy[i];
                 if (obj != null)
                 {
                     Destroy(obj);
