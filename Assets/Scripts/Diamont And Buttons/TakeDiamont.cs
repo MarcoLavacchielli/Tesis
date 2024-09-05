@@ -7,6 +7,10 @@ public class TakeDiamont : MonoBehaviour
     public float pickupRange = 2.0f;
     public Transform player;
 
+    [SerializeField] private List<Light> lights;
+
+    public AudioManager audioM;
+
     public CameraTransition camTransition;
 
     void Update()
@@ -22,6 +26,17 @@ public class TakeDiamont : MonoBehaviour
     void PickUp()
     {
         Destroy(gameObject);
+        foreach (var light in lights)
+        {
+            light.color = Color.red;
+        }
+        changeMusic();
         camTransition.callCinematic();
+    }
+    void changeMusic()
+    {
+        audioM.StopMusic(0);
+        audioM.PlayMusic(1);
+        //audioM.PlaySfx(7);
     }
 }
