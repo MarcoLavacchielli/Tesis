@@ -10,11 +10,12 @@ public class LaserRay : MonoBehaviour
     [SerializeField] private UnityEvent OnHitTarget;
     [SerializeField] private GameObject startPrefab;
     [SerializeField] private GameObject hitPrefab;
-    [SerializeField] private Vector2 detectionRange = new Vector2(5f, 5f);  // Square range dimensions
-    [SerializeField] private Vector3 detectionOffset = Vector3.zero;        // Offset for the detection pivot
-    [SerializeField] private Vector3 detectionInclination = Vector3.zero;   // Inclination for the detection area
+    [SerializeField] private Vector2 detectionRange = new Vector2(5f, 5f);
+    [SerializeField] private Vector3 detectionOffset = Vector3.zero;
+    [SerializeField] private Vector3 detectionInclination = Vector3.zero;
     [SerializeField] private float updateInterval = 0.1f;
-    [SerializeField] public bool alwaysUpdateLineRenderer = false;          // Control for continuous LineRenderer update
+    [SerializeField] public bool alwaysUpdateLineRenderer = false;
+    [SerializeField] private float animationSpeed = 5f;
 
     private RaycastHit rayHit;
     private Ray ray;
@@ -22,7 +23,11 @@ public class LaserRay : MonoBehaviour
     private GameObject instantiatedHitPrefab;
     private Queue<GameObject> hitPrefabPool = new Queue<GameObject>();
     private float lastUpdateTime;
-    private GameObject lastHitObject = null; // Para guardar el último objeto golpeado
+    private GameObject lastHitObject = null;
+    private float currentLineLength = 0f;
+    private bool isAnimating = false;
+    private bool hasHit = false;
+    private bool hitPrefabInstantiated = false; // New flag to check if hitPrefab has been instantiated
 
     private void Awake()
     {
@@ -39,7 +44,6 @@ public class LaserRay : MonoBehaviour
 
     private void Update()
     {
-        // Check if player is within the detection range
         if (IsPlayerWithinRange())
         {
             if (Time.time >= lastUpdateTime + updateInterval)
@@ -51,6 +55,11 @@ public class LaserRay : MonoBehaviour
         else if (Time.time >= lastUpdateTime + updateInterval)
         {
             PerformRaycast();
+        }
+
+        if (isAnimating)
+        {
+            AnimateLaser();
         }
     }
 
@@ -65,34 +74,44 @@ public class LaserRay : MonoBehaviour
 
         if (Physics.Raycast(ray, out rayHit, laserDistance, ~ignoreMask))
         {
-            lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, rayHit.point);
-
-            if (hitPrefab != null)
+            if (!hasHit)
             {
-                if (instantiatedHitPrefab == null)
+                // Start animation only if it hasn't hit before
+                currentLineLength = 0f;
+                isAnimating = true;
+                hasHit = true;
+                hitPrefabInstantiated = false; // Reset hitPrefabInstantiated flag
+            }
+
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, transform.position + transform.forward * currentLineLength);
+
+            if (!hitPrefabInstantiated && !isAnimating)
+            {
+                // Instantiate hitPrefab when the animation is done
+                if (hitPrefab != null)
                 {
                     Quaternion rotation = Quaternion.Euler(0, 180, 0);
                     instantiatedHitPrefab = GetPooledHitPrefab(rayHit.point, rotation);
+                    hitPrefabInstantiated = true;
                 }
-                else
+            }
+
+            if (hitPrefab != null && instantiatedHitPrefab != null)
+            {
+                var trailRenderer = instantiatedHitPrefab.GetComponent<TrailRenderer>();
+                if (trailRenderer != null)
                 {
-                    // Desactivar y reactivar el Trail Renderer para evitar borrosidad
-                    var trailRenderer = instantiatedHitPrefab.GetComponent<TrailRenderer>();
-                    if (trailRenderer != null)
-                    {
-                        trailRenderer.enabled = false;
-                    }
-
-                    instantiatedHitPrefab.transform.position = rayHit.point;
-
-                    if (trailRenderer != null)
-                    {
-                        trailRenderer.enabled = true;
-                    }
+                    trailRenderer.enabled = false;
                 }
 
-                // Asegúrate de que el prefab esté activado
+                instantiatedHitPrefab.transform.position = rayHit.point;
+
+                if (trailRenderer != null)
+                {
+                    trailRenderer.enabled = true;
+                }
+
                 if (!instantiatedHitPrefab.activeSelf)
                 {
                     instantiatedHitPrefab.SetActive(true);
@@ -109,8 +128,17 @@ public class LaserRay : MonoBehaviour
         }
         else
         {
-            lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, transform.position + transform.forward * laserDistance);
+            if (isAnimating)
+            {
+                currentLineLength = laserDistance;
+                isAnimating = false;
+                hitPrefabInstantiated = false; // Reset flag to allow hitPrefab instantiation
+            }
+            else
+            {
+                lineRenderer.SetPosition(0, transform.position);
+                lineRenderer.SetPosition(1, transform.position + transform.forward * laserDistance);
+            }
 
             if (instantiatedHitPrefab != null)
             {
@@ -118,6 +146,23 @@ public class LaserRay : MonoBehaviour
             }
 
             lastHitObject = null;
+        }
+    }
+
+    private void AnimateLaser()
+    {
+        if (isAnimating)
+        {
+            currentLineLength += animationSpeed * Time.deltaTime;
+
+            if (currentLineLength >= Vector3.Distance(transform.position, rayHit.point))
+            {
+                currentLineLength = Vector3.Distance(transform.position, rayHit.point);
+                isAnimating = false; // Stop animation when the full length is reached
+                hitPrefabInstantiated = false; // Allow hitPrefab to be instantiated after animation
+            }
+
+            lineRenderer.SetPosition(1, transform.position + transform.forward * currentLineLength);
         }
     }
 
@@ -153,14 +198,13 @@ public class LaserRay : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        // Draw detection range with offset and inclination
         Gizmos.color = Color.green;
         Vector3 detectionCenter = transform.position + detectionOffset;
         Quaternion inclinationRotation = Quaternion.Euler(detectionInclination);
         Gizmos.matrix = Matrix4x4.TRS(detectionCenter, inclinationRotation, Vector3.one);
         Gizmos.DrawWireCube(Vector3.zero, new Vector3(detectionRange.x, 1, detectionRange.y));
 
-        Gizmos.matrix = Matrix4x4.identity;  // Reset Gizmos matrix to avoid affecting other Gizmos
+        Gizmos.matrix = Matrix4x4.identity;
 
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.forward * laserDistance);
