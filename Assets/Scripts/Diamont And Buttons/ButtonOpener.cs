@@ -118,6 +118,7 @@ public class ButtonOpener : MonoBehaviour
     [SerializeField] private float rotationDuration = 1.0f; // Duración de la animación de rotación
     [SerializeField] private GameObject valve; // La válvula que debe rotar
     [SerializeField] private ParticleSystem particles; // Sistema de partículas
+    [SerializeField] private ParticleSystem particlesOfSmoke2; // Sistema de partículas
     [SerializeField] private float valveRotationDuration = 4.0f; // Duración de la rotación de la válvula
     [SerializeField] private float initialValveSpeed = 360.0f; // Velocidad de rotación inicial (grados por segundo)
     [SerializeField] private int valveTurns = 5; // Cantidad de vueltas que debe dar la válvula
@@ -183,7 +184,9 @@ public class ButtonOpener : MonoBehaviour
 
         // Reproducir partículas
         particles.Play();
+        particlesOfSmoke2.Play();
         yield return new WaitForSeconds(particleDuration);
+        particlesOfSmoke2.Stop();
         particles.Stop();
 
         // Rotar la puerta
