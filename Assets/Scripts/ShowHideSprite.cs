@@ -1,30 +1,44 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ShowHideSprite : MonoBehaviour
 {
     public GameObject player;
-    public GameObject spriteObject;
+    public List<GameObject> spriteObjects; // Lista de objetos con sprites
     public float maxDistance = 5f;
     public float minDistance = 1f;
 
-    private SpriteRenderer spriteRenderer;
+    private List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
     private bool isPlayerInRange = false;
 
     void Start()
     {
-        spriteRenderer = spriteObject.GetComponent<SpriteRenderer>();
-        SetSpriteAlpha(0);
+        // Obtener los SpriteRenderer de cada objeto en la lista
+        foreach (GameObject spriteObject in spriteObjects)
+        {
+            SpriteRenderer renderer = spriteObject.GetComponent<SpriteRenderer>();
+            if (renderer != null)
+            {
+                spriteRenderers.Add(renderer);
+                SetSpriteAlpha(renderer, 0);
+            }
+        }
     }
 
     void Update()
     {
         if (isPlayerInRange)
         {
-            float distance = Vector3.Distance(player.transform.position, spriteObject.transform.position);
+            foreach (GameObject spriteObject in spriteObjects)
+            {
+                float distance = Vector3.Distance(player.transform.position, spriteObject.transform.position);
 
-            float alpha = Mathf.Clamp01((maxDistance - distance) / (maxDistance - minDistance));
+                // Calcular la transparencia en función de la distancia
+                float alpha = Mathf.Clamp01((maxDistance - distance) / (maxDistance - minDistance));
 
-            SetSpriteAlpha(alpha);
+                // Ajustar la transparencia del sprite
+                SetSpriteAlpha(spriteObject.GetComponent<SpriteRenderer>(), alpha);
+            }
         }
     }
 
@@ -41,14 +55,20 @@ public class ShowHideSprite : MonoBehaviour
         if (other.gameObject == player)
         {
             isPlayerInRange = false;
-            SetSpriteAlpha(0);
+            foreach (SpriteRenderer renderer in spriteRenderers)
+            {
+                SetSpriteAlpha(renderer, 0);
+            }
         }
     }
 
-    void SetSpriteAlpha(float alpha)
+    void SetSpriteAlpha(SpriteRenderer spriteRenderer, float alpha)
     {
-        Color color = spriteRenderer.color;
-        color.a = alpha;
-        spriteRenderer.color = color;
+        if (spriteRenderer != null)
+        {
+            Color color = spriteRenderer.color;
+            color.a = alpha;
+            spriteRenderer.color = color;
+        }
     }
 }
