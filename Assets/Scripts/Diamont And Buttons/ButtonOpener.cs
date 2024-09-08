@@ -174,6 +174,7 @@ public class ButtonOpener : MonoBehaviour
     private void ActivateButton()
     {
         rend.material = activeMaterial;
+        audioM.PlaySfx(5);
         StartCoroutine(ValveSequence());
     }
 
