@@ -27,7 +27,8 @@ public class LaserRay : MonoBehaviour
     private float currentLineLength = 0f;
     private bool isAnimating = false;
     private bool hasHit = false;
-    private bool hitPrefabInstantiated = false; // New flag to check if hitPrefab has been instantiated
+    private bool hitPrefabInstantiated = false;
+    private bool animationCompleted = false;
 
     private void Awake()
     {
@@ -38,7 +39,6 @@ public class LaserRay : MonoBehaviour
             instantiatedStartPrefab = Instantiate(startPrefab, transform.position, Quaternion.identity);
         }
 
-        // Perform an initial raycast to draw the LineRenderer immediately
         PerformRaycast(forceUpdate: true);
     }
 
@@ -74,21 +74,25 @@ public class LaserRay : MonoBehaviour
 
         if (Physics.Raycast(ray, out rayHit, laserDistance, ~ignoreMask))
         {
-            if (!hasHit)
+            if (!hasHit && !animationCompleted)
             {
-                // Start animation only if it hasn't hit before
+                // Animar solo la primera vez
                 currentLineLength = 0f;
                 isAnimating = true;
                 hasHit = true;
-                hitPrefabInstantiated = false; // Reset hitPrefabInstantiated flag
+                hitPrefabInstantiated = false;
+            }
+            else if (animationCompleted)
+            {
+                // Si la animación ya se completó, actualizar instantáneamente
+                currentLineLength = Vector3.Distance(transform.position, rayHit.point);
+                lineRenderer.SetPosition(0, transform.position);
+                lineRenderer.SetPosition(1, rayHit.point);
             }
 
-            lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, transform.position + transform.forward * currentLineLength);
-
-            if (!hitPrefabInstantiated && !isAnimating)
+            if (!hitPrefabInstantiated && !isAnimating && animationCompleted)
             {
-                // Instantiate hitPrefab when the animation is done
+                // Instanciar hitPrefab una vez que la animación haya terminado
                 if (hitPrefab != null)
                 {
                     Quaternion rotation = Quaternion.Euler(0, 180, 0);
@@ -132,10 +136,10 @@ public class LaserRay : MonoBehaviour
             {
                 currentLineLength = laserDistance;
                 isAnimating = false;
-                hitPrefabInstantiated = false; // Reset flag to allow hitPrefab instantiation
             }
             else
             {
+                // Si no hay hit, actualizar instantáneamente
                 lineRenderer.SetPosition(0, transform.position);
                 lineRenderer.SetPosition(1, transform.position + transform.forward * laserDistance);
             }
@@ -158,8 +162,9 @@ public class LaserRay : MonoBehaviour
             if (currentLineLength >= Vector3.Distance(transform.position, rayHit.point))
             {
                 currentLineLength = Vector3.Distance(transform.position, rayHit.point);
-                isAnimating = false; // Stop animation when the full length is reached
-                hitPrefabInstantiated = false; // Allow hitPrefab to be instantiated after animation
+                isAnimating = false;
+                animationCompleted = true; // Marcar la animación como completada
+                hitPrefabInstantiated = false; // Permitir la instanciación del hitPrefab después de la animación
             }
 
             lineRenderer.SetPosition(1, transform.position + transform.forward * currentLineLength);
