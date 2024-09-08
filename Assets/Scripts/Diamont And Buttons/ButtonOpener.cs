@@ -124,7 +124,7 @@ public class ButtonOpener : MonoBehaviour
     [SerializeField] private int valveTurns = 5; // Cantidad de vueltas que debe dar la válvula
     [SerializeField] private float particleDuration = 2.0f; // Duración de las partículas
 
-    private AudioManager audioM;
+    public AudioManager audioM;
     private Material originalMaterial;
     private Renderer rend;
     private bool playerNearby;
@@ -185,9 +185,11 @@ public class ButtonOpener : MonoBehaviour
         // Reproducir partículas
         particles.Play();
         particlesOfSmoke2.Play();
+        audioM.PlaySfx(10);
         yield return new WaitForSeconds(particleDuration);
         particlesOfSmoke2.Stop();
         particles.Stop();
+        audioM.StopSFX(10);
 
         // Rotar la puerta
         RotateFirstObject();
@@ -195,9 +197,11 @@ public class ButtonOpener : MonoBehaviour
 
     private IEnumerator RotateValve(GameObject obj, float duration, float speed, int turns)
     {
+        audioM.SkipTimeOfSFX(9, 3f);
         float elapsedTime = 0f;
         float totalRotation = turns * 360f; // Total de rotación (5 vueltas completas)
         float currentRotation = 50f;
+        audioM.PlaySfx(9);
 
         while (elapsedTime < duration)
         {
@@ -205,10 +209,12 @@ public class ButtonOpener : MonoBehaviour
             float rotationStep = Mathf.Lerp(speed, 0.0f, elapsedTime / duration) * Time.deltaTime;
             currentRotation += rotationStep;
             obj.transform.Rotate(Vector3.left * rotationStep); // Rotar en el eje X negativo
-
             // Evitar que la rotación supere el número total de vueltas
             if (currentRotation >= totalRotation)
+            {
+                //audioM.StopSFX(9);
                 break;
+            }
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -217,12 +223,14 @@ public class ButtonOpener : MonoBehaviour
 
     private void RotateFirstObject()
     {
+        audioM.StopSFX(9);
         if (objectsToDestroy != null && objectsToDestroy.Count > 0)
         {
             GameObject firstObject = objectsToDestroy[0];
             if (firstObject != null)
             {
                 StartCoroutine(RotateObject(firstObject, Vector3.up * 90, rotationDuration));
+                audioM.PlaySfx(11);
             }
         }
     }

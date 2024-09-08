@@ -71,6 +71,10 @@ public class AudioManager : MonoBehaviour
             musicSource.FirstOrDefault()?.PlayOneShot(firstMusicClip);
         }
     }
+    public void SkipTimeOfSFX(int index, float time)
+    {
+        sfxSource[index].time=time;
+    }
 
     public void MusicVolume(float volume)
     {
