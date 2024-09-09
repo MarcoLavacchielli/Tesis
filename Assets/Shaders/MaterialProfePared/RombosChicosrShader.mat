@@ -116,8 +116,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _ColorHalf: {r: 1024, g: 1024, b: 1024, a: 1}
-    - _ColorLuz: {r: 0.7830189, g: 0.77193844, b: 0.77193844, a: 0}
-    - _ColorSombra: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 0}
+    - _ColorLuz: {r: 0.764151, g: 0.764151, b: 0.764151, a: 0}
+    - _ColorSombra: {r: 0.4221698, g: 0.4919486, b: 0.5, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
