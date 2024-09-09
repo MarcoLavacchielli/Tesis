@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TriggerByCollision : MonoBehaviour
 {
-    #region Funcionalidad
+    #region Piso
 
     // Referencias públicas a los objetos pisoDerecho y pisoIzquierdo
     public GameObject pisoDerecho;
@@ -13,8 +13,11 @@ public class TriggerByCollision : MonoBehaviour
     // Desplazamiento para el movimiento en el eje Z
     public float desplazamiento = 5.0f;
 
-    // Tiempo que durará la animación
-    public float duracionAnimacion = 1.0f;
+    // Tiempo que durará la animación de los pisos
+    public float duracionAnimacionPiso = 1.0f;
+
+    // Tiempo que durará la animación de las plataformas
+    public float duracionAnimacionPlataforma = 1.5f;
 
     // Booleano para controlar que la animación se ejecute solo una vez
     private bool animacionEjecutada = false;
@@ -29,10 +32,8 @@ public class TriggerByCollision : MonoBehaviour
         // Comprobar si el objeto que colisiona tiene la capa "Player" y que la animación no se haya ejecutado antes
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !animacionEjecutada)
         {
-            // Iniciar la animación de movimiento de ambos objetos
+            // Ejecutar ambas animaciones al mismo tiempo
             StartCoroutine(MoverPisosAnimadamente());
-
-            // Mover plataformas a nuevas posiciones
             StartCoroutine(MoverPlataformasAnimadamente());
 
             // Marcar la animación como ejecutada para que no se repita
@@ -51,11 +52,11 @@ public class TriggerByCollision : MonoBehaviour
 
         float tiempoTranscurrido = 0f;
 
-        while (tiempoTranscurrido < duracionAnimacion)
+        while (tiempoTranscurrido < duracionAnimacionPiso)
         {
             // Calcular la interpolación lineal (lerp) entre la posición inicial y final
-            pisoDerecho.transform.position = Vector3.Lerp(posicionInicialDerecho, posicionFinalDerecho, tiempoTranscurrido / duracionAnimacion);
-            pisoIzquierdo.transform.position = Vector3.Lerp(posicionInicialIzquierdo, posicionFinalIzquierdo, tiempoTranscurrido / duracionAnimacion);
+            pisoDerecho.transform.position = Vector3.Lerp(posicionInicialDerecho, posicionFinalDerecho, tiempoTranscurrido / duracionAnimacionPiso);
+            pisoIzquierdo.transform.position = Vector3.Lerp(posicionInicialIzquierdo, posicionFinalIzquierdo, tiempoTranscurrido / duracionAnimacionPiso);
 
             tiempoTranscurrido += Time.deltaTime;
 
@@ -89,10 +90,10 @@ public class TriggerByCollision : MonoBehaviour
 
                 float tiempoTranscurrido = 0f;
 
-                while (tiempoTranscurrido < duracionAnimacion)
+                while (tiempoTranscurrido < duracionAnimacionPlataforma)
                 {
                     // Mover la plataforma hacia su nueva posición de forma suave
-                    plataforma.transform.position = Vector3.Lerp(posicionInicial, posicionFinal, tiempoTranscurrido / duracionAnimacion);
+                    plataforma.transform.position = Vector3.Lerp(posicionInicial, posicionFinal, tiempoTranscurrido / duracionAnimacionPlataforma);
 
                     tiempoTranscurrido += Time.deltaTime;
                     yield return null; // Esperar un frame antes de continuar
