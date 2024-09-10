@@ -24,9 +24,9 @@ public class CameraTransitionsEvents : MonoBehaviour
 
     private IEnumerator MultipleLaserAnimation(GameObject pieza, GameObject pieza2)
     {
-        /*// Animación de la tapa bajando -20 en Y y luego -20 en Z
-        Vector3 destinoTapa1 = Tapa.transform.position + new Vector3(0, -20f, 0);
-        Vector3 destinoTapa2 = destinoTapa1 + new Vector3(0, 0, -20f);
+        // Animación de la tapa bajando -20 en Y y luego -20 en Z
+        Vector3 destinoTapa1 = Tapa.transform.position + new Vector3(0, -1f, 0);
+        Vector3 destinoTapa2 = destinoTapa1 + new Vector3(0, 0, -5f);
 
         while (Vector3.Distance(Tapa.transform.position, destinoTapa1) > 0.01f)
         {
@@ -39,7 +39,7 @@ public class CameraTransitionsEvents : MonoBehaviour
             Tapa.transform.position = Vector3.MoveTowards(Tapa.transform.position, destinoTapa2, velocidadTapa * Time.deltaTime);
             yield return null;
         }
-        */
+        
 
         Vector3 destino = pieza.transform.position + new Vector3(0, 3f, 0);
         Vector3 destino2 = pieza2.transform.position + new Vector3(0, 3f, 0);
@@ -60,7 +60,7 @@ public class CameraTransitionsEvents : MonoBehaviour
         NewTraps[23].gameObject.SetActive(true);
         NewTraps[24].gameObject.SetActive(true);
         pieza.transform.position = destino;
-        pieza2.transform.position = destino;
+        pieza2.transform.position = destino2;
         CurrentTrap = 25;
     }
     public void TransitionFunction()
