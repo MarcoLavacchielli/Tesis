@@ -6,7 +6,7 @@ public class CameraTransitionsEvents : MonoBehaviour
 {
     public GameObject[] NewTraps;  // Array de NewTraps que la cámara seguirá
 
-    private int CurrentTrap = 0;
+    public int CurrentTrap = 0;
 
     public bool TransitionOn;
 
@@ -19,34 +19,65 @@ public class CameraTransitionsEvents : MonoBehaviour
     public Camera mainCamera;
     public Camera transitionCamera;
 
-    private IEnumerator MultipleLaserAnimation(GameObject pieza)
+    public GameObject Tapa; // La tapa a animar
+    public float velocidadTapa = 10f; // Velocidad ajustable de la tapa
+
+    private IEnumerator MultipleLaserAnimation(GameObject pieza, GameObject pieza2)
     {
-        Vector3 destino = pieza.transform.position + new Vector3(0, 1.9f, 0);
+        /*// Animación de la tapa bajando -20 en Y y luego -20 en Z
+        Vector3 destinoTapa1 = Tapa.transform.position + new Vector3(0, -20f, 0);
+        Vector3 destinoTapa2 = destinoTapa1 + new Vector3(0, 0, -20f);
+
+        while (Vector3.Distance(Tapa.transform.position, destinoTapa1) > 0.01f)
+        {
+            Tapa.transform.position = Vector3.MoveTowards(Tapa.transform.position, destinoTapa1, velocidadTapa * Time.deltaTime);
+            yield return null;
+        }
+
+        while (Vector3.Distance(Tapa.transform.position, destinoTapa2) > 0.01f)
+        {
+            Tapa.transform.position = Vector3.MoveTowards(Tapa.transform.position, destinoTapa2, velocidadTapa * Time.deltaTime);
+            yield return null;
+        }
+        */
+
+        Vector3 destino = pieza.transform.position + new Vector3(0, 3f, 0);
+        Vector3 destino2 = pieza2.transform.position + new Vector3(0, 3f, 0);
 
         float duracion = 1.5f; // Duración de la animación
         float velocidad = 7f / duracion; // Velocidad constante
 
-        while (Vector3.Distance(pieza.transform.position, destino) > 0.01f)
+        while (Vector3.Distance(pieza.transform.position, destino) > 0.01f&& Vector3.Distance(pieza2.transform.position, destino2) > 0.01f)
         {
             pieza.transform.position = Vector3.MoveTowards(pieza.transform.position, destino, velocidad * Time.deltaTime);
+            pieza2.transform.position = Vector3.MoveTowards(pieza2.transform.position, destino2, velocidad * Time.deltaTime);
             yield return null;
 
         }
 
-        NewTraps[5].gameObject.SetActive(true);
-        NewTraps[6].gameObject.SetActive(true);
-        NewTraps[7].gameObject.SetActive(true);
-        NewTraps[8].gameObject.SetActive(true);
+        NewTraps[21].gameObject.SetActive(true);
+        NewTraps[22].gameObject.SetActive(true);
+        NewTraps[23].gameObject.SetActive(true);
+        NewTraps[24].gameObject.SetActive(true);
         pieza.transform.position = destino;
-        CurrentTrap = 9;
+        pieza2.transform.position = destino;
+        CurrentTrap = 25;
     }
     public void TransitionFunction()
     {
-        if (CurrentTrap == 4)
+        if (CurrentTrap == 18)
         {
-            StartCoroutine(MultipleLaserAnimation(NewTraps[CurrentTrap]));
+            StartCoroutine(MultipleLaserAnimation(NewTraps[20], NewTraps[19]));
             Debug.Log("animacion");
 
+        }
+        else if (CurrentTrap==8)
+        {
+            for (int i = 8;i <= 17; i++)
+            {
+                NewTraps[CurrentTrap].gameObject.SetActive(true);
+                CurrentTrap++;
+            }
         }
         else
         {
