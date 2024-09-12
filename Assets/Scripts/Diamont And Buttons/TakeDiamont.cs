@@ -7,6 +7,8 @@ public class TakeDiamont : MonoBehaviour
     public float pickupRange = 2.0f;
     public Transform player;
 
+    public bool diamondTake = false;
+
     [SerializeField] private List<Light> lights;
 
     public AudioManager audioM;
@@ -31,6 +33,7 @@ public class TakeDiamont : MonoBehaviour
             light.color = Color.red;
         }
         changeMusic();
+        diamondTake = true;
         camTransition.callCinematic();
     }
     void changeMusic()
