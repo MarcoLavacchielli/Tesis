@@ -7,6 +7,7 @@ public class LaserRay : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float laserDistance = 8f;
     [SerializeField] private LayerMask ignoreMask;
+    [SerializeField] private LayerMask targetLayerMask; // Máscara de capa para el target
     [SerializeField] private UnityEvent OnHitTarget;
     [SerializeField] private GameObject startPrefab;
     [SerializeField] private GameObject hitPrefab;
@@ -74,6 +75,8 @@ public class LaserRay : MonoBehaviour
 
         if (Physics.Raycast(ray, out rayHit, laserDistance, ~ignoreMask))
         {
+            Debug.DrawRay(transform.position, transform.forward * laserDistance, Color.red); // Para depuración
+
             if (!hasHit && !animationCompleted)
             {
                 // Animar solo la primera vez
@@ -126,7 +129,7 @@ public class LaserRay : MonoBehaviour
 
             if (!forceUpdate && rayHit.collider.TryGetComponent(out Target target))
             {
-                target.Hit();
+                target.Hit(); // Llama al método Hit del target
                 OnHitTarget?.Invoke();
             }
         }
