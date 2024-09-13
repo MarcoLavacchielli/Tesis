@@ -27,8 +27,7 @@ public class TakeDiamont : MonoBehaviour
 
     void PickUp()
     {
-        //Destroy(gameObject);
-        gameObject.SetActive(false);
+        Destroy(gameObject);
         foreach (var light in lights)
         {
             light.color = Color.red;
