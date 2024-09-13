@@ -18,6 +18,9 @@ public class CameraTransition : MonoBehaviour
     public MoveCamera moveCameraScript;
     public Camera mainCamera;
     public Camera transitionCamera;
+
+    public GameObject[] ThingsToDesactivate;
+
     void Start()
     {
         // Asegúrate de que la animación no se reproduzca al inicio
@@ -43,6 +46,12 @@ public class CameraTransition : MonoBehaviour
 
         Player.gameObject.SetActive(false);
         CanvasHud.gameObject.SetActive(false);
+
+        foreach (GameObject obj in ThingsToDesactivate)
+        {
+            obj.SetActive(false);
+        }
+
         moveCameraScript.enabled = false;
         //transform.position = new Vector3(197, 14, -137);
         //transform.rotation = new Quaternion(0f,0f,0f);
@@ -60,6 +69,12 @@ public class CameraTransition : MonoBehaviour
     {
         Player.gameObject.SetActive(false);
         CanvasHud.gameObject.SetActive(false);
+
+        foreach(GameObject obj in ThingsToDesactivate)
+        {
+            obj.SetActive(false);
+        }
+
         moveCameraScript.enabled = false;
         transform.position = new Vector3(197, 14, -137);
         //transform.rotation = new Quaternion(0f,0f,0f);

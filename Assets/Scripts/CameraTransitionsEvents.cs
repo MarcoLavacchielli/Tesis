@@ -15,6 +15,7 @@ public class CameraTransitionsEvents : MonoBehaviour
     public GameObject Player;
     public GameObject CanvasHud;
     public GameObject CollisionTrigger;
+    public GameObject EndLevel;
     public MoveCamera moveCameraScript;
     public Camera mainCamera;
     public Camera transitionCamera;
@@ -98,6 +99,7 @@ public class CameraTransitionsEvents : MonoBehaviour
         Player.gameObject.SetActive(true);
         CanvasHud.gameObject.SetActive(false);
         CollisionTrigger.SetActive(true);
+        EndLevel.SetActive(true);
         mainCamera.enabled = true;
 
 
