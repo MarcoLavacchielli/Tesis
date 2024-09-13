@@ -8,14 +8,14 @@ public class Spike : Trap
     public int damageAmount;
     public Vector3 checkPoint;
 
-    private TakeDiamont diamond;
+    [SerializeField] private TakeDiamont diamond;
     private PlayerMovementGrappling player;
     private Rigidbody playerRb;
 
-    private void Awake()
+    /*private void Awake()
     {
         diamond = GetComponent<TakeDiamont>(); // Asumiendo que el diamante está en el mismo objeto que la trampa
-    }
+    }*/
 
     private void OnCollisionEnter(Collision other)
     {
@@ -34,7 +34,7 @@ public class Spike : Trap
         Debug.Log("Spike trap activated!");
 
         // Si el diamante no ha sido tomado, reinicia la escena
-        if (diamond != null && diamond.diamondTake == false)
+        if (diamond.diamondTake == false)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
