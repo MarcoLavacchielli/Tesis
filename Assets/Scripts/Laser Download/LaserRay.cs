@@ -7,6 +7,7 @@ public class LaserRay : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float laserDistance = 8f;
     [SerializeField] private LayerMask ignoreMask;
+    [SerializeField] private LayerMask targetLayerMask; // Máscara de capa para el target
     [SerializeField] private UnityEvent OnHitTarget;
     [SerializeField] private GameObject startPrefab;
     [SerializeField] private GameObject hitPrefab;
@@ -30,6 +31,11 @@ public class LaserRay : MonoBehaviour
     private bool hitPrefabInstantiated = false;
     private bool animationCompleted = false;
 
+    [SerializeField] private Vector3 checkPoint;
+    [SerializeField] private PlayerMovementGrappling player;
+    [SerializeField] private Rigidbody playerRb;
+    [SerializeField] private TakeDiamont diamond;
+
     private void Awake()
     {
         lineRenderer.positionCount = 2;
@@ -40,6 +46,7 @@ public class LaserRay : MonoBehaviour
         }
 
         PerformRaycast(forceUpdate: true);
+
     }
 
     private void Update()
@@ -74,6 +81,8 @@ public class LaserRay : MonoBehaviour
 
         if (Physics.Raycast(ray, out rayHit, laserDistance, ~ignoreMask))
         {
+            Debug.DrawRay(transform.position, transform.forward * laserDistance, Color.red); // Para depuración
+
             if (!hasHit && !animationCompleted)
             {
                 // Animar solo la primera vez
@@ -124,9 +133,14 @@ public class LaserRay : MonoBehaviour
 
             lastHitObject = rayHit.collider.gameObject;
 
+            if (rayHit.collider.CompareTag("Player"))
+            {
+                OnHitPlayer();
+            }
+
             if (!forceUpdate && rayHit.collider.TryGetComponent(out Target target))
             {
-                target.Hit();
+                target.Hit(); // Llama al método Hit del target
                 OnHitTarget?.Invoke();
             }
         }
@@ -220,4 +234,23 @@ public class LaserRay : MonoBehaviour
             Gizmos.DrawWireSphere(rayHit.point, 0.23f);
         }
     }
+
+    private void OnHitPlayer()
+    {
+
+        if (diamond.diamondTake == true)
+        {
+            if (playerRb != null)
+            {
+                playerRb.velocity = Vector3.zero;  // Detener el movimiento del jugador
+                playerRb.angularVelocity = Vector3.zero;  // Detener la rotación del jugador
+
+                // Teletransportar al checkpoint
+                player.transform.position = checkPoint;
+
+                Debug.Log("Jugador teletransportado a la posición del checkpoint: " + checkPoint);
+            }
+        }
+    }
+
 }
