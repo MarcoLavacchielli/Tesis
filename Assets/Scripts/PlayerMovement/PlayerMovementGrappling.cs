@@ -17,6 +17,7 @@ public class PlayerMovementGrappling : MonoBehaviour
 
     [Header("Jumping")]
     public float jumpForce;
+    public float coyoteJumpForce;  // Fuerza del salto durante el Coyote Time
     public float jumpCooldown;
     public float airMultiplier;
     private bool readyToJump;
@@ -49,6 +50,7 @@ public class PlayerMovementGrappling : MonoBehaviour
     public float coyoteTimeDuration = 0.5f;
     private float coyoteTimeCounter;
     [SerializeField] private bool hasJumped;
+    private bool isCoyoteJump;  // Nueva variable para detectar si es un salto coyote
 
     public Transform orientation;
 
@@ -142,7 +144,11 @@ public class PlayerMovementGrappling : MonoBehaviour
         {
             readyToJump = false;
             hasJumped = true;
-            Jump();
+
+            // Verificar si es un salto coyote
+            isCoyoteJump = !grounded && coyoteTimeCounter > 0;
+
+            Jump();  // Llama al método Jump()
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
@@ -248,8 +254,18 @@ public class PlayerMovementGrappling : MonoBehaviour
     {
         exitingSlope = true;
 
+        // Reiniciar la velocidad vertical para evitar acumulación de velocidad
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+
+        // Usar una fuerza diferente dependiendo de si es un salto coyote o un salto normal
+        if (isCoyoteJump)
+        {
+            rb.AddForce(transform.up * coyoteJumpForce, ForceMode.Impulse);  // Usar la fuerza del coyote
+        }
+        else
+        {
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);  // Usar la fuerza normal
+        }
 
         audioM.PlaySfx(3);
     }
@@ -258,6 +274,7 @@ public class PlayerMovementGrappling : MonoBehaviour
     {
         readyToJump = true;
         exitingSlope = false;
+        isCoyoteJump = false;  // Resetear la variable
     }
 
     private bool enableMovementOnNextTouch;
@@ -320,8 +337,7 @@ public class PlayerMovementGrappling : MonoBehaviour
         Vector3 displacementXZ = new Vector3(endPoint.x - startPoint.x, 0f, endPoint.z - startPoint.z);
 
         Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * trajectoryHeight);
-        Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajectoryHeight / gravity) +
-                                                Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
+        Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajectoryHeight / gravity) + Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
 
         return velocityXZ + velocityY;
     }
