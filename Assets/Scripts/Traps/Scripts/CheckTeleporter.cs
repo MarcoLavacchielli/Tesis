@@ -4,25 +4,42 @@ using UnityEngine;
 
 public class CheckTeleporter : MonoBehaviour
 {
-
     [SerializeField] private Vector3 checkPoint;
-    private PlayerMovementGrappling player;
-    private Rigidbody playerRb;
+    [SerializeField] private PlayerMovementGrappling player;
+    [SerializeField] private Rigidbody playerRb;
 
     public void Activate()
     {
         Debug.Log("Spike trap activated!");
 
-        // Si el diamante ha sido tomado, teletransportamos al jugador al checkpoint
+        // Ensure we have the player's Rigidbody
         if (playerRb != null)
         {
-            playerRb.velocity = Vector3.zero;  // Detener el movimiento del jugador
-            playerRb.angularVelocity = Vector3.zero;  // Detener la rotación del jugador
+            // Make the Rigidbody kinematic to prevent further movement
+            playerRb.isKinematic = true;
 
-            // Teletransportar al checkpoint
+            // Immediately set the player's position to the checkpoint
             player.transform.position = checkPoint;
 
-            Debug.Log("Jugador teletransportado a la posición del checkpoint: " + checkPoint);
+            Debug.Log("Player teleported to the checkpoint: " + checkPoint);
+
+            // Restore the Rigidbody to non-kinematic after the teleportation
+            StartCoroutine(ResetRigidbody());
         }
+    }
+
+    private IEnumerator ResetRigidbody()
+    {
+        // Optionally, wait a frame to ensure the teleportation happens
+        yield return null;
+
+        // Restore Rigidbody to normal (non-kinematic) behavior
+        playerRb.isKinematic = false;
+
+        // Ensure the player's velocity is zero after the teleport
+        playerRb.velocity = Vector3.zero;
+        playerRb.angularVelocity = Vector3.zero;
+
+        Debug.Log("Player movement re-enabled after teleportation.");
     }
 }

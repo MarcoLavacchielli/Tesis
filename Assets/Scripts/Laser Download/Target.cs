@@ -5,6 +5,7 @@ using System.Collections;
 public class Target : MonoBehaviour
 {
     public TakeDiamont diamond;
+    public CheckTeleporter check;
     [SerializeField] private Vector3 checkPoint;
     private Rigidbody rb;
 
@@ -26,6 +27,7 @@ public class Target : MonoBehaviour
         }
         else
         {
+            check.Activate();
             /*// Detener cualquier movimiento y desactivar física si tiene un Rigidbody
             if (rb != null)
             {
@@ -45,14 +47,14 @@ public class Target : MonoBehaviour
 
             Debug.Log("Teletransportado a la posición del checkpoint: " + checkPoint);
         }*/
+        }
+
+        /*private IEnumerator TeleportToCheckpoint(Vector3 targetPosition)
+        {
+            // Opcional: Agregar una pequeña demora o efectos si es necesario
+            yield return null;  // Esperar un frame para asegurar que la física esté desactivada
+
+            // Teletransportar al jugador
+            transform.position = targetPosition;*/
     }
-
-    /*private IEnumerator TeleportToCheckpoint(Vector3 targetPosition)
-    {
-        // Opcional: Agregar una pequeña demora o efectos si es necesario
-        yield return null;  // Esperar un frame para asegurar que la física esté desactivada
-
-        // Teletransportar al jugador
-        transform.position = targetPosition;
-    }*/
 }

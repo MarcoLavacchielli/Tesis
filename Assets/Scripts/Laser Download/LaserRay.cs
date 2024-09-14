@@ -135,7 +135,7 @@ public class LaserRay : MonoBehaviour
 
             if (rayHit.collider.CompareTag("Player"))
             {
-                OnHitPlayer();
+                //OnHitPlayer();
             }
 
             if (!forceUpdate && rayHit.collider.TryGetComponent(out Target target))
@@ -235,9 +235,8 @@ public class LaserRay : MonoBehaviour
         }
     }
 
-    private void OnHitPlayer()
+    /*private void OnHitPlayer()
     {
-
         if (diamond.diamondTake == true)
         {
             if (playerRb != null)
@@ -251,6 +250,6 @@ public class LaserRay : MonoBehaviour
                 Debug.Log("Jugador teletransportado a la posición del checkpoint: " + checkPoint);
             }
         }
-    }
+    }*/
 
 }
