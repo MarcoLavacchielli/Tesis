@@ -41949,6 +41949,7 @@ GameObject:
   - component: {fileID: 703186364}
   - component: {fileID: 703186365}
   - component: {fileID: 703186366}
+  - component: {fileID: 703186367}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -42021,6 +42022,21 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &703186367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703186363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d310202fd69e14b908d1e881bd6366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkPoint: {x: 0, y: 0, z: 0}
+  player: {fileID: 2341136587598057809}
+  playerRb: {fileID: 1259233311052835270}
 --- !u!1001 &703204514
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114580,7 +114596,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diamond: {fileID: 214681541}
-  checkPoint: {x: -4, y: 4, z: 21}
+  check: {fileID: 703186367}
+  checkPoint: {x: 0, y: 0, z: 0}
 --- !u!33 &8293419940932855728
 MeshFilter:
   m_ObjectHideFlags: 0
