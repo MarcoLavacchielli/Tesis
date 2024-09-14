@@ -26,7 +26,7 @@ public class Target : MonoBehaviour
         }
         else
         {
-            // Detener cualquier movimiento y desactivar física si tiene un Rigidbody
+            /*// Detener cualquier movimiento y desactivar física si tiene un Rigidbody
             if (rb != null)
             {
                 rb.velocity = Vector3.zero;  // Detener movimiento
@@ -44,15 +44,15 @@ public class Target : MonoBehaviour
             }
 
             Debug.Log("Teletransportado a la posición del checkpoint: " + checkPoint);
-        }
+        }*/
     }
 
-    private IEnumerator TeleportToCheckpoint(Vector3 targetPosition)
+    /*private IEnumerator TeleportToCheckpoint(Vector3 targetPosition)
     {
         // Opcional: Agregar una pequeña demora o efectos si es necesario
         yield return null;  // Esperar un frame para asegurar que la física esté desactivada
 
         // Teletransportar al jugador
         transform.position = targetPosition;
-    }
+    }*/
 }
