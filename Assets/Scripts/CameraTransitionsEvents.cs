@@ -5,9 +5,10 @@ using UnityEngine;
 public class CameraTransitionsEvents : MonoBehaviour
 {
     public GameObject[] NewTraps;  // Array de NewTraps que la cámara seguirá
-
+    public GameObject[] BrandNewTraps;
+    public GameObject[] PackOfTraps;
     public int CurrentTrap = 0;
-
+    public int CurrentBrandNewTrap = 0;
     public bool TransitionOn;
 
     public Animator Transitionanimator;  // Asigna esto desde el Inspector
@@ -22,6 +23,7 @@ public class CameraTransitionsEvents : MonoBehaviour
 
     public GameObject Tapa; // La tapa a animar
     public float velocidadTapa = 10f; // Velocidad ajustable de la tapa
+
 
     private IEnumerator MultipleLaserAnimation(GameObject pieza, GameObject pieza2)
     {
@@ -64,6 +66,21 @@ public class CameraTransitionsEvents : MonoBehaviour
         pieza2.transform.position = destino2;
         CurrentTrap = 25;
     }
+
+    public void SecondTransition()
+    {
+        BrandNewTraps[CurrentBrandNewTrap].gameObject.SetActive(true);
+        CurrentBrandNewTrap++;
+    }
+    public void TurnOnLasersPack()
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            PackOfTraps[i].gameObject.SetActive(true);
+            
+        }
+    }
+
     public void TransitionFunction()
     {
         if (CurrentTrap == 18)
