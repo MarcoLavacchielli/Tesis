@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 2830430888604476889}
   - component: {fileID: 169170853298188563}
   - component: {fileID: 3248178510388988042}
-  - component: {fileID: 1522863807917153863}
   m_Layer: 3
   m_Name: Borde
   m_TagString: Untagged
@@ -167,27 +166,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1522863807917153863
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 921163441292106478}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 120, y: 25.176773, z: 50}
-  m_Center: {x: 0, y: -0.0000038146973, z: 0}
 --- !u!1 &1076062470557603744
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,7 +177,6 @@ GameObject:
   - component: {fileID: 3634045425074008798}
   - component: {fileID: 7951049417113560186}
   - component: {fileID: 7971376881597505729}
-  - component: {fileID: 8515010795497848597}
   m_Layer: 3
   m_Name: Borde
   m_TagString: Untagged
@@ -272,27 +249,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8515010795497848597
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076062470557603744}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 120, y: 50, z: 25.176777}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1899679011598517876
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,7 +792,6 @@ GameObject:
   - component: {fileID: 6215711421257471407}
   - component: {fileID: 1823668108664989351}
   - component: {fileID: 416099320452043628}
-  - component: {fileID: 4006961070859581466}
   m_Layer: 3
   m_Name: Borde_Medio_Medio
   m_TagString: Untagged
@@ -909,27 +864,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4006961070859581466
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5067539643614305899}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 120, y: 49.646446, z: 49.646446}
-  m_Center: {x: 0, y: 0.0000019073486, z: 0}
 --- !u!1 &5380480994039517032
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,7 +875,6 @@ GameObject:
   - component: {fileID: 6400614042508469117}
   - component: {fileID: 1711851217082523401}
   - component: {fileID: 7252263145413196429}
-  - component: {fileID: 3308334426646396406}
   m_Layer: 3
   m_Name: Borde
   m_TagString: Untagged
@@ -1014,27 +947,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3308334426646396406
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5380480994039517032}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 120, y: 25.176773, z: 25.176777}
-  m_Center: {x: 0, y: -0.0000038146973, z: 0}
 --- !u!1 &5504438239718928978
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,7 +958,6 @@ GameObject:
   - component: {fileID: 2914931572964209841}
   - component: {fileID: 8309579428489477746}
   - component: {fileID: 9161789456186648900}
-  - component: {fileID: 272137352488293489}
   m_Layer: 3
   m_Name: Borde
   m_TagString: Untagged
@@ -1119,27 +1030,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &272137352488293489
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5504438239718928978}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 120, y: 25.176773, z: 25.176777}
-  m_Center: {x: 0, y: -0.0000038146973, z: 0}
 --- !u!1 &5714426837163382501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,6 +1189,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4517881333942688386}
+  - component: {fileID: 7013716622391352761}
   m_Layer: 3
   m_Name: ParedLedNOOPCIONES
   m_TagString: Untagged
@@ -1324,6 +1215,27 @@ Transform:
   - {fileID: 725719308333419245}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
+--- !u!65 &7013716622391352761
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5892522727823049300}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 120, y: 101, z: 101}
+  m_Center: {x: -13, y: 0, z: 0}
 --- !u!1 &6067261063417772337
 GameObject:
   m_ObjectHideFlags: 0
@@ -1335,7 +1247,6 @@ GameObject:
   - component: {fileID: 8709689829627246105}
   - component: {fileID: 2059692891018576544}
   - component: {fileID: 4177153991926856303}
-  - component: {fileID: 2920163432892310801}
   m_Layer: 3
   m_Name: Borde
   m_TagString: Untagged
@@ -1408,27 +1319,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2920163432892310801
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6067261063417772337}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 120, y: 25.17678, z: 25.176777}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6104865362528361297
 GameObject:
   m_ObjectHideFlags: 0
@@ -1440,7 +1330,6 @@ GameObject:
   - component: {fileID: 6935659992251569131}
   - component: {fileID: 3731921701262619614}
   - component: {fileID: 7119031818239184681}
-  - component: {fileID: 1221786445497597806}
   m_Layer: 3
   m_Name: Borde
   m_TagString: Untagged
@@ -1513,27 +1402,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1221786445497597806
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6104865362528361297}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 120, y: 25.17678, z: 25.176777}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6426134422252883188
 GameObject:
   m_ObjectHideFlags: 0
@@ -1744,7 +1612,6 @@ GameObject:
   - component: {fileID: 8027563054910663897}
   - component: {fileID: 5963291661002625677}
   - component: {fileID: 2497201511952939219}
-  - component: {fileID: 1594662647603755687}
   m_Layer: 3
   m_Name: Borde
   m_TagString: Untagged
@@ -1817,27 +1684,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1594662647603755687
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7928693720605557101}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 120, y: 50, z: 25.176777}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8071248098983332365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1849,7 +1695,6 @@ GameObject:
   - component: {fileID: 4190443468937523978}
   - component: {fileID: 4905649074264063743}
   - component: {fileID: 4743182425558813125}
-  - component: {fileID: 328284716622226428}
   m_Layer: 3
   m_Name: Borde
   m_TagString: Untagged
@@ -1922,27 +1767,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &328284716622226428
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8071248098983332365}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 120, y: 25.17678, z: 50}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8991833225912804504
 GameObject:
   m_ObjectHideFlags: 0
