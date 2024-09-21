@@ -1,11 +1,15 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Escape : MonoBehaviour
 {
     private bool isPlayerInTrigger = false;
 
-    public string sceneName;
+
+    public AsyncSceneCharge _asyncSceneChargeScript;
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,9 +31,10 @@ public class Escape : MonoBehaviour
     {
         if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E))
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            SceneManager.LoadScene(sceneName);
+            //Cursor.lockState = CursorLockMode.None;
+            //Cursor.visible = true;
+            _asyncSceneChargeScript.ChangeSceneThroughAsync();
+
         }
     }
 }
