@@ -7,6 +7,7 @@ public class Spike : Trap
 {
     public int damageAmount;
     public Vector3 checkPoint;
+    public Vector3 deathPoint;
 
     [SerializeField] private TakeDiamont diamond;
     private PlayerMovementGrappling player;
@@ -36,7 +37,19 @@ public class Spike : Trap
         // Si el diamante no ha sido tomado, reinicia la escena
         if (diamond.diamondTake == false)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+            // Si el diamante ha sido tomado, teletransportamos al jugador al checkpoint
+            if (playerRb != null)
+            {
+                playerRb.velocity = Vector3.zero;  // Detener el movimiento del jugador
+                playerRb.angularVelocity = Vector3.zero;  // Detener la rotación del jugador
+
+                // Teletransportar al checkpoint
+                player.transform.position = deathPoint;
+
+                Debug.Log("Jugador teletransportado a la posición del checkpoint: " + deathPoint);
+            }
         }
         else
         {

@@ -21,9 +21,10 @@ public class Target : MonoBehaviour
 
         if (diamond.diamondTake == false)
         {
-            // Reiniciar la escena actual si no se ha tomado el diamante
+            /*// Reiniciar la escena actual si no se ha tomado el diamante
             Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.name);
+            SceneManager.LoadScene(currentScene.name);*/
+            check.Death();
         }
         else
         {
