@@ -35,4 +35,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Nivel2.unity
     guid: 382fdefd846396d4c8a9dd6b554cf3d7
+  - enabled: 1
+    path: Assets/Scenes/Cinematicas/DiapoAsincronicaCarga.unity
+    guid: d39d0206e610ffa4eb4f844fa33e1ee1
+  - enabled: 1
+    path: Assets/Scenes/Cinematicas/DiapoAsincronicaCargaANivel1.unity
+    guid: 420ed71183d65414885a755c2f931a24
   m_configObjects: {}

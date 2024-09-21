@@ -8,8 +8,9 @@ public class Escape : MonoBehaviour
     private bool isPlayerInTrigger = false;
 
 
-    public AsyncSceneCharge _asyncSceneChargeScript;
+    
 
+    public string sceneName;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -31,9 +32,9 @@ public class Escape : MonoBehaviour
     {
         if (isPlayerInTrigger && Input.GetKeyDown(KeyCode.E))
         {
-            //Cursor.lockState = CursorLockMode.None;
-            //Cursor.visible = true;
-            _asyncSceneChargeScript.ChangeSceneThroughAsync();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            SceneManager.LoadScene(sceneName);
 
         }
     }
