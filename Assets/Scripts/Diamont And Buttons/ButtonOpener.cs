@@ -352,6 +352,8 @@ public class ButtonOpener : MonoBehaviour
         float elapsedTime = 0f;
         float currentDisolveValue = initialDisolveValue;
 
+        audioM.PlaySfx(12); // Puedes agregar un sonido si lo deseas
+
         // Animar el valor de _DisolveAmount de -1.5 a 1
         while (elapsedTime < disolveDuration)
         {
@@ -368,7 +370,6 @@ public class ButtonOpener : MonoBehaviour
         // Desactivar el collider del objeto
         objectCollider.enabled = false;
 
-        audioM.PlaySfx(12); // Puedes agregar un sonido si lo deseas
     }
 
 }
