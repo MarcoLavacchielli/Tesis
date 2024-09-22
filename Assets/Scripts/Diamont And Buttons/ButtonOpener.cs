@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ButtonOpener : MonoBehaviour
 {
+    #region viejo 1
     /*
     [SerializeField] private KeyCode activationKey = KeyCode.E;
     [SerializeField] private Material activeMaterial;
@@ -112,7 +113,10 @@ public class ButtonOpener : MonoBehaviour
             Debug.LogError("No objects assigned to destroy or list is empty!");
         }
     }*/
-    [SerializeField] private KeyCode activationKey = KeyCode.E;
+    #endregion
+
+    #region viejo 2
+    /*[SerializeField] private KeyCode activationKey = KeyCode.E;
     [SerializeField] private Material activeMaterial;
     [SerializeField] private List<GameObject> objectsToDestroy;
     [SerializeField] private float rotationDuration = 1.0f; // Duración de la animación de rotación
@@ -269,5 +273,102 @@ public class ButtonOpener : MonoBehaviour
         {
             Debug.LogError("No objects assigned to destroy or list is empty!");
         }
+    }*/
+    #endregion
+
+    [SerializeField] private KeyCode activationKey = KeyCode.E;
+    [SerializeField] private Material activeMaterial;
+    [SerializeField] private GameObject objectWithDisolveShader; // Referencia al objeto con el shader
+    [SerializeField] private float disolveDuration = 5.0f; // Duración de la animación del disolve
+    [SerializeField] private float initialDisolveValue = -1.5f; // Valor inicial del disolve
+    [SerializeField] private float targetDisolveValue = 1.0f; // Valor final del disolve
+
+    public AudioManager audioM;
+    private Material originalMaterial;
+    private Renderer rend;
+    private bool playerNearby;
+    private Collider objectCollider;
+
+    private void Start()
+    {
+        rend = GetComponent<Renderer>();
+        originalMaterial = rend.material;
+
+        // Obtener el collider del objeto con el shader
+        objectCollider = objectWithDisolveShader.GetComponent<Collider>();
+        if (objectCollider == null)
+        {
+            Debug.LogError("El objeto con el shader no tiene un collider asignado!");
+        }
+
+        audioM = FindObjectOfType<AudioManager>();
+        if (audioM == null)
+        {
+            Debug.LogError("No AudioManager found in the scene!");
+        }
     }
+
+    private void Update()
+    {
+        if (playerNearby && Input.GetKeyDown(activationKey))
+        {
+            ActivateButton();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerNearby = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerNearby = false;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        rend.material = originalMaterial;
+    }
+
+    private void ActivateButton()
+    {
+        rend.material = activeMaterial;
+        audioM.PlaySfx(5);
+        StartCoroutine(DisolveObject());
+    }
+
+    private IEnumerator DisolveObject()
+    {
+        // Obtener el material del objeto con el shader
+        Material disolveMaterial = objectWithDisolveShader.GetComponent<Renderer>().material;
+
+        float elapsedTime = 0f;
+        float currentDisolveValue = initialDisolveValue;
+
+        // Animar el valor de _DisolveAmount de -1.5 a 1
+        while (elapsedTime < disolveDuration)
+        {
+            currentDisolveValue = Mathf.Lerp(initialDisolveValue, targetDisolveValue, elapsedTime / disolveDuration);
+            disolveMaterial.SetFloat("_DisolveAmount", currentDisolveValue);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Asegurar que el valor final es exactamente 1
+        disolveMaterial.SetFloat("_DisolveAmount", targetDisolveValue);
+
+        // Desactivar el collider del objeto
+        objectCollider.enabled = false;
+
+        audioM.PlaySfx(12); // Puedes agregar un sonido si lo deseas
+    }
+
 }
