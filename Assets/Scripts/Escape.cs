@@ -1,15 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class Escape : MonoBehaviour
 {
     private bool isPlayerInTrigger = false;
 
-
-    
-
+    public TvTurnOffEffect effect;
     public string sceneName;
 
     private void OnTriggerEnter(Collider other)
@@ -34,8 +31,20 @@ public class Escape : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            SceneManager.LoadScene(sceneName);
 
+            effect.TriggerTVEffect();
+
+            // Inicia la corrutina para esperar 3 segundos antes de cargar la escena
+            StartCoroutine(WaitAndLoadScene());
         }
+    }
+
+    private IEnumerator WaitAndLoadScene()
+    {
+        // Espera 3 segundos
+        yield return new WaitForSeconds(3f);
+
+        // Carga la escena después del retraso
+        SceneManager.LoadScene(sceneName);
     }
 }
