@@ -25,10 +25,10 @@ public class TvTurnOffEffect : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        /*if (Input.GetKeyDown(KeyCode.Q))
         {
             TriggerTVEffect();
-        }
+        }*/
     }
 
     // Llama a esta función desde otro script para activar el efecto

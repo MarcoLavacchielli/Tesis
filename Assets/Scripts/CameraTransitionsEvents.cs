@@ -44,8 +44,8 @@ public class CameraTransitionsEvents : MonoBehaviour
         }
         
 
-        Vector3 destino = pieza.transform.position + new Vector3(0, 3f, 0);
-        Vector3 destino2 = pieza2.transform.position + new Vector3(0, 3f, 0);
+        Vector3 destino = pieza.transform.position + new Vector3(0, 2.8f, 0);
+        Vector3 destino2 = pieza2.transform.position + new Vector3(0, 2.8f, 0);
 
         float duracion = 1.5f; // Duración de la animación
         float velocidad = 7f / duracion; // Velocidad constante
