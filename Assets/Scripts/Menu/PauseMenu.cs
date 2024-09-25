@@ -7,6 +7,10 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject pauseImage;
     public bool isPaused = false;
 
+    [SerializeField] private PlayerMovementGrappling playerMovement;
+    [SerializeField] private Grappling playerGrap;
+    [SerializeField] private PlayerCam camMovement;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -26,15 +30,26 @@ public class PauseMenu : MonoBehaviour
             Time.timeScale = 0f;
             pauseCanvas.SetActive(true);
             pauseImage.SetActive(true);
+
+            //
+            playerMovement.enabled = false;
+            playerGrap.enabled = false;
+            camMovement.enabled = false;
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
+            //
+            playerMovement.enabled = true;
+            playerGrap.enabled = true;
+            camMovement.enabled = true;
+
             Time.timeScale = 1f;
             pauseCanvas.SetActive(false);
             pauseImage.SetActive(false);
+
         }
     }
 
