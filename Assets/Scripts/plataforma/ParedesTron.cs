@@ -41,7 +41,14 @@ public class ParedesTron : MonoBehaviour
         int randomIndex = Random.Range(0, list.Count);
         for (int i = 0; i < list.Count; i++)
         {
-            list[i].SetActive(i == randomIndex);
+            if (i == randomIndex)
+            {
+                list[i].SetActive(true);  // Activa el elemento seleccionado
+            }
+            else
+            {
+                Destroy(list[i]);  // Destruye los elementos no seleccionados
+            }
         }
     }
 }
