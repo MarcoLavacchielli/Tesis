@@ -11,11 +11,6 @@ public class LaserRay : MonoBehaviour
     [SerializeField] private UnityEvent OnHitTarget;
     [SerializeField] private GameObject startPrefab;
     [SerializeField] private GameObject hitPrefab;
-    [SerializeField] private Vector2 detectionRange = new Vector2(5f, 5f);
-    [SerializeField] private Vector3 detectionOffset = Vector3.zero;
-    [SerializeField] private Vector3 detectionInclination = Vector3.zero;
-    [SerializeField] private float updateInterval = 0.1f;
-    [SerializeField] public bool alwaysUpdateLineRenderer = false;
     [SerializeField] private float animationSpeed = 5f;
 
     private RaycastHit rayHit;
@@ -23,7 +18,6 @@ public class LaserRay : MonoBehaviour
     private GameObject instantiatedStartPrefab;
     private GameObject instantiatedHitPrefab;
     private Queue<GameObject> hitPrefabPool = new Queue<GameObject>();
-    private float lastUpdateTime;
     private GameObject lastHitObject = null;
     private float currentLineLength = 0f;
     private bool isAnimating = false;
@@ -46,23 +40,11 @@ public class LaserRay : MonoBehaviour
         }
 
         PerformRaycast(forceUpdate: true);
-
     }
 
     private void Update()
     {
-        if (IsPlayerWithinRange())
-        {
-            if (Time.time >= lastUpdateTime + updateInterval)
-            {
-                lastUpdateTime = Time.time;
-                PerformRaycast();
-            }
-        }
-        else if (Time.time >= lastUpdateTime + updateInterval)
-        {
-            PerformRaycast();
-        }
+        PerformRaycast();
 
         if (isAnimating)
         {
@@ -207,24 +189,8 @@ public class LaserRay : MonoBehaviour
         hitPrefabPool.Enqueue(obj);
     }
 
-    private bool IsPlayerWithinRange()
-    {
-        Vector3 detectionCenter = transform.position + detectionOffset;
-        Quaternion inclinationRotation = Quaternion.Euler(detectionInclination);
-        Collider[] hits = Physics.OverlapBox(detectionCenter, new Vector3(detectionRange.x / 2, 1, detectionRange.y / 2), inclinationRotation, LayerMask.GetMask("Player"));
-        return hits.Length > 0;
-    }
-
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
-        Vector3 detectionCenter = transform.position + detectionOffset;
-        Quaternion inclinationRotation = Quaternion.Euler(detectionInclination);
-        Gizmos.matrix = Matrix4x4.TRS(detectionCenter, inclinationRotation, Vector3.one);
-        Gizmos.DrawWireCube(Vector3.zero, new Vector3(detectionRange.x, 1, detectionRange.y));
-
-        Gizmos.matrix = Matrix4x4.identity;
-
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.forward * laserDistance);
 
@@ -251,5 +217,4 @@ public class LaserRay : MonoBehaviour
             }
         }
     }*/
-
 }

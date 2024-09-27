@@ -13,11 +13,10 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ENABLE_FOG_ON_TRANSPARENT
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
   - _DOUBLESIDED_ON
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
@@ -61,8 +60,8 @@ Material:
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 10
     - _EnableBlendModePreserveSpecularLighting: 0
-    - _EnableFogOnTransparent: 1
-    - _IntersationDepth: 8.56
+    - _EnableFogOnTransparent: 0
+    - _IntersationDepth: 10
     - _OpaqueCullMode: 2
     - _RenderQueueType: 4
     - _SrcBlend: 1
