@@ -32,7 +32,7 @@ public class CameraTransition : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K)) // Puedes cambiar Space por otra tecla o condición
         {
             StartCoroutine(x());
-            //PlayAnimation();
+            PlayAnimation();
         }
     }
 

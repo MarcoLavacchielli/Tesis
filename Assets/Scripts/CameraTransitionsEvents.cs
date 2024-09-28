@@ -15,7 +15,7 @@ public class CameraTransitionsEvents : MonoBehaviour
     public string animationName; // Nombre de la animación o trigger
     public GameObject Player;
     public GameObject CanvasHud;
-    public GameObject CollisionTrigger;
+    public GameObject[] CollisionTrigger;
     public GameObject EndLevel;
     public MoveCamera moveCameraScript;
     public Camera mainCamera;
@@ -115,7 +115,11 @@ public class CameraTransitionsEvents : MonoBehaviour
         moveCameraScript.enabled = true;
         Player.gameObject.SetActive(true);
         CanvasHud.gameObject.SetActive(false);
-        CollisionTrigger.SetActive(true);
+        for (int i = 0; i < CollisionTrigger.Length; i++)
+        {
+            CollisionTrigger[i].gameObject.SetActive(true);
+
+        }
         EndLevel.SetActive(true);
         mainCamera.enabled = true;
 
