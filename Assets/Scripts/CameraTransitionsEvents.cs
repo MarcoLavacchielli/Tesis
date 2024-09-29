@@ -7,6 +7,7 @@ public class CameraTransitionsEvents : MonoBehaviour
     public GameObject[] NewTraps;  // Array de NewTraps que la cámara seguirá
     public GameObject[] BrandNewTraps;
     public GameObject[] PackOfTraps;
+    public GameObject[] Level2Traps;
     public int CurrentTrap = 0;
     public int CurrentBrandNewTrap = 0;
     public bool TransitionOn;
@@ -24,6 +25,11 @@ public class CameraTransitionsEvents : MonoBehaviour
     public GameObject Tapa; // La tapa a animar
     public float velocidadTapa = 10f; // Velocidad ajustable de la tapa
 
+    public void Level2TurnOnLaser()
+    {
+        Level2Traps[CurrentBrandNewTrap].gameObject.SetActive(true);
+        CurrentBrandNewTrap++;
+    }
 
     private IEnumerator MultipleLaserAnimation(GameObject pieza, GameObject pieza2)
     {

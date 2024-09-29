@@ -11,7 +11,7 @@ public class LaserRay : MonoBehaviour
     [SerializeField] private UnityEvent OnHitTarget;
     [SerializeField] private GameObject startPrefab;
     [SerializeField] private GameObject hitPrefab;
-    [SerializeField] private float animationSpeed = 5f;
+    [SerializeField] private float animationSpeed = 15f;
 
     private RaycastHit rayHit;
     private Ray ray;
@@ -33,7 +33,7 @@ public class LaserRay : MonoBehaviour
     private void Awake()
     {
         lineRenderer.positionCount = 2;
-
+        animationSpeed = 15f;
         if (startPrefab != null && instantiatedStartPrefab == null)
         {
             instantiatedStartPrefab = Instantiate(startPrefab, transform.position, Quaternion.identity);
