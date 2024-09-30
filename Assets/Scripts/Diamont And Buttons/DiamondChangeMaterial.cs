@@ -7,8 +7,12 @@ public class DiamondChangeMaterial : MonoBehaviour
     // Lista de GameObjects que vas a modificar
     public GameObject[] objetos;
 
+    public GameObject[] objetosVariante;
+
     // Material que se asignará a los objetos
     public Material nuevoMaterial;
+
+    public Material nuevoMaterialVariante;
 
     void Update()
     {
@@ -29,6 +33,16 @@ public class DiamondChangeMaterial : MonoBehaviour
             if (renderer != null)
             {
                 renderer.material = nuevoMaterial;
+            }
+        }
+
+        foreach (GameObject objetoVariante in objetosVariante)
+        {
+            // Verifica si el GameObject tiene un Renderer
+            Renderer renderer2 = objetoVariante.GetComponent<Renderer>();
+            if (renderer2 != null)
+            {
+                renderer2.material = nuevoMaterialVariante;
             }
         }
     }
