@@ -279,6 +279,7 @@ public class ButtonOpener : MonoBehaviour
     [SerializeField] private KeyCode activationKey = KeyCode.E;
     [SerializeField] private Material activeMaterial;
     [SerializeField] private GameObject objectWithDisolveShader; // Referencia al objeto con el shader
+    [SerializeField] private GameObject DestroyObject; 
     [SerializeField] private float disolveDuration = 5.0f; // Duración de la animación del disolve
     [SerializeField] private float initialDisolveValue = -1.5f; // Valor inicial del disolve
     [SerializeField] private float targetDisolveValue = 1.0f; // Valor final del disolve
@@ -299,6 +300,11 @@ public class ButtonOpener : MonoBehaviour
         if (objectCollider == null)
         {
             Debug.LogError("El objeto con el shader no tiene un collider asignado!");
+        }
+
+        if (DestroyObject == null)
+        {
+            //Debug.LogError("El objeto con el shader no tiene un collider asignado!");
         }
 
         audioM = FindObjectOfType<AudioManager>();
@@ -342,6 +348,7 @@ public class ButtonOpener : MonoBehaviour
         rend.material = activeMaterial;
         audioM.PlaySfx(5);
         StartCoroutine(DisolveObject());
+        Destroy(DestroyObject);
     }
 
     private IEnumerator DisolveObject()
