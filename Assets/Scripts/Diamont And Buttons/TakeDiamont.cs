@@ -15,6 +15,8 @@ public class TakeDiamont : MonoBehaviour
 
     public CameraTransition camTransition;
 
+    [SerializeField] DiamondChangeMaterial textureChange;
+
     void Update()
     {
         float distance = Vector3.Distance(player.position, transform.position);
@@ -32,6 +34,7 @@ public class TakeDiamont : MonoBehaviour
         {
             light.color = Color.red;
         }
+        textureChange.CambiarMaterial();
         changeMusic();
         diamondTake = true;
         camTransition.callCinematic();

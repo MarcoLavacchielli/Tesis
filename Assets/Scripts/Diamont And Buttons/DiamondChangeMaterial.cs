@@ -14,17 +14,8 @@ public class DiamondChangeMaterial : MonoBehaviour
 
     public Material nuevoMaterialVariante;
 
-    void Update()
-    {
-        // Detecta si la tecla 'N' ha sido presionada
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            CambiarMaterial();
-        }
-    }
-
     // Función que cambia el material de todos los objetos en la lista
-    void CambiarMaterial()
+    public void CambiarMaterial()
     {
         foreach (GameObject objeto in objetos)
         {
