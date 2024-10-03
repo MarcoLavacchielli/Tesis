@@ -120,7 +120,7 @@ public class CameraTransitionsEvents : MonoBehaviour
 
         moveCameraScript.enabled = true;
         Player.gameObject.SetActive(true);
-        CanvasHud.gameObject.SetActive(false);
+        CanvasHud.gameObject.SetActive(true);
         for (int i = 0; i < CollisionTrigger.Length; i++)
         {
             CollisionTrigger[i].gameObject.SetActive(true);
