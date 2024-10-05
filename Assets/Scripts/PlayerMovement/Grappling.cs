@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; // Necesario para manipular UI
 
 public class Grappling : MonoBehaviour
 {
@@ -12,7 +13,9 @@ public class Grappling : MonoBehaviour
     public Transform gunTip;
     public LayerMask whatIsGrappleable;
     public LineRenderer lr;
-    public Material LuzGancho; // Añadir referencia al material
+    public Material LuzGancho;
+
+    public Image crosshair; // Referencia a la imagen de la mira en el Canvas
 
     [Header("Grappling")]
     public float maxGrappleDistance;
@@ -30,7 +33,7 @@ public class Grappling : MonoBehaviour
 
     private bool grappling;
     private Color targetColor;
-    private float colorTransitionSpeed = 2.0f; // Ajusta la velocidad de transición del color
+    private float colorTransitionSpeed = 2.0f;
     private bool isCoolingDown;
 
     private void Awake()
@@ -53,31 +56,47 @@ public class Grappling : MonoBehaviour
     {
         if (Input.GetKeyDown(grappleKey)) StartGrapple();
 
-        // Manejo del cooldown principal
+        // Manejo del cooldown
         if (grapplingCdTimer > 0)
         {
             grapplingCdTimer -= Time.deltaTime;
-            targetColor = Color.red; // Cambiar objetivo a rojo cuando está en cooldown
+            targetColor = Color.red;
             isCoolingDown = true;
         }
         else
         {
             if (isCoolingDown)
             {
-                targetColor = Color.cyan; // Cambiar objetivo a cian cuando no está en cooldown
+                targetColor = Color.cyan;
                 isCoolingDown = false;
             }
         }
 
         if (isCoolingDown)
         {
-            // Cambiar bruscamente a rojo cuando está en cooldown
             LuzGancho.SetColor("_Color", Color.red);
         }
         else
         {
-            // Transición suave de rojo a cian
             LuzGancho.SetColor("_Color", Color.Lerp(LuzGancho.GetColor("_Color"), targetColor, Time.deltaTime * colorTransitionSpeed));
+        }
+
+        // Comprobar si la mira está sobre un objeto grapleable
+        CheckForGrappleable();
+    }
+
+    private void CheckForGrappleable()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
+        {
+            // Si golpea algo grappleable, cambia el color de la mira a verde
+            crosshair.color = Color.green;
+        }
+        else
+        {
+            // Si no golpea nada grappleable, el color de la mira es blanco
+            crosshair.color = Color.white;
         }
     }
 
@@ -101,21 +120,17 @@ public class Grappling : MonoBehaviour
         {
             grapplePoint = hit.point;
 
-            // Activamos el cooldown de bloqueo del gancho al golpear un objeto grapleable
+            // Activar cooldown
             grapplingCdTimer = grapplingCd;
 
-            // Ejecutamos el gancho después de un pequeño retraso
+            // Ejecutar el grappling
             Invoke(nameof(ExecuteGrapple), grappleDelayTime);
         }
         else
         {
             grapplePoint = cam.position + cam.forward * maxGrappleDistance;
-
             Invoke(nameof(StopGrapple), grappleDelayTime);
         }
-
-        // lr.enabled = true;
-        // lr.SetPosition(1, grapplePoint);
     }
 
     private void ExecuteGrapple()
@@ -142,13 +157,10 @@ public class Grappling : MonoBehaviour
 
         grappling = false;
 
-        // Activa el cooldown general cuando se detiene el grappling
         if (grapplingCdTimer <= 0)
         {
             grapplingCdTimer = grapplingCd;
         }
-
-        // lr.enabled = false;
     }
 
     public bool IsGrappling()
