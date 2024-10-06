@@ -5,10 +5,6 @@ using Random = UnityEngine.Random;
 
 public class PlayerDataMemento : MementoEntity
 {
-    private void Start()
-    {
-        startRecording();
-    }
     protected override void LoadStates(object[] parameters)
     {
         // _myMemento.SaveMemory(transform.position, transform.rotation); ESTO ERA LO QUE TRAIA PROBLEMAS
@@ -27,7 +23,6 @@ public class PlayerDataMemento : MementoEntity
         StartCoroutine(StartToSaveStates());
         Debug.Log("comienza grabación");
     }
-    /*
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -36,6 +31,15 @@ public class PlayerDataMemento : MementoEntity
             startRecording();
 
         }
-    }*/
-   
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 23)
+        {
+            other.gameObject.SetActive(false);
+            Destroy(other);
+            StartCoroutine(StartToSaveStates());
+            Debug.Log("comienza grabación");
+        }
+    }
 }
