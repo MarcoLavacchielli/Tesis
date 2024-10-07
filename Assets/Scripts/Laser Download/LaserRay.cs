@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 public class LaserRay : MonoBehaviour
 {
+    [SerializeField] private float animationSpeedPlus = 0f;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float laserDistance = 8f;
     [SerializeField] private LayerMask ignoreMask;
@@ -33,7 +34,7 @@ public class LaserRay : MonoBehaviour
     private void Awake()
     {
         lineRenderer.positionCount = 2;
-        animationSpeed = 15f;
+        animationSpeed = 15f + animationSpeedPlus;
         if (startPrefab != null && instantiatedStartPrefab == null)
         {
             instantiatedStartPrefab = Instantiate(startPrefab, transform.position, Quaternion.identity);
