@@ -15,6 +15,7 @@ public class Sliding : MonoBehaviour
     public Transform playerObj;
     private Rigidbody rb;
     private PlayerMovementAdvanced pm;
+    private PlayerMovementGrappling pg;
 
     [Header("Sliding")]
     public float maxSlideTime;
@@ -44,6 +45,7 @@ public class Sliding : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovementAdvanced>();
+        pg = GetComponent<PlayerMovementGrappling>();
 
         startYScale = playerObj.localScale.y;
     }
@@ -74,7 +76,7 @@ public class Sliding : MonoBehaviour
 
     private void StartSlide()
     {
-        if (pm.wallrunning) return;
+        if (pm.wallrunning || pg.activeGrapple) return; // Evitar deslizarse mientras se está grappling
 
         pm.sliding = true;
 
@@ -83,6 +85,7 @@ public class Sliding : MonoBehaviour
 
         slideTimer = maxSlideTime;
     }
+
 
     private void SlidingMovement()
     {
