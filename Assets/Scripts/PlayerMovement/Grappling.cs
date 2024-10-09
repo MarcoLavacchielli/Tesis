@@ -12,6 +12,7 @@ public class Grappling : MonoBehaviour
     public Transform cam;
     public Transform gunTip;
     public LayerMask whatIsGrappleable;
+    public LayerMask avoidLayers;
     public LineRenderer lr;
     public Material LuzGancho;
 
@@ -87,15 +88,25 @@ public class Grappling : MonoBehaviour
 
     private void CheckForGrappleable()
     {
+        // Verificar primero si golpeamos algo en las capas de avoidLayers
+        RaycastHit avoidHit;
+        if (Physics.Raycast(cam.position, cam.forward, out avoidHit, maxGrappleDistance, avoidLayers))
+        {
+            // Si golpeamos algo en avoidLayers, cambiamos la mira a blanco
+            crosshair.color = Color.white;
+            return;
+        }
+
+        // Si no golpeamos nada en avoidLayers, verificamos los objetos grappleables
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
         {
-            // Si golpea algo grappleable, cambia el color de la mira a verde
+            // Si golpea un objeto grappleable, cambiamos el color a verde
             crosshair.color = Color.green;
         }
         else
         {
-            // Si no golpea nada grappleable, el color de la mira es blanco
+            // Si no golpea nada grappleable, cambiamos la mira a blanco
             crosshair.color = Color.white;
         }
     }
@@ -115,10 +126,22 @@ public class Grappling : MonoBehaviour
 
         pm.freeze = true;
 
-        RaycastHit hit;
-        if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
+        // Verificar primero si golpeamos algo en las capas de avoidLayers
+        RaycastHit avoidHit;
+        if (Physics.Raycast(cam.position, cam.forward, out avoidHit, maxGrappleDistance, avoidLayers))
         {
-            grapplePoint = hit.point;
+            // Si golpea un objeto en avoidLayers, cancelamos el grapple
+            Debug.Log("Gancho bloqueado por objeto en capas evitadas.");
+            Invoke(nameof(StopGrapple), grappleDelayTime);
+            return; // Cancelamos el proceso de grappling
+        }
+
+        // Si no golpeamos nada en avoidLayers, procedemos a comprobar los objetos grappleables
+        RaycastHit grappleHit;
+        if (Physics.Raycast(cam.position, cam.forward, out grappleHit, maxGrappleDistance, whatIsGrappleable))
+        {
+            // Si golpeamos un objeto grappleable, procedemos con el grappling
+            grapplePoint = grappleHit.point;
 
             // Activar cooldown
             grapplingCdTimer = grapplingCd;
@@ -128,6 +151,7 @@ public class Grappling : MonoBehaviour
         }
         else
         {
+            // Si no golpeamos nada grappleable, el punto final es en línea recta
             grapplePoint = cam.position + cam.forward * maxGrappleDistance;
             Invoke(nameof(StopGrapple), grappleDelayTime);
         }

@@ -43,9 +43,13 @@ public class WallRunningAdvanced : MonoBehaviour
     [Header("References")]
     public Transform orientation;
     public PlayerCam cam;
+    public Transform playercamToTilt; // Nueva referencia para la cámara a inclinar
+    public float tiltAngle = 10f; // Ángulo de inclinación de la cámara
+    public float tiltSpeed = 2f; // Velocidad de inclinación
     private PlayerMovementAdvanced pm;
     private LedgeGrabbing lg;
     private Rigidbody rb;
+    private float currentTilt = 0f; // Para almacenar el ángulo actual de inclinación
 
     private void Start()
     {
@@ -81,6 +85,8 @@ public class WallRunningAdvanced : MonoBehaviour
     {
         if (pm.wallrunning)
             WallRunningMovement();
+
+        HandleCameraTilt(); // Aplicar el tilt en cada FixedUpdate
     }
 
     private void CheckForWall()
@@ -100,11 +106,8 @@ public class WallRunningAdvanced : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        //upwardsRunning = Input.GetKey(upwardsRunKey);
-        //downwardsRunning = Input.GetKey(downwardsRunKey);
-
         // State 1 - Wallrunning
-        if((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall)
+        if ((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall)
         {
             if (!pm.wallrunning)
                 StartWallRun();
@@ -113,7 +116,7 @@ public class WallRunningAdvanced : MonoBehaviour
             if (wallRunTimer > 0)
                 wallRunTimer -= Time.deltaTime;
 
-            if(wallRunTimer <= 0 && pm.wallrunning)
+            if (wallRunTimer <= 0 && pm.wallrunning)
             {
                 exitingWall = true;
                 exitWallTimer = exitWallTime;
@@ -155,8 +158,6 @@ public class WallRunningAdvanced : MonoBehaviour
         // apply camera effects
         if (cam == null) return;
         cam.DoFov(90f);
-        if (wallLeft) cam.DoTilt(-5f);
-        if (wallRight) cam.DoTilt(5f);
     }
 
     private void WallRunningMovement()
@@ -174,7 +175,7 @@ public class WallRunningAdvanced : MonoBehaviour
         rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
 
         // upwards/downwards force
-        if (upwardsRunning==true)
+        if (upwardsRunning == true)
         {
             rb.velocity = new Vector3(rb.velocity.x, wallClimbSpeed, rb.velocity.z);
         }
@@ -201,7 +202,6 @@ public class WallRunningAdvanced : MonoBehaviour
         // reset camera effects
         if (cam == null) return;
         cam.DoFov(80f);
-        cam.DoTilt(0f);
     }
 
     private void WallJump()
@@ -219,5 +219,21 @@ public class WallRunningAdvanced : MonoBehaviour
         // reset y velocity and add force
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(forceToApply, ForceMode.Impulse);
+    }
+
+    private void HandleCameraTilt()
+    {
+        float targetTilt = 0f;
+
+        if (pm.wallrunning)
+        {
+            if (wallLeft)
+                targetTilt = -tiltAngle;
+            else if (wallRight)
+                targetTilt = tiltAngle;
+        }
+
+        currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
+        playercamToTilt.localRotation = Quaternion.Euler(0, 0, currentTilt);
     }
 }
