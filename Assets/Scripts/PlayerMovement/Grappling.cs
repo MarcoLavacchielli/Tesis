@@ -88,25 +88,41 @@ public class Grappling : MonoBehaviour
 
     private void CheckForGrappleable()
     {
-        // Verificar primero si golpeamos algo en las capas de avoidLayers
-        RaycastHit avoidHit;
-        if (Physics.Raycast(cam.position, cam.forward, out avoidHit, maxGrappleDistance, avoidLayers))
+        RaycastHit[] hits = Physics.RaycastAll(cam.position, cam.forward, maxGrappleDistance);
+
+        // Variables para controlar si hemos golpeado algo en cada capa
+        RaycastHit? grappleHit = null;
+        RaycastHit? avoidHit = null;
+
+        // Iterar sobre los resultados de todos los raycasts
+        foreach (RaycastHit hit in hits)
         {
-            // Si golpeamos algo en avoidLayers, cambiamos la mira a blanco
-            crosshair.color = Color.white;
-            return;
+            // Comprobar si el objeto pertenece a la capa de objetos grappleables
+            if (((1 << hit.collider.gameObject.layer) & whatIsGrappleable) != 0)
+            {
+                grappleHit = hit; // Si encontramos un objeto grappleable, lo almacenamos
+            }
+            // Comprobar si el objeto pertenece a las capas que queremos evitar
+            else if (((1 << hit.collider.gameObject.layer) & avoidLayers) != 0)
+            {
+                avoidHit = hit; // Si encontramos un objeto en avoidLayers, lo almacenamos
+            }
         }
 
-        // Si no golpeamos nada en avoidLayers, verificamos los objetos grappleables
-        RaycastHit hit;
-        if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
+        // Si existe un objeto en avoidLayers y está más cerca que el objeto grappleable, lo bloqueamos
+        if (avoidHit.HasValue && (!grappleHit.HasValue || avoidHit.Value.distance < grappleHit.Value.distance))
         {
-            // Si golpea un objeto grappleable, cambiamos el color a verde
+            // Si hay un objeto en avoidLayers que bloquea la visión, ponemos la mira en blanco
+            crosshair.color = Color.white;
+        }
+        else if (grappleHit.HasValue)
+        {
+            // Si encontramos un objeto grappleable y no está bloqueado, ponemos la mira en verde
             crosshair.color = Color.green;
         }
         else
         {
-            // Si no golpea nada grappleable, cambiamos la mira a blanco
+            // Si no encontramos nada grappleable o bloqueado, mantenemos la mira en blanco
             crosshair.color = Color.white;
         }
     }
@@ -126,22 +142,36 @@ public class Grappling : MonoBehaviour
 
         pm.freeze = true;
 
-        // Verificar primero si golpeamos algo en las capas de avoidLayers
-        RaycastHit avoidHit;
-        if (Physics.Raycast(cam.position, cam.forward, out avoidHit, maxGrappleDistance, avoidLayers))
+        RaycastHit[] hits = Physics.RaycastAll(cam.position, cam.forward, maxGrappleDistance);
+
+        RaycastHit? grappleHit = null;
+        RaycastHit? avoidHit = null;
+
+        // Iterar sobre los resultados de todos los raycasts
+        foreach (RaycastHit hit in hits)
         {
-            // Si golpea un objeto en avoidLayers, cancelamos el grapple
-            Debug.Log("Gancho bloqueado por objeto en capas evitadas.");
-            Invoke(nameof(StopGrapple), grappleDelayTime);
-            return; // Cancelamos el proceso de grappling
+            // Comprobar si el objeto pertenece a la capa de objetos grappleables
+            if (((1 << hit.collider.gameObject.layer) & whatIsGrappleable) != 0)
+            {
+                grappleHit = hit; // Si encontramos un objeto grappleable, lo almacenamos
+            }
+            // Comprobar si el objeto pertenece a las capas que queremos evitar
+            else if (((1 << hit.collider.gameObject.layer) & avoidLayers) != 0)
+            {
+                avoidHit = hit; // Si encontramos un objeto en avoidLayers, lo almacenamos
+            }
         }
 
-        // Si no golpeamos nada en avoidLayers, procedemos a comprobar los objetos grappleables
-        RaycastHit grappleHit;
-        if (Physics.Raycast(cam.position, cam.forward, out grappleHit, maxGrappleDistance, whatIsGrappleable))
+        // Si existe un objeto en avoidLayers y está más cerca que el objeto grappleable, bloqueamos el grappling
+        if (avoidHit.HasValue && (!grappleHit.HasValue || avoidHit.Value.distance < grappleHit.Value.distance))
         {
-            // Si golpeamos un objeto grappleable, procedemos con el grappling
-            grapplePoint = grappleHit.point;
+            Debug.Log("Gancho bloqueado por objeto en capas evitadas.");
+            Invoke(nameof(StopGrapple), grappleDelayTime);
+        }
+        else if (grappleHit.HasValue)
+        {
+            // Si encontramos un objeto grappleable, ejecutamos el grappling
+            grapplePoint = grappleHit.Value.point;
 
             // Activar cooldown
             grapplingCdTimer = grapplingCd;
