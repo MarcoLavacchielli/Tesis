@@ -57,7 +57,7 @@ public class Grappling : MonoBehaviour
     {
         if (Input.GetKeyDown(grappleKey)) StartGrapple();
 
-        // Manejo del cooldown
+        // Manejo del cooldown sin interferir con el movimiento mientras está grappling
         if (grapplingCdTimer > 0)
         {
             grapplingCdTimer -= Time.deltaTime;
@@ -82,7 +82,6 @@ public class Grappling : MonoBehaviour
             LuzGancho.SetColor("_Color", Color.Lerp(LuzGancho.GetColor("_Color"), targetColor, Time.deltaTime * colorTransitionSpeed));
         }
 
-        // Comprobar si la mira está sobre un objeto grapleable
         CheckForGrappleable();
     }
 
@@ -135,6 +134,7 @@ public class Grappling : MonoBehaviour
 
     private void StartGrapple()
     {
+        // Si el cooldown está activo o ya está grappling, no permitimos iniciar otro grappling.
         if (grapplingCdTimer > 0 || grappling) return;
 
         grappling = true;
@@ -173,9 +173,6 @@ public class Grappling : MonoBehaviour
             // Si encontramos un objeto grappleable, ejecutamos el grappling
             grapplePoint = grappleHit.Value.point;
 
-            // Activar cooldown
-            grapplingCdTimer = grapplingCd;
-
             // Ejecutar el grappling
             Invoke(nameof(ExecuteGrapple), grappleDelayTime);
         }
@@ -190,7 +187,6 @@ public class Grappling : MonoBehaviour
     private void ExecuteGrapple()
     {
         pm.freeze = false;
-
         audioM.PlaySfx(6);
 
         Vector3 lowestPoint = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);
@@ -202,15 +198,17 @@ public class Grappling : MonoBehaviour
 
         pm.JumpToPosition(grapplePoint, highestPointOnArc);
 
+        // Aquí activamos StopGrapple pero **NO** activamos el cooldown inmediatamente
+        // Permitimos que el jugador complete el viaje antes de iniciar el cooldown
         Invoke(nameof(StopGrapple), 1f);
     }
 
     public void StopGrapple()
     {
         pm.freeze = false;
-
         grappling = false;
 
+        // Una vez que el grappling ha terminado, **ahora** activamos el cooldown
         if (grapplingCdTimer <= 0)
         {
             grapplingCdTimer = grapplingCd;
