@@ -6,11 +6,10 @@ using UnityEngine;
 public class CameraTransition : MonoBehaviour
 {
     public GameObject[] NewTraps;  // Array de NewTraps que la cámara seguirá
-  
     private int CurrentTrap = 0;
 
     public bool TransitionOn;
-    
+
     public Animator Transitionanimator;  // Asigna esto desde el Inspector
     public string animationName; // Nombre de la animación o trigger
     public GameObject Player;
@@ -20,6 +19,7 @@ public class CameraTransition : MonoBehaviour
     public Camera transitionCamera;
 
     public GameObject[] ThingsToDesactivate;
+    public GameObject[] ThingsToActivate;  // Nueva lista para objetos a activar
 
     void Start()
     {
@@ -43,7 +43,6 @@ public class CameraTransition : MonoBehaviour
 
     public IEnumerator x()
     {
-
         Player.gameObject.SetActive(false);
         CanvasHud.gameObject.SetActive(false);
 
@@ -53,16 +52,15 @@ public class CameraTransition : MonoBehaviour
         }
 
         moveCameraScript.enabled = false;
-        //transform.position = new Vector3(197, 14, -137);
-        //transform.rotation = new Quaternion(0f,0f,0f);
         mainCamera.enabled = false;
         transitionCamera.gameObject.SetActive(true);
         transitionCamera.enabled = true;
 
-        //yield return new WaitForSeconds(2f);
         Transitionanimator.enabled = true;  // Activa el Animator
         Transitionanimator.Play(animationName);  // Reproduce la animación
         yield return null;
+
+        ActivateThings();  // Llama al método para activar objetos
     }
 
     public void PlayAnimation()
@@ -70,19 +68,19 @@ public class CameraTransition : MonoBehaviour
         Player.gameObject.SetActive(false);
         CanvasHud.gameObject.SetActive(false);
 
-        foreach(GameObject obj in ThingsToDesactivate)
+        foreach (GameObject obj in ThingsToDesactivate)
         {
             obj.SetActive(false);
         }
 
         moveCameraScript.enabled = false;
-        transform.position = new Vector3(197, 14, -137);
-        //transform.rotation = new Quaternion(0f,0f,0f);
         mainCamera.enabled = false;
         transitionCamera.enabled = true;
-        
+
         Transitionanimator.enabled = true;  // Activa el Animator
         Transitionanimator.Play(animationName);  // Reproduce la animación
+
+        ActivateThings();  // Llama al método para activar objetos
     }
 
     public void TransitionFunction()
@@ -90,5 +88,13 @@ public class CameraTransition : MonoBehaviour
         NewTraps[CurrentTrap].gameObject.SetActive(true);
         CurrentTrap++;
         Debug.Log("xd");
+    }
+
+    private void ActivateThings()  // Nuevo método para activar objetos
+    {
+        foreach (GameObject obj in ThingsToActivate)
+        {
+            obj.SetActive(true);  // Activa cada objeto en la lista
+        }
     }
 }

@@ -25,6 +25,11 @@ public class TakeDiamont : MonoBehaviour
         {
             PickUp();
         }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            diamondTake = true;
+        }
     }
 
     void PickUp()
