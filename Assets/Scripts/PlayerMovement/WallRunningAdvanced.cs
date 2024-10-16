@@ -46,7 +46,7 @@ public class WallRunningAdvanced : MonoBehaviour
     public Transform playercamToTilt; // Nueva referencia para la cámara a inclinar
     public float tiltAngle = 10f; // Ángulo de inclinación de la cámara
     public float tiltSpeed = 2f; // Velocidad de inclinación
-    private PlayerMovementAdvanced pm;
+    public PlayerMovementAdvanced pm;
     private LedgeGrabbing lg;
     private Rigidbody rb;
     private float currentTilt = 0f; // Para almacenar el ángulo actual de inclinación
@@ -102,6 +102,15 @@ public class WallRunningAdvanced : MonoBehaviour
 
     private void StateMachine()
     {
+
+        // Si el grappling está activo, salir del modo wallrunning
+        if (GetComponent<Grappling>().IsGrappling())
+        {
+            if (pm.wallrunning)
+                StopWallRun();
+            return;
+        }
+
         // Getting Inputs
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");

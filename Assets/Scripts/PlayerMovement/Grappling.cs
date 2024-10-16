@@ -16,6 +16,8 @@ public class Grappling : MonoBehaviour
     public LineRenderer lr;
     public Material LuzGancho;
 
+    public WallRunningAdvanced wallRunning;
+
     public Image crosshair; // Referencia a la imagen de la mira en el Canvas
 
     [Header("Grappling")]
@@ -50,6 +52,7 @@ public class Grappling : MonoBehaviour
     private void Start()
     {
         pm = GetComponent<PlayerMovementGrappling>();
+        wallRunning = GetComponent<WallRunningAdvanced>();
         targetColor = Color.cyan; // Color inicial
     }
 
@@ -135,12 +138,13 @@ public class Grappling : MonoBehaviour
     private void StartGrapple()
     {
         // Si el cooldown está activo o ya está grappling, no permitimos iniciar otro grappling.
-        if (grapplingCdTimer > 0 || grappling) return;
+        if ((grapplingCdTimer > 0 || grappling) && !wallRunning.pm.wallrunning) return;
 
         grappling = true;
         audioM.PlaySfx(2);
 
         pm.freeze = true;
+
 
         RaycastHit[] hits = Physics.RaycastAll(cam.position, cam.forward, maxGrappleDistance);
 
