@@ -14,6 +14,8 @@ public class WallRunningAdvanced : MonoBehaviour
     public float maxWallRunTime;
     private float wallRunTimer;
 
+    public bool wallrunning { get; private set; }
+
     [Header("Input")]
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode upwardsRunKey = KeyCode.LeftShift;

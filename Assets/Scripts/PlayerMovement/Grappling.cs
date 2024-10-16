@@ -58,7 +58,12 @@ public class Grappling : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(grappleKey)) StartGrapple();
+        //if (Input.GetKeyDown(grappleKey)) StartGrapple();
+
+        if (Input.GetKeyDown(grappleKey) && CanGrapple())
+        {
+            StartGrapple();
+        }
 
         // Manejo del cooldown sin interferir con el movimiento mientras está grappling
         if (grapplingCdTimer > 0)
@@ -86,6 +91,40 @@ public class Grappling : MonoBehaviour
         }
 
         CheckForGrappleable();
+    }
+
+    private bool CanGrapple()
+    {
+        // Comprobar si el jugador está en wallrunning
+        bool isWallRunning = CheckWallRunning(); // Llama a un método que verifique el estado de wallrunning.
+
+        // Si está wallrunning, no se puede usar el grappling
+        if (isWallRunning)
+        {
+            return false;
+        }
+
+        // Realizar un raycast para verificar si hay un objeto grappleable
+        RaycastHit[] hits = Physics.RaycastAll(cam.position, cam.forward, maxGrappleDistance);
+        foreach (RaycastHit hit in hits)
+        {
+            // Comprobar si el objeto pertenece a la capa de objetos grappleables
+            if (((1 << hit.collider.gameObject.layer) & whatIsGrappleable) != 0)
+            {
+                return true; // Hay un objeto grappleable a la vista
+            }
+        }
+
+        // Si no hay objeto grappleable, no se puede usar el gancho
+        return false;
+    }
+
+    private bool CheckWallRunning()
+    {
+        // Aquí, se puede verificar si el jugador está wallrunning.
+        // Supongamos que tienes una referencia a la clase de wallrunning (WallRunningAdvanced).
+        WallRunningAdvanced wallRunningScript = GetComponent<WallRunningAdvanced>();
+        return wallRunningScript != null && wallRunningScript.wallrunning; // Asegúrate de que 'wallrunning' esté definido en WallRunningAdvanced
     }
 
     private void CheckForGrappleable()
@@ -137,14 +176,12 @@ public class Grappling : MonoBehaviour
 
     private void StartGrapple()
     {
-        // Si el cooldown está activo o ya está grappling, no permitimos iniciar otro grappling.
-        if ((grapplingCdTimer > 0 || grappling) && !wallRunning.pm.wallrunning) return;
+        // Permitir grappling si el cooldown está en 0, o si el jugador está en modo wallrunning
+        if ((grapplingCdTimer > 0 || grappling)) return;
 
         grappling = true;
         audioM.PlaySfx(2);
-
         pm.freeze = true;
-
 
         RaycastHit[] hits = Physics.RaycastAll(cam.position, cam.forward, maxGrappleDistance);
 
