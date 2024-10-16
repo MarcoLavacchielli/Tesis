@@ -187,34 +187,6 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "1da4da3ba8e0451a9ccae36a1c23864f"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "3799831b53f14b41a8fc2bd820a623c8"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "1da4da3ba8e0451a9ccae36a1c23864f"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "47d443ee85b0459b98c4f790adfdd8b9"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
                     "m_Id": "28081ab4288a4f3daf6238251f281fb5"
                 },
                 "m_SlotId": 0
@@ -420,6 +392,34 @@
                     "m_Id": "cc0523eaeb384ef29d74e849d762e6ce"
                 },
                 "m_SlotId": 1
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "a0b5a4288b8c438db6adeab892b2c135"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "3799831b53f14b41a8fc2bd820a623c8"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "a0b5a4288b8c438db6adeab892b2c135"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "47d443ee85b0459b98c4f790adfdd8b9"
+                },
+                "m_SlotId": 0
             }
         },
         {
@@ -2580,8 +2580,8 @@
     "m_Type": "UnityEditor.Rendering.HighDefinition.ShaderGraph.SystemData",
     "m_ObjectId": "7a0718422e3148c99459388b972599ac",
     "m_MaterialNeedsUpdateHash": 1,
-    "m_SurfaceType": 1,
-    "m_RenderingPass": 4,
+    "m_SurfaceType": 0,
+    "m_RenderingPass": 1,
     "m_BlendMode": 0,
     "m_ZTest": 4,
     "m_ZWrite": false,
@@ -2604,7 +2604,7 @@
     "m_TessellationBackFaceCullEpsilon": -0.25,
     "m_TessellationMaxDisplacement": 0.009999999776482582,
     "m_Version": 1,
-    "inspectorFoldoutMask": 1
+    "inspectorFoldoutMask": 9
 }
 
 {
