@@ -53,8 +53,6 @@ public class WallRunningAdvanced : MonoBehaviour
     private Rigidbody rb;
     private float currentTilt = 0f; // Para almacenar el ángulo actual de inclinación
 
-    public bool isWallrunning=false;
-
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -163,7 +161,6 @@ public class WallRunningAdvanced : MonoBehaviour
     private void StartWallRun()
     {
         pm.wallrunning = true;
-        isWallrunning = true;
 
         wallRunTimer = maxWallRunTime;
 
@@ -212,7 +209,6 @@ public class WallRunningAdvanced : MonoBehaviour
     private void StopWallRun()
     {
         pm.wallrunning = false;
-        isWallrunning = false;
 
         // reset camera effects
         if (cam == null) return;
