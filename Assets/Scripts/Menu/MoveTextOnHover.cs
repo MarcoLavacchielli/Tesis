@@ -48,4 +48,17 @@ public class MoveTextOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         mouseEncima = false; // Cambiamos el estado a falso
     }
+
+    // Cuando el objeto se desactiva, restablecemos la posición y el color originales
+    private void OnDisable()
+    {
+        // Restablecer la posición original del texto
+        textoMover.rectTransform.localPosition = new Vector3(posicionInicialX, textoMover.rectTransform.localPosition.y, textoMover.rectTransform.localPosition.z);
+
+        // Restablecer el color original del texto
+        textoMover.color = colorInicial;
+
+        // Asegurarnos de que el estado del mouse esté en falso al desactivar
+        mouseEncima = false;
+    }
 }
