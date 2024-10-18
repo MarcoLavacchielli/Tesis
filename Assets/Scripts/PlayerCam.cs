@@ -25,10 +25,16 @@ public class PlayerCam : MonoBehaviour
     public float minFov;
     public float maxFov;
 
+    [Header("Rotación Inicial")]
+    public Vector3 initialRotation; // Agregamos un Vector3 para la rotación inicial
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // Establecemos la rotación inicial desde el Vector3
+        SetInitialRotation();
     }
 
     private void Update()
@@ -75,5 +81,16 @@ public class PlayerCam : MonoBehaviour
     public void DoTilt(float zTilt)
     {
         transform.DOLocalRotate(new Vector3(0, 0, zTilt), 0.25f);
+    }
+
+    private void SetInitialRotation()
+    {
+        // Aquí definimos la rotación inicial de la cámara y la orientación
+        camHolder.rotation = Quaternion.Euler(initialRotation);
+        orientation.rotation = Quaternion.Euler(0, initialRotation.y, 0);
+
+        // Aseguramos que las variables de rotación coincidan con esta rotación inicial
+        xRotation = initialRotation.x;
+        yRotation = initialRotation.y;
     }
 }
