@@ -9,6 +9,7 @@ public class TVTurnOnSmEffect : MonoBehaviour
     public int numberOfGlitches = 20;  // Cantidad de glitches/lineas
     public float glitchEffectDuration = 0.2f;  // Duración del glitch
     public float shakeAmount = 5f;  // Cantidad de sacudida
+    public Color glitchLineColor = new Color(0f, 1f, 0f, 0.7f);  // Color de las líneas de glitch
 
     private float elapsedTime = 0f;
     private RectTransform blackScreenRect;
@@ -18,7 +19,7 @@ public class TVTurnOnSmEffect : MonoBehaviour
     void Start()
     {
         blackScreenRect = blackScreen.GetComponent<RectTransform>();
-        blackScreen.color = Color.black; 
+        blackScreen.color = Color.black;
     }
 
     void Update()
@@ -50,7 +51,7 @@ public class TVTurnOnSmEffect : MonoBehaviour
             else
             {
                 effectFinished = true;
-                blackScreen.enabled = false; 
+                blackScreen.enabled = false;
                 this.enabled = false;
             }
         }
@@ -61,17 +62,17 @@ public class TVTurnOnSmEffect : MonoBehaviour
         for (int i = 0; i < numberOfGlitches; i++)
         {
             float randomX = Random.Range(-blackScreenRect.rect.width / 2, blackScreenRect.rect.width / 2);
-            float randomWidth = Random.Range(3f, 15f); 
-            float randomHeight = Random.Range(10f, 100f); 
+            float randomWidth = Random.Range(3f, 15f);
+            float randomHeight = Random.Range(10f, 100f);
 
             GameObject glitch = new GameObject("GlitchLine");
             glitch.transform.SetParent(blackScreen.transform);
 
             Image glitchImage = glitch.AddComponent<Image>();
-            glitchImage.color = new Color(0f, 1f, 0f, 0.7f);
+            glitchImage.color = glitchLineColor;  // Utilizamos la variable para definir el color
 
             RectTransform glitchRect = glitch.GetComponent<RectTransform>();
-            glitchRect.sizeDelta = new Vector2(randomWidth, randomHeight);  
+            glitchRect.sizeDelta = new Vector2(randomWidth, randomHeight);
             glitchRect.anchoredPosition = new Vector2(randomX, Random.Range(-blackScreenRect.rect.height / 2, blackScreenRect.rect.height / 2));
 
             Destroy(glitch, Random.Range(0.1f, glitchEffectDuration));

@@ -9,6 +9,7 @@ public class TvTurnOffEffect : MonoBehaviour
     public int numberOfGlitches = 20;  // Cantidad de glitches/lineas
     public float glitchEffectDuration = 0.2f;  // Duración del glitch
     public float shakeAmount = 5f;  // Cantidad de sacudida
+    public Color glitchLineColor = new Color(0f, 1f, 0f, 0.7f);  // Color de las líneas de glitch
 
     private float elapsedTime = 0f;
     private RectTransform blackScreenRect;
@@ -104,7 +105,7 @@ public class TvTurnOffEffect : MonoBehaviour
             glitch.transform.SetParent(blackScreen.transform);
 
             Image glitchImage = glitch.AddComponent<Image>();
-            glitchImage.color = new Color(0f, 1f, 0f, 0.7f);  // Verde transparente (inspirado en Matrix)
+            glitchImage.color = glitchLineColor;  // Utiliza la variable glitchLineColor para definir el color
 
             RectTransform glitchRect = glitch.GetComponent<RectTransform>();
             glitchRect.sizeDelta = new Vector2(randomWidth, randomHeight);  // Líneas de diferentes tamaños
