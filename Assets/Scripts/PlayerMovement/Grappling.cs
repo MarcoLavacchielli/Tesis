@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // Necesario para manipular UI
+using UnityEngine.UI;
 
 public class Grappling : MonoBehaviour
 {
@@ -39,6 +39,8 @@ public class Grappling : MonoBehaviour
     private float colorTransitionSpeed = 2.0f;
     private bool isCoolingDown;
 
+    [SerializeField] private bool hasTouchedGroundOrWall; // Track if the player has touched the ground or wall
+
     private void Awake()
     {
         audioM = FindObjectOfType<AudioManager>();
@@ -58,8 +60,6 @@ public class Grappling : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(grappleKey)) StartGrapple();
-
         if (Input.GetKeyDown(grappleKey) && CanGrapple())
         {
             StartGrapple();
@@ -95,115 +95,117 @@ public class Grappling : MonoBehaviour
 
     private bool CanGrapple()
     {
-        // Comprobar si el jugador está en wallrunning
-        bool isWallRunning = CheckWallRunning(); // Llama a un método que verifique el estado de wallrunning.
+        bool isWallRunning = CheckWallRunning();
 
-        // Si está wallrunning, no se puede usar el grappling
         if (isWallRunning)
         {
             return false;
         }
 
-        // Realizar un raycast para verificar si hay un objeto grappleable
         RaycastHit[] hits = Physics.RaycastAll(cam.position, cam.forward, maxGrappleDistance);
+        RaycastHit? grappleHit = null;
+        RaycastHit? avoidHit = null;
+
+        // Revisar todos los hits
         foreach (RaycastHit hit in hits)
         {
-            // Comprobar si el objeto pertenece a la capa de objetos grappleables
             if (((1 << hit.collider.gameObject.layer) & whatIsGrappleable) != 0)
             {
-                return true; // Hay un objeto grappleable a la vista
+                grappleHit = hit;
+            }
+            else if (((1 << hit.collider.gameObject.layer) & avoidLayers) != 0)
+            {
+                avoidHit = hit;
             }
         }
 
-        // Si no hay objeto grappleable, no se puede usar el gancho
+        // Si hay un objeto en la capa de evitación entre el jugador y el objeto enganchable
+        if (avoidHit.HasValue && (!grappleHit.HasValue || avoidHit.Value.distance < grappleHit.Value.distance))
+        {
+            // Bloquear el enganche y regresar falso
+            return false;
+        }
+
+        // Si hay un objeto enganchable y no está bloqueado por un objeto de evitación
+        if (grappleHit.HasValue)
+        {
+            return true;
+        }
+
         return false;
     }
 
+
     private bool CheckWallRunning()
     {
-        // Aquí, se puede verificar si el jugador está wallrunning.
-        // Supongamos que tienes una referencia a la clase de wallrunning (WallRunningAdvanced).
         WallRunningAdvanced wallRunningScript = GetComponent<WallRunningAdvanced>();
-        return wallRunningScript != null && wallRunningScript.wallrunning; // Asegúrate de que 'wallrunning' esté definido en WallRunningAdvanced
+        return wallRunningScript != null && wallRunningScript.wallrunning;
     }
 
     private void CheckForGrappleable()
     {
         RaycastHit[] hits = Physics.RaycastAll(cam.position, cam.forward, maxGrappleDistance);
 
-        // Variables para controlar si hemos golpeado algo en cada capa
         RaycastHit? grappleHit = null;
         RaycastHit? avoidHit = null;
 
-        // Iterar sobre los resultados de todos los raycasts
         foreach (RaycastHit hit in hits)
         {
-            // Comprobar si el objeto pertenece a la capa de objetos grappleables
             if (((1 << hit.collider.gameObject.layer) & whatIsGrappleable) != 0)
             {
-                grappleHit = hit; // Si encontramos un objeto grappleable, lo almacenamos
+                grappleHit = hit;
             }
-            // Comprobar si el objeto pertenece a las capas que queremos evitar
             else if (((1 << hit.collider.gameObject.layer) & avoidLayers) != 0)
             {
-                avoidHit = hit; // Si encontramos un objeto en avoidLayers, lo almacenamos
+                avoidHit = hit;
             }
         }
 
-        // Si existe un objeto en avoidLayers y está más cerca que el objeto grappleable, lo bloqueamos
         if (avoidHit.HasValue && (!grappleHit.HasValue || avoidHit.Value.distance < grappleHit.Value.distance))
         {
-            // Si hay un objeto en avoidLayers que bloquea la visión, ponemos la mira en blanco
             crosshair.color = Color.white;
         }
         else if (grappleHit.HasValue)
         {
-            // Si encontramos un objeto grappleable y no está bloqueado, ponemos la mira en verde
             crosshair.color = Color.green;
         }
         else
         {
-            // Si no encontramos nada grappleable o bloqueado, mantenemos la mira en blanco
             crosshair.color = Color.white;
         }
     }
 
     private void LateUpdate()
     {
-        // if (grappling)
-        //    lr.SetPosition(0, gunTip.position);
+        // Update the LineRenderer here if necessary
     }
 
     private void StartGrapple()
     {
-        // Permitir grappling si el cooldown está en 0, o si el jugador está en modo wallrunning
-        if ((grapplingCdTimer > 0 || grappling)) return;
+        if (grapplingCdTimer > 0 || grappling) return;
 
         grappling = true;
         audioM.PlaySfx(2);
         pm.freeze = true;
+        hasTouchedGroundOrWall = false; // Reset this flag when starting a new grapple
 
         RaycastHit[] hits = Physics.RaycastAll(cam.position, cam.forward, maxGrappleDistance);
 
         RaycastHit? grappleHit = null;
         RaycastHit? avoidHit = null;
 
-        // Iterar sobre los resultados de todos los raycasts
         foreach (RaycastHit hit in hits)
         {
-            // Comprobar si el objeto pertenece a la capa de objetos grappleables
             if (((1 << hit.collider.gameObject.layer) & whatIsGrappleable) != 0)
             {
-                grappleHit = hit; // Si encontramos un objeto grappleable, lo almacenamos
+                grappleHit = hit;
             }
-            // Comprobar si el objeto pertenece a las capas que queremos evitar
             else if (((1 << hit.collider.gameObject.layer) & avoidLayers) != 0)
             {
-                avoidHit = hit; // Si encontramos un objeto en avoidLayers, lo almacenamos
+                avoidHit = hit;
             }
         }
 
-        // Si existe un objeto en avoidLayers y está más cerca que el objeto grappleable, bloqueamos el grappling
         if (avoidHit.HasValue && (!grappleHit.HasValue || avoidHit.Value.distance < grappleHit.Value.distance))
         {
             Debug.Log("Gancho bloqueado por objeto en capas evitadas.");
@@ -211,15 +213,11 @@ public class Grappling : MonoBehaviour
         }
         else if (grappleHit.HasValue)
         {
-            // Si encontramos un objeto grappleable, ejecutamos el grappling
             grapplePoint = grappleHit.Value.point;
-
-            // Ejecutar el grappling
             Invoke(nameof(ExecuteGrapple), grappleDelayTime);
         }
         else
         {
-            // Si no golpeamos nada grappleable, el punto final es en línea recta
             grapplePoint = cam.position + cam.forward * maxGrappleDistance;
             Invoke(nameof(StopGrapple), grappleDelayTime);
         }
@@ -238,21 +236,38 @@ public class Grappling : MonoBehaviour
         if (grapplePointRelativeYPos < 0) highestPointOnArc = overshootYAxis;
 
         pm.JumpToPosition(grapplePoint, highestPointOnArc);
-
-        // Aquí activamos StopGrapple pero **NO** activamos el cooldown inmediatamente
-        // Permitimos que el jugador complete el viaje antes de iniciar el cooldown
-        Invoke(nameof(StopGrapple), 1f);
     }
 
     public void StopGrapple()
     {
-        pm.freeze = false;
-        grappling = false;
-
-        // Una vez que el grappling ha terminado, **ahora** activamos el cooldown
-        if (grapplingCdTimer <= 0)
+        if (hasTouchedGroundOrWall) // Only stop grapple if the player has touched ground or wall
         {
-            grapplingCdTimer = grapplingCd;
+            pm.freeze = false;
+            grappling = false;
+
+            if (grapplingCdTimer <= 0)
+            {
+                grapplingCdTimer = grapplingCd;
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Check if the player touches ground or wall to stop the grapple
+        if (((1 << collision.gameObject.layer) & avoidLayers) != 0)
+        {
+            hasTouchedGroundOrWall = true;
+            StopGrapple();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (((1 << other.gameObject.layer) & avoidLayers) != 0)
+        {
+            hasTouchedGroundOrWall = true;
+            StopGrapple();
         }
     }
 
