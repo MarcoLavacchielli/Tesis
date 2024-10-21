@@ -31,14 +31,8 @@ public class Grappling : MonoBehaviour
     private void Start()
     {
         pm = GetComponent<PlayerMovementGrappling>();
-        rb = GetComponent<Rigidbody>();
-
-        if (rb != null)
-        {
-            rb.interpolation = RigidbodyInterpolation.Interpolate;
-        }
+        rb = GetComponent<Rigidbody>(); // Tomamos el Rigidbody una vez
     }
-
 
     private void Update()
     {
@@ -76,7 +70,7 @@ public class Grappling : MonoBehaviour
 
         lr.enabled = true;
         //lr.SetPosition(0, gunTip.position);
-        lr.SetPosition(1, grapplePoint);
+        //lr.SetPosition(1, grapplePoint);
     }
 
     private void MoveTowardsGrapplePoint()
@@ -89,8 +83,7 @@ public class Grappling : MonoBehaviour
             reachedTarget = true;
         }
 
-        // Reduce la velocidad a medida que te acercas al objetivo
-        float fractionOfJourney = Mathf.SmoothStep(0, 1, distanceCovered / journeyLength);
+        float fractionOfJourney = distanceCovered / journeyLength;
 
         Vector3 targetPosition = Vector3.Lerp(initialPosition, grapplePoint, fractionOfJourney);
         transform.position = targetPosition;
@@ -101,37 +94,22 @@ public class Grappling : MonoBehaviour
         }
     }
 
-
     private void ApplyGrappleCompletion()
     {
-        StopGrapple();
+        StopGrapple(); // Paramos el grapple y aplicamos la física
 
         if (rb != null)
         {
-            StartCoroutine(SmoothApplyForwardMomentum());
+            // Calculamos la dirección en la que el jugador estaba yendo antes de terminar el grapple
+            Vector3 grappleDirection = (grapplePoint - initialPosition).normalized;
+
+            // Aplicamos la velocidad constante hacia adelante, usando la dirección hacia el punto de enganche
+            Vector3 forwardMomentum = grappleDirection * postGrappleForwardVelocity;
+
+            // Añadimos también el efecto de la gravedad para que caiga naturalmente
+            rb.velocity = forwardMomentum + Vector3.down * pm.jumpForce * 0.5f;
         }
     }
-
-    private IEnumerator SmoothApplyForwardMomentum()
-    {
-        Vector3 grappleDirection = (grapplePoint - initialPosition).normalized;
-        Vector3 forwardMomentum = grappleDirection * postGrappleForwardVelocity;
-
-        // Suavizamos la aplicación de la fuerza en 0.2 segundos
-        float duration = 0.2f;
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            rb.velocity = Vector3.Lerp(Vector3.zero, forwardMomentum + Vector3.down * pm.jumpForce * 0.5f, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        // Aseguramos la velocidad final
-        rb.velocity = forwardMomentum + Vector3.down * pm.jumpForce * 0.5f;
-    }
-
 
     public void StopGrapple()
     {
