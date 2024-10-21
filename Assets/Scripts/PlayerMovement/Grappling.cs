@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; // Asegúrate de incluir esto para trabajar con UI
 
 public class Grappling : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class Grappling : MonoBehaviour
     public Transform cam;
     public Transform gunTip;
     public LayerMask whatIsGrappleable;
-    public LineRenderer lr;
+    public LayerMask avoidLayer; // Capa para evitar grappling
+    public Image grappleIndicator; // Referencia a la imagen que queremos cambiar
 
     [Header("Grappling")]
     public float maxGrappleDistance;
@@ -32,6 +34,7 @@ public class Grappling : MonoBehaviour
     {
         pm = GetComponent<PlayerMovementGrappling>();
         rb = GetComponent<Rigidbody>(); // Tomamos el Rigidbody una vez
+        grappleIndicator.color = Color.white; // Asegúrate de que el color inicial sea blanco
     }
 
     private void Update()
@@ -45,6 +48,36 @@ public class Grappling : MonoBehaviour
         {
             MoveTowardsGrapplePoint();
         }
+        else
+        {
+            // Comprobar si hay un objeto grapable en el rango
+            CheckGrappleable();
+        }
+    }
+
+    private void CheckGrappleable()
+    {
+        RaycastHit hit;
+        // Realizamos el raycast para detectar un objeto grapable
+        if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
+        {
+            // Verificamos si hay un objeto en la capa de evitar entre la cámara y el objeto grapable
+            if (!Physics.Linecast(cam.position, hit.point, avoidLayer))
+            {
+                // Si hay un objeto grappleable y no hay nada en la capa avoid, cambiamos el color a verde
+                grappleIndicator.color = Color.green;
+            }
+            else
+            {
+                // Si hay un objeto en la capa de evitar, no cambiamos el color
+                grappleIndicator.color = Color.white;
+            }
+        }
+        else
+        {
+            // Si no hay objeto, volvemos a blanco
+            grappleIndicator.color = Color.white;
+        }
     }
 
     private void StartGrapple()
@@ -54,10 +87,21 @@ public class Grappling : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
         {
-            grapplePoint = hit.point;
+            // Verificamos si hay un objeto en la capa de evitar entre la cámara y el objeto grapable
+            if (!Physics.Linecast(cam.position, hit.point, avoidLayer))
+            {
+                grapplePoint = hit.point;
+                grappleIndicator.color = Color.green; // Cambiamos a verde al enganchar
+            }
+            else
+            {
+                grappleIndicator.color = Color.white; // Si hay un objeto en evitar, no cambiamos el color
+                return; // No se puede enganchar
+            }
         }
         else
         {
+            grappleIndicator.color = Color.white; // Si no hay objeto, vuelve a blanco
             return; // No hay un punto válido de enganche
         }
 
@@ -68,9 +112,7 @@ public class Grappling : MonoBehaviour
         journeyLength = Vector3.Distance(initialPosition, grapplePoint);
         startTime = Time.time;
 
-        lr.enabled = true;
-        //lr.SetPosition(0, gunTip.position);
-        //lr.SetPosition(1, grapplePoint);
+        // Otras configuraciones que puedas necesitar
     }
 
     private void MoveTowardsGrapplePoint()
@@ -116,7 +158,7 @@ public class Grappling : MonoBehaviour
         pm.freeze = false; // Aseguramos que el jugador no esté congelado
         isGrappling = false;
 
-        lr.enabled = false; // Desactivamos el LineRenderer
+        grappleIndicator.color = Color.white; // Volvemos a blanco cuando se detiene el grapple
         reachedTarget = false;
     }
 
