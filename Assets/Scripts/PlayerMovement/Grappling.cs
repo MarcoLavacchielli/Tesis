@@ -16,9 +16,9 @@ public class Grappling : MonoBehaviour
     public LineRenderer lr;
     public Material LuzGancho;
 
-    public WallRunningAdvanced wallRunning;
+    private WallRunningAdvanced wallRunning;
 
-    public Image crosshair; // Referencia a la imagen de la mira en el Canvas
+    public Image crosshair; // Puntito del canvas
 
     [Header("Grappling")]
     public float maxGrappleDistance;
@@ -35,11 +35,11 @@ public class Grappling : MonoBehaviour
     public KeyCode grappleKey = KeyCode.Mouse1;
 
     private bool grappling;
-    private Color targetColor;
+    private Color targetColor; // En caso de poner un arma o material, esta es la textura que cambia de color
     private float colorTransitionSpeed = 2.0f;
     private bool isCoolingDown;
 
-    [SerializeField] private bool hasTouchedGroundOrWall; // Track if the player has touched the ground or wall
+    [SerializeField] private bool hasTouchedGroundOrWall; // Booleano para ver si funciona el render (quedo medio irrele a este punto)
 
     private void Awake()
     {
@@ -55,7 +55,7 @@ public class Grappling : MonoBehaviour
     {
         pm = GetComponent<PlayerMovementGrappling>();
         wallRunning = GetComponent<WallRunningAdvanced>();
-        targetColor = Color.cyan; // Color inicial
+        targetColor = Color.cyan;
     }
 
     private void Update()
@@ -65,7 +65,7 @@ public class Grappling : MonoBehaviour
             StartGrapple();
         }
 
-        // Manejo del cooldown sin interferir con el movimiento mientras está grappling
+        // Cooldown, junto con el cambio de material
         if (grapplingCdTimer > 0)
         {
             grapplingCdTimer -= Time.deltaTime;
@@ -106,7 +106,7 @@ public class Grappling : MonoBehaviour
         RaycastHit? grappleHit = null;
         RaycastHit? avoidHit = null;
 
-        // Revisar todos los hits
+        // Para que el gancho solo se use en ganchos, que solo pase analice layers de whatisgrappable
         foreach (RaycastHit hit in hits)
         {
             if (((1 << hit.collider.gameObject.layer) & whatIsGrappleable) != 0)
@@ -119,14 +119,11 @@ public class Grappling : MonoBehaviour
             }
         }
 
-        // Si hay un objeto en la capa de evitación entre el jugador y el objeto enganchable
         if (avoidHit.HasValue && (!grappleHit.HasValue || avoidHit.Value.distance < grappleHit.Value.distance))
         {
-            // Bloquear el enganche y regresar falso
             return false;
         }
 
-        // Si hay un objeto enganchable y no está bloqueado por un objeto de evitación
         if (grappleHit.HasValue)
         {
             return true;
@@ -175,19 +172,16 @@ public class Grappling : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
-    {
-        // Update the LineRenderer here if necessary
-    }
-
     private void StartGrapple()
     {
+        Debug.Log("FLAG EMPIEZA GANCHO");
+
         if (grapplingCdTimer > 0 || grappling) return;
 
         grappling = true;
         audioM.PlaySfx(2);
         pm.freeze = true;
-        hasTouchedGroundOrWall = false; // Reset this flag when starting a new grapple
+        hasTouchedGroundOrWall = false; // Reseteo el bool, no toco
 
         RaycastHit[] hits = Physics.RaycastAll(cam.position, cam.forward, maxGrappleDistance);
 
@@ -225,6 +219,8 @@ public class Grappling : MonoBehaviour
 
     private void ExecuteGrapple()
     {
+        Debug.Log("EJECUTA EL VIAJE");
+
         pm.freeze = false;
         audioM.PlaySfx(6);
 
@@ -240,7 +236,9 @@ public class Grappling : MonoBehaviour
 
     public void StopGrapple()
     {
-        if (hasTouchedGroundOrWall) // Only stop grapple if the player has touched ground or wall
+        Debug.Log("EL GANCHO TERMINA");
+
+        if (hasTouchedGroundOrWall)
         {
             pm.freeze = false;
             grappling = false;
@@ -254,7 +252,6 @@ public class Grappling : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Check if the player touches ground or wall to stop the grapple
         if (((1 << collision.gameObject.layer) & avoidLayers) != 0)
         {
             hasTouchedGroundOrWall = true;
@@ -264,6 +261,7 @@ public class Grappling : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Se stopea el gancho
         if (((1 << other.gameObject.layer) & avoidLayers) != 0)
         {
             hasTouchedGroundOrWall = true;
