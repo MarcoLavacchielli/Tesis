@@ -162,6 +162,15 @@ public class Grappling : MonoBehaviour
         reachedTarget = false;
     }
 
+    // Nueva función para detener el grapple desde fuera
+    public void InterruptGrapple()
+    {
+        if (isGrappling)
+        {
+            StopGrapple();
+        }
+    }
+
     public bool IsGrappling()
     {
         return isGrappling;

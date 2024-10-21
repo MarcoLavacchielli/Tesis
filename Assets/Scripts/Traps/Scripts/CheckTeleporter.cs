@@ -9,9 +9,15 @@ public class CheckTeleporter : MonoBehaviour
     [SerializeField] private PlayerMovementGrappling player;
     [SerializeField] private Rigidbody playerRb;
 
+    // Asigna el script de Grappling aquí
+    [SerializeField] private Grappling grapplingScript;
+
     public void Activate()
     {
         Debug.Log("Spike trap activated!");
+
+        // Detener el grappling si está activo
+        grapplingScript.InterruptGrapple();
 
         // Ensure we have the player's Rigidbody
         if (playerRb != null)
@@ -32,6 +38,9 @@ public class CheckTeleporter : MonoBehaviour
     public void Death()
     {
         Debug.Log("Spike trap activated!");
+
+        // Detener el grappling si está activo
+        grapplingScript.InterruptGrapple();
 
         // Ensure we have the player's Rigidbody
         if (playerRb != null)
