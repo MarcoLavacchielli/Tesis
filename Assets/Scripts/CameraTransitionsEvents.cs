@@ -72,6 +72,11 @@ public class CameraTransitionsEvents : MonoBehaviour
         pieza2.transform.position = destino2;
         CurrentTrap = 25;
     }
+    public void ThirdLevel()
+    {
+        NewTraps[CurrentTrap].gameObject.SetActive(true);
+        CurrentTrap++;
+    }
 
     public void SecondTransition()
     {
