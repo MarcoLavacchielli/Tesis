@@ -33,7 +33,7 @@ public class PauseMenu : MonoBehaviour
 
             //
             playerMovement.enabled = false;
-            playerGrap.enabled = false;
+            //playerGrap.enabled = false;
             camMovement.enabled = false;
         }
         else
@@ -43,7 +43,7 @@ public class PauseMenu : MonoBehaviour
 
             //
             playerMovement.enabled = true;
-            playerGrap.enabled = true;
+            //playerGrap.enabled = true;
             camMovement.enabled = true;
 
             Time.timeScale = 1f;
