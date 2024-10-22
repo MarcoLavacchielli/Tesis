@@ -37,6 +37,8 @@ public class Grappling : MonoBehaviour
         pm = GetComponent<PlayerMovementGrappling>();
         rb = GetComponent<Rigidbody>(); // Tomamos el Rigidbody una vez
         grappleIndicator.color = Color.white; // Asegúrate de que el color inicial sea blanco
+
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     private void Update()
@@ -140,28 +142,44 @@ public class Grappling : MonoBehaviour
         }
     }
 
+    [Header("Post Grapple Settings")]
+    public float upwardImpulse = 3f; // Ajusta el valor según lo que necesites
+
+
     private void ApplyGrappleCompletion()
     {
-        StopGrapple(); // Paramos el grapple y aplicamos la física
+        pm.freeze = false; // Aseguramos que el jugador no esté congelado
+        isGrappling = false;
+        StopGrappleUnique(); // Paramos el grapple y aplicamos la física
 
         if (rb != null)
         {
             // Calculamos la dirección en la que el jugador estaba yendo antes de terminar el grapple
             Vector3 grappleDirection = (grapplePoint - initialPosition).normalized;
 
-            // Aplicamos la velocidad constante hacia adelante, usando la dirección hacia el punto de enganche
+            // Aplica un impulso constante hacia adelante en la dirección del grapple
             Vector3 forwardMomentum = grappleDirection * postGrappleForwardVelocity;
 
-            // Añadimos también el efecto de la gravedad para que caiga naturalmente
-            rb.velocity = forwardMomentum + Vector3.down * pm.jumpForce * 0.5f;
+            // Siempre aplicamos el mismo impulso hacia arriba
+            Vector3 upwardMomentum = Vector3.up * upwardImpulse; // Ajuste de variable 
+
+            // Asegurarse de que se aplica el mismo impulso sin importar las circunstancias
+            rb.velocity = forwardMomentum + upwardMomentum; // Usa un valor constante aquí
         }
     }
+
 
     public void StopGrapple()
     {
         pm.freeze = false; // Aseguramos que el jugador no esté congelado
         isGrappling = false;
 
+        grappleIndicator.color = Color.white; // Volvemos a blanco cuando se detiene el grapple
+        reachedTarget = false;
+    }
+
+    public void StopGrappleUnique()
+    {
         grappleIndicator.color = Color.white; // Volvemos a blanco cuando se detiene el grapple
         reachedTarget = false;
     }
