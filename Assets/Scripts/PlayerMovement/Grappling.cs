@@ -13,6 +13,8 @@ public class Grappling : MonoBehaviour
     public LayerMask avoidLayer; // Capa para evitar grappling
     public Image grappleIndicator; // Referencia a la imagen que queremos cambiar
 
+    public PauseMenu pauseMenu;
+
     [Header("Grappling")]
     public float maxGrappleDistance;
     public float overshootYAxis;
@@ -39,6 +41,8 @@ public class Grappling : MonoBehaviour
 
     private void Update()
     {
+        if (pauseMenu.isPaused) return;
+
         if (Input.GetKeyDown(KeyCode.Mouse1)) // Click derecho para empezar el grapple
         {
             StartGrapple();
