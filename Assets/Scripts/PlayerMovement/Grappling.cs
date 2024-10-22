@@ -114,6 +114,9 @@ public class Grappling : MonoBehaviour
 
     private void MoveTowardsGrapplePoint()
     {
+        Vector3 direction = (grapplePoint - transform.position).normalized;
+        rb.velocity = direction * grappleSpeed;
+
         float distanceCovered = (Time.time - startTime) * grappleSpeed;
 
         if (distanceCovered >= journeyLength)
