@@ -33,7 +33,7 @@ public class LaserRay : MonoBehaviour
 
     private void Awake()
     {
-        animationSpeed = 15f;
+      
         lineRenderer.positionCount = 2;
         animationSpeed = 15f + animationSpeedPlus;
         if (startPrefab != null && instantiatedStartPrefab == null)
