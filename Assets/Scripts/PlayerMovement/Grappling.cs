@@ -10,8 +10,8 @@ public class Grappling : MonoBehaviour
     public Transform cam;
     public Transform gunTip;
     public LayerMask whatIsGrappleable;
-    public LayerMask avoidLayer; //Cosas que el raycast anula el gancho
-    public Image grappleIndicator; // Circulito del hud
+    public LayerMask avoidLayer;
+    public Image grappleIndicator;
 
     public PauseMenu pauseMenu;
 
@@ -19,7 +19,7 @@ public class Grappling : MonoBehaviour
     public float maxGrappleDistance;
     public float overshootYAxis;
 
-    private Vector3 grapplePoint;
+    private Transform grappleTarget; // Guardamos el transform del objeto con el que hacemos contacto
     private bool isGrappling = false;
 
     [Header("Movement")]
@@ -43,9 +43,8 @@ public class Grappling : MonoBehaviour
     private void Update()
     {
         if (pauseMenu.isPaused) return;
-        //Si esta pausado que vuelva (facu maneja todo desde la pausa pero este se hace desde aca porque se rompe)
 
-        if (Input.GetKeyDown(KeyCode.Mouse1)) 
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             StartGrapple();
         }
@@ -89,31 +88,34 @@ public class Grappling : MonoBehaviour
         {
             if (!Physics.Linecast(cam.position, hit.point, avoidLayer))
             {
-                grapplePoint = hit.point;
-                grappleIndicator.color = Color.green; 
+                grappleTarget = hit.transform; // Guardamos el transform del objeto con el que nos enganchamos
+                grappleIndicator.color = Color.green;
             }
             else
             {
-                grappleIndicator.color = Color.white; 
-                return; 
+                grappleIndicator.color = Color.white;
+                return;
             }
         }
         else
         {
             grappleIndicator.color = Color.white;
-            return; 
+            return;
         }
 
         isGrappling = true;
-        pm.freeze = false; 
+        pm.freeze = false;
 
         initialPosition = transform.position;
-        journeyLength = Vector3.Distance(initialPosition, grapplePoint);
+        journeyLength = Vector3.Distance(initialPosition, grappleTarget.position); // Usamos la posición del objeto dinámico
         startTime = Time.time;
     }
 
     private void MoveTowardsGrapplePoint()
     {
+        // Actualizamos el punto del gancho cada frame, sigue la posición del objeto en movimiento
+        Vector3 grapplePoint = grappleTarget.position;
+
         Vector3 direction = (grapplePoint - transform.position).normalized;
         rb.velocity = direction * grappleSpeed;
 
@@ -137,49 +139,40 @@ public class Grappling : MonoBehaviour
     }
 
     [Header("Post Grapple Settings")]
-    public float upwardImpulse = 3f; // AEmpuje hacia delante
-    public float postGrappleForwardVelocity = 10f; // VEmpuje Hacia arriba
-
+    public float upwardImpulse = 3f;
+    public float postGrappleForwardVelocity = 10f;
 
     private void ApplyGrappleCompletion()
     {
-        pm.freeze = false; 
+        pm.freeze = false;
         isGrappling = false;
-        StopGrappleUnique(); 
+        StopGrappleUnique();
 
         if (rb != null)
         {
-            // Direccion antes de tirar el gancho
-            Vector3 grappleDirection = (grapplePoint - initialPosition).normalized;
+            Vector3 grappleDirection = (grappleTarget.position - initialPosition).normalized;
 
-            // Impulso constante hacia adelante en la dirección del grapple
             Vector3 forwardMomentum = grappleDirection * postGrappleForwardVelocity;
+            Vector3 upwardMomentum = Vector3.up * upwardImpulse;
 
-            // Impulso hacia arriba
-            Vector3 upwardMomentum = Vector3.up * upwardImpulse; // Ajuste de variable 
-
-            // Mismo impulso sin importar las circunstancias
-            rb.velocity = forwardMomentum + upwardMomentum; // Valor FIJO
+            rb.velocity = forwardMomentum + upwardMomentum;
         }
     }
 
-
     public void StopGrapple()
     {
-        pm.freeze = false; 
+        pm.freeze = false;
         isGrappling = false;
-
-        grappleIndicator.color = Color.white; 
+        grappleIndicator.color = Color.white;
         reachedTarget = false;
     }
 
     public void StopGrappleUnique()
     {
-        grappleIndicator.color = Color.white; 
+        grappleIndicator.color = Color.white;
         reachedTarget = false;
     }
 
-    //Corta gancho desde otros scripts
     public void InterruptGrapple()
     {
         if (isGrappling)
@@ -195,6 +188,6 @@ public class Grappling : MonoBehaviour
 
     public Vector3 GetGrapplePoint()
     {
-        return grapplePoint;
+        return grappleTarget.position; // Devolvemos la posición actual del objeto
     }
 }
