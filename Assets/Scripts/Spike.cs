@@ -13,6 +13,8 @@ public class Spike : Trap
     private PlayerMovementGrappling player;
     private Rigidbody playerRb;
 
+    public CheckTeleporter check;
+
     /*private void Awake()
     {
         diamond = GetComponent<TakeDiamont>(); // Asumiendo que el diamante está en el mismo objeto que la trampa
@@ -37,6 +39,7 @@ public class Spike : Trap
         // Si el diamante no ha sido tomado, reinicia la escena
         if (diamond.diamondTake == false)
         {
+            /*
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
             // Si el diamante ha sido tomado, teletransportamos al jugador al checkpoint
@@ -50,9 +53,12 @@ public class Spike : Trap
 
                 Debug.Log("Jugador teletransportado a la posición del checkpoint: " + deathPoint);
             }
+            */
+            check.Death();
         }
         else
         {
+            /*
             // Si el diamante ha sido tomado, teletransportamos al jugador al checkpoint
             if (playerRb != null)
             {
@@ -64,6 +70,8 @@ public class Spike : Trap
 
                 Debug.Log("Jugador teletransportado a la posición del checkpoint: " + checkPoint);
             }
+            */
+            check.Activate();
         }
     }
 }
