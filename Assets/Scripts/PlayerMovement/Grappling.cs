@@ -46,7 +46,14 @@ public class Grappling : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            StartGrapple();
+            if (isGrappling)
+            {
+                InterruptGrapple();
+            }
+            else
+            {
+                StartGrapple();
+            }
         }
 
         if (isGrappling)
