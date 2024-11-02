@@ -4,13 +4,29 @@ using UnityEngine;
 
 public class CheckTeleporter : MonoBehaviour
 {
-    [SerializeField] private Vector3 checkPoint;
-    [SerializeField] private Vector3 deathPoint;
+    [SerializeField] private List<Vector3> waypoints; // Lista de posiciones de waypoints
     [SerializeField] private PlayerMovementGrappling player;
     [SerializeField] private Rigidbody playerRb;
 
     // Asigna el script de Grappling aquí
     [SerializeField] private Grappling grapplingScript;
+
+    public int currentWaypointIndex = 0; // Índice del waypoint actual
+
+    private void Awake()
+    {
+        currentWaypointIndex = 0;
+    }
+
+    // Llamar cuando el jugador alcance un nuevo waypoint para actualizar el índice
+    public void ReachNextWaypoint()
+    {
+        if (currentWaypointIndex < waypoints.Count - 1)
+        {
+            currentWaypointIndex++;
+            Debug.Log("Nuevo waypoint alcanzado: " + waypoints[currentWaypointIndex]);
+        }
+    }
 
     public void Activate()
     {
@@ -19,18 +35,18 @@ public class CheckTeleporter : MonoBehaviour
         // Detener el grappling si está activo
         grapplingScript.InterruptGrapple();
 
-        // Ensure we have the player's Rigidbody
-        if (playerRb != null)
+        // Asegurarse de tener el Rigidbody del jugador
+        if (playerRb != null && currentWaypointIndex < waypoints.Count)
         {
-            // Make the Rigidbody kinematic to prevent further movement
+            // Hacer el Rigidbody cinemático para evitar movimiento
             playerRb.isKinematic = true;
 
-            // Immediately set the player's position to the checkpoint
-            player.transform.position = checkPoint;
+            // Teletransportar al jugador al waypoint activo
+            player.transform.position = waypoints[waypoints.Count - 1];
 
-            Debug.Log("Player teleported to the checkpoint: " + checkPoint);
+            Debug.Log("Jugador teletransportado al último waypoint: " + waypoints[waypoints.Count - 1]);
 
-            // Restore the Rigidbody to non-kinematic after the teleportation
+            // Restaurar el Rigidbody a no cinemático después de la teletransportación
             StartCoroutine(ResetRigidbody());
         }
     }
@@ -42,34 +58,34 @@ public class CheckTeleporter : MonoBehaviour
         // Detener el grappling si está activo
         grapplingScript.InterruptGrapple();
 
-        // Ensure we have the player's Rigidbody
-        if (playerRb != null)
+        // Asegurarse de tener el Rigidbody del jugador
+        if (playerRb != null && waypoints.Count > 0)
         {
-            // Make the Rigidbody kinematic to prevent further movement
+            // Hacer el Rigidbody cinemático para evitar movimiento
             playerRb.isKinematic = true;
 
-            // Immediately set the player's deathPoint to the checkpoint
-            player.transform.position = deathPoint;
+            // Teletransportar al jugador al punto de muerte (primer waypoint)
+            player.transform.position = waypoints[currentWaypointIndex];
 
-            Debug.Log("Player teleported to the death point: " + deathPoint);
+            Debug.Log("Jugador teletransportado al punto de origen: " + waypoints[0]);
 
-            // Restore the Rigidbody to non-kinematic after the teleportation
+            // Restaurar el Rigidbody a no cinemático después de la teletransportación
             StartCoroutine(ResetRigidbody());
         }
     }
 
     private IEnumerator ResetRigidbody()
     {
-        // Optionally, wait a frame to ensure the teleportation happens
+        // Opcionalmente, esperar un frame para asegurar que la teletransportación ocurra
         yield return null;
 
-        // Restore Rigidbody to normal (non-kinematic) behavior
+        // Restaurar el Rigidbody a comportamiento normal (no cinemático)
         playerRb.isKinematic = false;
 
-        // Ensure the player's velocity is zero after the teleport
+        // Asegurarse de que la velocidad del jugador sea cero después de la teletransportación
         playerRb.velocity = Vector3.zero;
         playerRb.angularVelocity = Vector3.zero;
 
-        Debug.Log("Player movement re-enabled after teleportation.");
+        Debug.Log("Movimiento del jugador habilitado después de la teletransportación.");
     }
 }
