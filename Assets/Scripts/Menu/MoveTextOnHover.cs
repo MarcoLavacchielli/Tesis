@@ -1,64 +1,48 @@
 using UnityEngine;
-using TMPro;  // Necesario si estás usando TextMeshPro
+using TMPro;
 using UnityEngine.EventSystems;
-using Color = UnityEngine.Color; // Importante para definir colores
+using Color = UnityEngine.Color;
 
 public class MoveTextOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public TextMeshProUGUI textoMover;  // Referencia al texto (si es TextMeshPro)
-    // Si usas el Text normal de Unity, usa: public Text textoMover;
+    public TextMeshProUGUI textoMover;
+    public float posicionFinalX;
+    private float posicionInicialX;
+    private bool mouseEncima = false;
+    private float velocidad = 5f;
 
-    public float posicionFinalX; // Define a qué posición en X quieres mover el texto
-    private float posicionInicialX; // Guarda la posición original en X
-
-    private bool mouseEncima = false; // Estado del mouse sobre el botón
-    private float velocidad = 5f; // Velocidad de interpolación
-
-    private Color colorInicial; // Color original del texto
-    private Color colorFinal = Color.green; // Color final cuando el mouse está sobre el texto
+    private Color colorInicial;
+    private Color colorFinal = Color.green;
 
     private void Start()
     {
-        // Guardamos la posición inicial en X del texto
         posicionInicialX = textoMover.rectTransform.localPosition.x;
-
-        // Guardamos el color original del texto
         colorInicial = textoMover.color;
     }
 
     private void Update()
     {
-        // Interpolación lerpeada en el eje X
         float objetivoX = mouseEncima ? posicionFinalX : posicionInicialX;
         Vector3 nuevaPosicion = new Vector3(objetivoX, textoMover.rectTransform.localPosition.y, textoMover.rectTransform.localPosition.z);
-        textoMover.rectTransform.localPosition = Vector3.Lerp(textoMover.rectTransform.localPosition, nuevaPosicion, Time.deltaTime * velocidad);
+        textoMover.rectTransform.localPosition = Vector3.Lerp(textoMover.rectTransform.localPosition, nuevaPosicion, Time.unscaledDeltaTime * velocidad);
 
-        // Cambiar el color del texto
-        textoMover.color = Color.Lerp(textoMover.color, mouseEncima ? colorFinal : colorInicial, Time.deltaTime * velocidad);
+        textoMover.color = Color.Lerp(textoMover.color, mouseEncima ? colorFinal : colorInicial, Time.unscaledDeltaTime * velocidad);
     }
 
-    // Evento cuando el mouse entra en el botón
     public void OnPointerEnter(PointerEventData eventData)
     {
-        mouseEncima = true; // Cambiamos el estado a verdadero
+        mouseEncima = true;
     }
 
-    // Evento cuando el mouse sale del botón
     public void OnPointerExit(PointerEventData eventData)
     {
-        mouseEncima = false; // Cambiamos el estado a falso
+        mouseEncima = false;
     }
 
-    // Cuando el objeto se desactiva, restablecemos la posición y el color originales
     private void OnDisable()
     {
-        // Restablecer la posición original del texto
         textoMover.rectTransform.localPosition = new Vector3(posicionInicialX, textoMover.rectTransform.localPosition.y, textoMover.rectTransform.localPosition.z);
-
-        // Restablecer el color original del texto
         textoMover.color = colorInicial;
-
-        // Asegurarnos de que el estado del mouse esté en falso al desactivar
         mouseEncima = false;
     }
 }
