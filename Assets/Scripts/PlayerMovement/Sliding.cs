@@ -57,7 +57,7 @@ public class Sliding : MonoBehaviour
 
         if (Input.GetKeyDown(slideKey) && (horizontalInput != 0 || verticalInput != 0))
         {
-            audioM.PlaySfx(4);
+            //audioM.PlaySfx(4);
             StartSlide();
         }
 
@@ -82,6 +82,8 @@ public class Sliding : MonoBehaviour
 
         playerObj.localScale = new Vector3(playerObj.localScale.x, slideYScale, playerObj.localScale.z);
         rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+
+        audioM.PlaySfx(4);
 
         slideTimer = maxSlideTime;
     }

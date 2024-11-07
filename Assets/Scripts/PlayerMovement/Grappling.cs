@@ -31,6 +31,18 @@ public class Grappling : MonoBehaviour
 
     private Rigidbody rb;
 
+    AudioManager audioM;
+
+    private void Awake()
+    {
+        audioM = FindObjectOfType<AudioManager>();
+
+        if (audioM == null)
+        {
+            Debug.LogError("No AudioManager found in the scene!");
+        }
+    }
+
     private void Start()
     {
         pm = GetComponent<PlayerMovementGrappling>();
@@ -53,6 +65,7 @@ public class Grappling : MonoBehaviour
             else
             {
                 StartGrapple();
+                
             }
         }
 
@@ -116,6 +129,8 @@ public class Grappling : MonoBehaviour
         initialPosition = transform.position;
         journeyLength = Vector3.Distance(initialPosition, grappleTarget.position); // Usamos la posición del objeto dinámico
         startTime = Time.time;
+
+        audioM.PlaySfx(2);
     }
 
     private void MoveTowardsGrapplePoint()
