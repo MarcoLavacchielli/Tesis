@@ -172,35 +172,58 @@ public class PlayerMovementGrappling : MonoBehaviour
             state = MovementState.freeze;
             moveSpeed = 0;
             rb.velocity = Vector3.zero;
+            audioM.PauseSFX(13);
         }
         else if (activeGrapple)
         {
             state = MovementState.grappling;
             moveSpeed = sprintSpeed;
+            audioM.PauseSFX(13);
         }
         else if (swinging)
         {
             state = MovementState.swinging;
             moveSpeed = swingSpeed;
+            audioM.PauseSFX(13);
         }
         else if (Input.GetKey(crouchKey))
         {
             state = MovementState.crouching;
             moveSpeed = crouchSpeed;
+            audioM.PauseSFX(13);
         }
         else if (grounded && Input.GetKey(sprintKey))
         {
             state = MovementState.sprinting;
             moveSpeed = sprintSpeed;
+            PlayWalkSound();
         }
         else if (grounded)
         {
             state = MovementState.walking;
             moveSpeed = walkSpeed;
+            PlayWalkSound();
         }
         else
         {
             state = MovementState.air;
+            audioM.PauseSFX(13);
+        }
+    }
+
+    private void PlayWalkSound()
+    {
+        Vector3 flatVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        if (flatVelocity.magnitude > 0.1f)
+        {
+            if (!audioM.sfxSource[13].isPlaying)
+            {
+                audioM.PlaySFXLoop(13);  // Reproducir el sonido de caminar en loop
+            }
+        }
+        else
+        {
+            audioM.PauseSFX(13);  // Pausar el sonido si está quieto
         }
     }
 
