@@ -9,6 +9,7 @@ public class DiamondChangeMaterial : MonoBehaviour
     public GameObject[] objetosVariante;
     public GameObject[] objetosTileados;
     public GameObject[] objetosLed;
+    public GameObject[] objetosAnimados; // Nueva lista de objetos animados
 
     // Lista de partículas
     public GameObject[] particulas;
@@ -18,6 +19,7 @@ public class DiamondChangeMaterial : MonoBehaviour
     public Material nuevoMaterialVariante;
     public Material nuevoMaterialTileados;
     public Material nuevoMaterialLed;
+    public Material nuevoMaterialAnimado; // Nuevo material para los objetos animados
     public Material nuevoMaterialParticulas;
 
     // Función que cambia el material de todos los objetos en la lista
@@ -56,6 +58,16 @@ public class DiamondChangeMaterial : MonoBehaviour
             if (renderer4 != null)
             {
                 renderer4.material = nuevoMaterialLed;
+            }
+        }
+
+        // Cambiar el material de los objetos animados
+        foreach (GameObject objetoAnimado in objetosAnimados)
+        {
+            Renderer renderer5 = objetoAnimado.GetComponent<Renderer>();
+            if (renderer5 != null)
+            {
+                renderer5.material = nuevoMaterialAnimado;
             }
         }
 
