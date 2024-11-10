@@ -8,6 +8,8 @@ public class CameraTransitionsEvents : MonoBehaviour
     public GameObject[] BrandNewTraps;
     public GameObject[] PackOfTraps;
     public GameObject[] Level2Traps;
+    public GameObject[] Level3Traps;
+    private int CounterForMissingTraps;
     public int CurrentTrap = 0;
     public int CurrentBrandNewTrap = 0;
     public bool TransitionOn;
@@ -71,6 +73,11 @@ public class CameraTransitionsEvents : MonoBehaviour
         pieza.transform.position = destino;
         pieza2.transform.position = destino2;
         CurrentTrap = 25;
+    }
+    public void FixingThirdLevelMissingLasers()
+    {
+        Level3Traps[CounterForMissingTraps].gameObject.SetActive(true);
+        CounterForMissingTraps++;
     }
     public void ThirdLevel()
     {

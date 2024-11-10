@@ -1678,6 +1678,20 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 16.016666
+    functionName: FixingThirdLevelMissingLasers
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 18.1
+    functionName: FixingThirdLevelMissingLasers
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 19.883333
     functionName: Level2TurnOnLaser
     data: 
