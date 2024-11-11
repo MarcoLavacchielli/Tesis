@@ -10,6 +10,7 @@ public class DiamondChangeMaterial : MonoBehaviour
     public GameObject[] objetosTileados;
     public GameObject[] objetosLed;
     public GameObject[] objetosAnimados; // Nueva lista de objetos animados
+    public GameObject[] objetosParedesWallrun; // Nueva lista de objetos para paredes de wallrun
 
     // Lista de partículas
     public GameObject[] particulas;
@@ -20,6 +21,7 @@ public class DiamondChangeMaterial : MonoBehaviour
     public Material nuevoMaterialTileados;
     public Material nuevoMaterialLed;
     public Material nuevoMaterialAnimado; // Nuevo material para los objetos animados
+    public Material nuevoMaterialParedesWallrun; // Nuevo material para las paredes de wallrun
     public Material nuevoMaterialParticulas;
 
     // Función que cambia el material de todos los objetos en la lista
@@ -68,6 +70,16 @@ public class DiamondChangeMaterial : MonoBehaviour
             if (renderer5 != null)
             {
                 renderer5.material = nuevoMaterialAnimado;
+            }
+        }
+
+        // Cambiar el material de las paredes de wallrun
+        foreach (GameObject objetoParedWallrun in objetosParedesWallrun)
+        {
+            Renderer renderer6 = objetoParedWallrun.GetComponent<Renderer>();
+            if (renderer6 != null)
+            {
+                renderer6.material = nuevoMaterialParedesWallrun;
             }
         }
 
