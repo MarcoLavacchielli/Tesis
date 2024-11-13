@@ -79,6 +79,18 @@ public class Grappling : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (test == true)
+        {
+            Debug.Log("1: "+rb.velocity);
+            if (rb.velocity.y == 0)
+            {
+                test = false;
+            }
+        }
+    }
+
     private void CheckGrappleable()
     {
         RaycastHit hit;
@@ -164,6 +176,8 @@ public class Grappling : MonoBehaviour
     public float upwardImpulse = 3f;
     public float postGrappleForwardVelocity = 10f;
 
+    public bool test;
+
     private void ApplyGrappleCompletion()
     {
         pm.freeze = false;
@@ -178,6 +192,8 @@ public class Grappling : MonoBehaviour
             Vector3 upwardMomentum = Vector3.up * upwardImpulse;
 
             rb.velocity = forwardMomentum + upwardMomentum;
+            Debug.Log(rb.velocity);
+            test = true;
         }
     }
 
