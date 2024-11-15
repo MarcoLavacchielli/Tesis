@@ -6,6 +6,8 @@ public class WarningSign : MonoBehaviour
     public float redTimer = 2f;        // Tiempo que el material se pone rojo
     public float whiteTimer = 2f;      // Tiempo que el material se pone blanco
     public float blinkTimer = 2f;      // Tiempo que el material parpadea
+    public float redEmissiveIntensity = 500f;  // Intensidad de emisión para el color rojo
+    public float whiteEmissiveIntensity = 200f; // Intensidad de emisión para el color blanco
 
     private Color whiteColor = Color.white;
     private Color redColor = Color.red;
@@ -20,7 +22,7 @@ public class WarningSign : MonoBehaviour
             warningMaterial.EnableKeyword("_EMISSION");
         }
         // Inicializa en rojo al comenzar
-        SetEmissionColor(redColor);
+        SetEmissionColor(redColor, redEmissiveIntensity);
     }
 
     private void Update()
@@ -35,7 +37,7 @@ public class WarningSign : MonoBehaviour
                 {
                     timer = 0f;  // Reiniciar temporizador
                     cycleMode = 1; // Cambiar a blanco
-                    SetEmissionColor(whiteColor); // Establecer color blanco
+                    SetEmissionColor(whiteColor, whiteEmissiveIntensity); // Establecer color blanco
                 }
                 break;
 
@@ -52,25 +54,26 @@ public class WarningSign : MonoBehaviour
                 {
                     timer = 0f;  // Reiniciar temporizador
                     cycleMode = 0; // Volver a rojo
-                    SetEmissionColor(redColor); // Establecer color rojo
+                    SetEmissionColor(redColor, redEmissiveIntensity); // Establecer color rojo
                 }
                 else
                 {
                     // Parpadeo entre blanco y rojo
                     float lerp = Mathf.PingPong(Time.time * 2f, 1);
-                    SetEmissionColor(Color.Lerp(whiteColor, redColor, lerp));
+                    Color blendedColor = Color.Lerp(whiteColor * whiteEmissiveIntensity, redColor * redEmissiveIntensity, lerp);
+                    warningMaterial.SetColor("_EmissiveColor", blendedColor);
                 }
                 break;
         }
     }
 
-    private void SetEmissionColor(Color color)
+    private void SetEmissionColor(Color color, float intensity)
     {
         if (warningMaterial != null)
         {
-            // Cambiar solo el color de emisión en el material HDRP, sin cambiar el mapa
-            warningMaterial.SetColor("_EmissiveColor", color);
-            warningMaterial.SetFloat("_EmissiveIntensity", 10f); // Ajusta la intensidad según necesites
+            // Escalar el color de emisión con la intensidad deseada
+            Color emissiveColor = color * intensity;
+            warningMaterial.SetColor("_EmissiveColor", emissiveColor);
         }
     }
 }
