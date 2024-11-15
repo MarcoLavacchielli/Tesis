@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseColorMap:
-        m_Texture: {fileID: 2800000, guid: 4d7a8bcda00fc2f4e8137412b807d460, type: 3}
+        m_Texture: {fileID: 2800000, guid: cf53813d553a83b459531d4627cbc439, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
@@ -75,8 +75,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissiveColorMap:
-        m_Texture: {fileID: 2800000, guid: 2aa5a1ca7438b1240bfead8f5b4f5359, type: 3}
-        m_Scale: {x: 0.2, y: 0.245}
+        m_Texture: {fileID: 2800000, guid: 809ecf899d16766449cca9361a77299c, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
         m_Texture: {fileID: 0}
@@ -91,15 +91,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4d7a8bcda00fc2f4e8137412b807d460, type: 3}
+        m_Texture: {fileID: 2800000, guid: cf53813d553a83b459531d4627cbc439, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
-        m_Texture: {fileID: 2800000, guid: 12d71ad355793094ebd899753d00f1a1, type: 3}
+        m_Texture: {fileID: 2800000, guid: ca09f838253f28d408dd5da06a893fea, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: b9975a2cf479b6e4db2d56528abc8f28, type: 3}
+        m_Texture: {fileID: 2800000, guid: d0ae08763cd571448859d14967f528e0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapOS:
@@ -182,8 +182,8 @@ Material:
     - _DoubleSidedNormalMode: 1
     - _DstBlend: 0
     - _EmissiveColorMode: 1
-    - _EmissiveExposureWeight: 0.805
-    - _EmissiveIntensity: 83.69
+    - _EmissiveExposureWeight: 0
+    - _EmissiveIntensity: 2.56
     - _EmissiveIntensityUnit: 0
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
@@ -267,7 +267,7 @@ Material:
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissiveColor: {r: 62.685448, g: 16.871332, b: 57.257767, a: 83.69}
+    - _EmissiveColor: {r: 1.91749, g: 0.5160785, b: 1.7514622, a: 2.56}
     - _EmissiveColorLDR: {r: 0.88031507, g: 0.48631585, b: 0.8456778, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
