@@ -91,7 +91,7 @@ Material:
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FresnelColor: {r: 0, g: 23.96863, b: 0.7529399, a: 0}
-    - _GlitterColor: {r: 0, g: 1367.1202, b: 21.473053, a: 0}
+    - _GlitterColor: {r: 0, g: 1367.1202, b: 21.473053, a: 0.5176471}
     - _NoiseRotSpeed: {r: 0, g: 0.1, b: 0, a: 0}
     - _Noise_Scale: {r: 0.1, g: 4, b: 0, a: 0}
   m_BuildTextureStacks: []
