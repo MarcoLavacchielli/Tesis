@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Crunch Studio
-  productName: Tesis
+  companyName: Zorzal Games
+  productName: Perfect Robbery
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.011764707, g: 0.09019608, b: 0.21568629, a: 1}
@@ -42,9 +42,9 @@ PlayerSettings:
   m_SplashScreenLogos:
   - logo: {fileID: 10404, guid: 0000000000000000f000000000000000, type: 0}
     duration: 2
-  - logo: {fileID: 21300000, guid: 489d86666b071de42b571a5e7f470f31, type: 3}
+  - logo: {fileID: 21300000, guid: 95764b0a7488b1346afe947daf42bdbb, type: 3}
     duration: 2
-  m_VirtualRealitySplashScreen: {fileID: 2800000, guid: 489d86666b071de42b571a5e7f470f31,
+  m_VirtualRealitySplashScreen: {fileID: 2800000, guid: 95764b0a7488b1346afe947daf42bdbb,
     type: 3}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1024
