@@ -27,6 +27,11 @@ public class CameraTransitionsEvents : MonoBehaviour
     public GameObject Tapa; // La tapa a animar
     public float velocidadTapa = 10f; // Velocidad ajustable de la tapa
 
+    //
+    [SerializeField] private PlayerMovementGrappling playerMovement;
+    [SerializeField] private PlayerCam camMovement;
+    //
+
     public void Level2TurnOnLaser()
     {
         Level2Traps[CurrentBrandNewTrap].gameObject.SetActive(true);
@@ -131,7 +136,13 @@ public class CameraTransitionsEvents : MonoBehaviour
         transitionCamera.gameObject.SetActive(false);
 
         moveCameraScript.enabled = true;
-        Player.gameObject.SetActive(true);
+        //Player.gameObject.SetActive(true);
+
+        //
+        playerMovement.enabled = true;
+        camMovement.enabled = true;
+        //
+
         CanvasHud.gameObject.SetActive(true);
         for (int i = 0; i < CollisionTrigger.Length; i++)
         {

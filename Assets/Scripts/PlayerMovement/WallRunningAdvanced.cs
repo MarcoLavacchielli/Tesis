@@ -53,11 +53,17 @@ public class WallRunningAdvanced : MonoBehaviour
     private Rigidbody rb;
     private float currentTilt = 0f; // Para almacenar el ángulo actual de inclinación
 
+    //
+    private PlayerMovementGrappling pg;
+    //
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovementAdvanced>();
         lg = GetComponent<LedgeGrabbing>();
+
+        pg = GetComponent<PlayerMovementGrappling>();
     }
 
     private void Update()
@@ -169,6 +175,8 @@ public class WallRunningAdvanced : MonoBehaviour
         // apply camera effects
         if (cam == null) return;
         cam.DoFov(90f);
+
+        pg.moveSpeed = 6;
     }
 
     private void WallRunningMovement()

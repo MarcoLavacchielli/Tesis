@@ -21,6 +21,11 @@ public class CameraTransition : MonoBehaviour
     public GameObject[] ThingsToDesactivate;
     public GameObject[] ThingsToActivate;  // Nueva lista para objetos a activar
 
+    //
+    [SerializeField] private PlayerMovementGrappling playerMovement;
+    [SerializeField] private PlayerCam camMovement;
+    //
+
     void Start()
     {
         // Asegúrate de que la animación no se reproduzca al inicio
@@ -43,7 +48,13 @@ public class CameraTransition : MonoBehaviour
 
     public IEnumerator x()
     {
-        Player.gameObject.SetActive(false);
+        //Player.gameObject.SetActive(false);
+
+        //
+        playerMovement.enabled = false;
+        camMovement.enabled = false;
+        //
+
         CanvasHud.gameObject.SetActive(false);
 
         foreach (GameObject obj in ThingsToDesactivate)
@@ -65,7 +76,11 @@ public class CameraTransition : MonoBehaviour
 
     public void PlayAnimation()
     {
-        Player.gameObject.SetActive(false);
+        //Player.gameObject.SetActive(false);
+        //
+        playerMovement.enabled = false;
+        camMovement.enabled = false;
+        //
         CanvasHud.gameObject.SetActive(false);
 
         foreach (GameObject obj in ThingsToDesactivate)

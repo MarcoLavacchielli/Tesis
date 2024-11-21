@@ -8,7 +8,7 @@ public class PlayerMovementGrappling : MonoBehaviour
     AudioManager audioM;
 
     [Header("Movement")]
-    private float moveSpeed;
+    public float moveSpeed;
     public float walkSpeed;
     public float sprintSpeed;
     public float swingSpeed;
