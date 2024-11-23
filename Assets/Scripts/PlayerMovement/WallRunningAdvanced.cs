@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class WallRunningAdvanced : MonoBehaviour
 {
+
+    public AudioManager audioM;
+
+    public bool wallrunningFlagSound = false;
+
     [Header("Wallrunning")]
     public LayerMask whatIsWall;
     public LayerMask whatIsGround;
@@ -177,6 +182,7 @@ public class WallRunningAdvanced : MonoBehaviour
         cam.DoFov(90f);
 
         pg.moveSpeed = 6;
+        wallrunningFlagSound = true;
     }
 
     private void WallRunningMovement()
@@ -221,6 +227,9 @@ public class WallRunningAdvanced : MonoBehaviour
         // reset camera effects
         if (cam == null) return;
         cam.DoFov(80f);
+
+        wallrunningFlagSound = false;
+        audioM.PauseSFX(13);
     }
 
     private void WallJump()
@@ -238,6 +247,8 @@ public class WallRunningAdvanced : MonoBehaviour
         // reset y velocity and add force
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(forceToApply, ForceMode.Impulse);
+
+        audioM.PlaySfx(3);
     }
 
     private void HandleCameraTilt()

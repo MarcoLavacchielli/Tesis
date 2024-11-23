@@ -62,4 +62,9 @@ public class ScreenManager : MonoBehaviour
         Debug.Log("salio");
         Application.Quit();
     }
+
+    public void PlaySonido()
+    {
+        audioManager.PlaySfx(0);
+    }
 }

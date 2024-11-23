@@ -11,6 +11,13 @@ public class CheckPoints : MonoBehaviour
     public GameObject targetObject;
     public Material targetMaterial;
 
+    AudioManager audioM;
+
+    private void Awake()
+    {
+        audioM = FindObjectOfType<AudioManager>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -24,6 +31,7 @@ public class CheckPoints : MonoBehaviour
                 if (renderer != null)
                 {
                     renderer.material = targetMaterial;
+                    audioM.PlaySfx(16);
                 }
             }
 

@@ -13,9 +13,12 @@ public class CheckTeleporter : MonoBehaviour
 
     public int currentWaypointIndex = 0; // Índice del waypoint actual
 
+    AudioManager audioM;
+
     private void Awake()
     {
         currentWaypointIndex = 0;
+        audioM = FindObjectOfType<AudioManager>();
     }
 
     // Llamar cuando el jugador alcance un nuevo waypoint para actualizar el índice
@@ -45,6 +48,7 @@ public class CheckTeleporter : MonoBehaviour
             player.transform.position = waypoints[waypoints.Count - 1];
 
             Debug.Log("Jugador teletransportado al último waypoint: " + waypoints[waypoints.Count - 1]);
+            audioM.PlaySfx(15);
 
             // Restaurar el Rigidbody a no cinemático después de la teletransportación
             StartCoroutine(ResetRigidbody());
@@ -68,6 +72,7 @@ public class CheckTeleporter : MonoBehaviour
             player.transform.position = waypoints[currentWaypointIndex];
 
             Debug.Log("Jugador teletransportado al punto de origen: " + waypoints[0]);
+            audioM.PlaySfx(15);
 
             // Restaurar el Rigidbody a no cinemático después de la teletransportación
             StartCoroutine(ResetRigidbody());

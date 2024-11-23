@@ -61,6 +61,10 @@ public class PlayerMovementGrappling : MonoBehaviour
 
     private Rigidbody rb;
 
+    WallRunningAdvanced pwl;
+
+    private bool wasInAir;
+
     public MovementState state;
     public enum MovementState
     {
@@ -80,6 +84,8 @@ public class PlayerMovementGrappling : MonoBehaviour
     private void Awake()
     {
         audioM = FindObjectOfType<AudioManager>();
+
+        pwl = GetComponent<WallRunningAdvanced>();
 
         if (audioM == null)
         {
@@ -101,20 +107,30 @@ public class PlayerMovementGrappling : MonoBehaviour
         // Ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
+        // Reproducir SFX cuando aterrice
+        if (grounded && wasInAir)
+        {
+            audioM.PlaySfx(14); // Reproducir sonido de aterrizaje
+            wasInAir = false;  // Reiniciar estado al tocar el suelo
+        }
+
+        if (!grounded)
+        {
+            wasInAir = true; // Marcar que el jugador está en el aire
+        }
+
+        // Reset coyote time and hasJumped when grounded
         if (grounded)
         {
-            // Reset coyote time and hasJumped when grounded
             coyoteTimeCounter = coyoteTimeDuration;
             hasJumped = false;
         }
         else if (!grounded && coyoteTimeCounter > 0 && !hasJumped)
         {
-            // Count down coyote time when in the air and hasn't jumped
             coyoteTimeCounter -= Time.deltaTime;
         }
         else if (coyoteTimeCounter <= 0)
         {
-            // Deactivate coyote time after duration ends
             hasJumped = true;
         }
 
@@ -128,6 +144,7 @@ public class PlayerMovementGrappling : MonoBehaviour
         else
             rb.drag = 0;
     }
+
 
     private void FixedUpdate()
     {
@@ -190,7 +207,8 @@ public class PlayerMovementGrappling : MonoBehaviour
         {
             state = MovementState.crouching;
             moveSpeed = crouchSpeed;
-            audioM.PauseSFX(13);
+            //audioM.PauseSFX(13);
+            PlayWalkSound();
         }
         else if (grounded && Input.GetKey(sprintKey))
         {
@@ -207,7 +225,18 @@ public class PlayerMovementGrappling : MonoBehaviour
         else
         {
             state = MovementState.air;
-            audioM.PauseSFX(13);
+
+            // Si está en el aire, verificar si está haciendo wallrun
+            if (pwl.wallrunningFlagSound==true)
+            {
+                // Si está haciendo wallrun, no pausamos el sonido
+                PlayWalkSound();
+            }
+            else
+            {
+                // Si no está haciendo wallrun, pausamos el sonido
+                audioM.PauseSFX(13);
+            }
         }
     }
 
@@ -220,12 +249,37 @@ public class PlayerMovementGrappling : MonoBehaviour
             {
                 audioM.PlaySFXLoop(13);  // Reproducir el sonido de caminar en loop
             }
+
+            // Cambiar pitch y volumen según el estado
+            if (state == MovementState.sprinting)
+            {
+                audioM.sfxSource[13].pitch = 2.0f;   // Doble velocidad para sprint
+                //audioM.sfxSource[13].volume = 1.5f; // Volumen normal para sprint
+            }
+
+            else if (state == MovementState.crouching)
+            {
+                audioM.sfxSource[13].pitch = 1.2f;   // Mitad de velocidad para crouching
+                //audioM.sfxSource[13].volume = 0.3f;  // Volumen reducido para crouching
+            }
+
+            else if (state == MovementState.air)
+            {
+                audioM.sfxSource[13].pitch = 2f;   // Mitad de velocidad para crouching
+                //audioM.sfxSource[13].volume = 0.3f;  // Volumen reducido para crouching
+            }
+            else
+            {
+                audioM.sfxSource[13].pitch = 1.5f;   // Velocidad normal para caminar
+                //audioM.sfxSource[13].volume = 0.55f;  // Volumen normal para caminar
+            }
         }
         else
         {
             audioM.PauseSFX(13);  // Pausar el sonido si está quieto
         }
     }
+
 
     private void MovePlayer()
     {
@@ -275,6 +329,7 @@ public class PlayerMovementGrappling : MonoBehaviour
 
     private void Jump()
     {
+
         exitingSlope = true;
 
         // Reiniciar la velocidad vertical para evitar acumulación de velocidad
@@ -290,6 +345,7 @@ public class PlayerMovementGrappling : MonoBehaviour
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);  // Usar la fuerza normal
         }
 
+        audioM.PauseSFX(13);
         audioM.PlaySfx(3);
     }
 
