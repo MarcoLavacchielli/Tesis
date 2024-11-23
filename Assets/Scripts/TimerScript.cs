@@ -4,26 +4,27 @@ using TMPro;
 public class TimerScript : MonoBehaviour
 {
     [Header("Timer Settings")]
-    [SerializeField] private float startDelay = 2f; // Segundos antes de iniciar el timer
-    [SerializeField] private TextMeshProUGUI currentTimerText; // Referencia al texto TMP actual
-    [SerializeField] private TextMeshProUGUI previousTimerText; // Referencia al texto TMP pausado
+    [SerializeField] private float startDelay = 2f; // Segundos antes de iniciar el temporizador
+    [SerializeField] private TextMeshProUGUI currentTimerText; // Texto TMP del temporizador actual
+    [SerializeField] private TextMeshProUGUI previousTimerText; // Texto TMP del temporizador pausado
 
-    [Header("Player Reference")]
-    [SerializeField] private GameObject player; // Referencia al jugador
+    [Header("Player Script Reference")]
+    [SerializeField] private MonoBehaviour playerMovementScript; // Referencia al script `PlayerMovementGrappling`
 
     private float elapsedTime = 0f; // Tiempo transcurrido del temporizador actual
     private bool isTimerRunning = false; // Estado del temporizador
     private bool hasStarted = false; // Controla si ya inició alguna vez
+    private bool wasScriptEnabled = true; // Estado anterior del script para detectar cambios
 
     void Start()
     {
-        if (currentTimerText == null || previousTimerText == null)
+        if (currentTimerText == null || previousTimerText == null || playerMovementScript == null)
         {
-            Debug.LogError("¡Falta la referencia a uno o más textos TMP!");
+            Debug.LogError("¡Falta la referencia a uno o más componentes!");
             return;
         }
 
-        // Comenzar el timer después de la demora inicial
+        // Comenzar el temporizador después de la demora inicial
         StartCoroutine(StartTimerAfterDelay());
     }
 
@@ -35,17 +36,22 @@ public class TimerScript : MonoBehaviour
             UpdateCurrentTimerText();
         }
 
-        // Detectar cambios en el estado del jugador
-        if (player != null && hasStarted)
+        // Detectar cambios en el estado del script PlayerMovementGrappling
+        if (hasStarted)
         {
-            if (!player.activeInHierarchy && isTimerRunning)
+            bool isScriptEnabled = playerMovementScript.enabled;
+
+            if (!isScriptEnabled && wasScriptEnabled) // Si el script acaba de desactivarse
             {
-                PauseAndMoveToPreviousText();
+                PauseAndStoreTime();
             }
-            else if (player.activeInHierarchy && !isTimerRunning)
+            else if (isScriptEnabled && !wasScriptEnabled) // Si el script acaba de activarse
             {
                 ResetAndStartNewTimer();
             }
+
+            // Actualizar el estado anterior del script
+            wasScriptEnabled = isScriptEnabled;
         }
     }
 
@@ -58,15 +64,23 @@ public class TimerScript : MonoBehaviour
         currentTimerText.text = $"{minutes:00}:{seconds:00}:{milliseconds:000}";
     }
 
-    private void PauseAndMoveToPreviousText()
+    private void PauseAndStoreTime()
     {
+        // Pausar el temporizador
         isTimerRunning = false;
-        previousTimerText.text = currentTimerText.text; // Pasar el tiempo actual al texto de "previo"
+
+        // Guardar el tiempo actual en el texto de "previo"
+        previousTimerText.text = currentTimerText.text;
+
+        elapsedTime = 0f;
+        UpdateCurrentTimerText();
     }
 
     private void ResetAndStartNewTimer()
     {
-        elapsedTime = 0f; // Reiniciar el tiempo transcurrido
+        // Reiniciar el temporizador actual
+        elapsedTime = 0f;
+        UpdateCurrentTimerText(); // Actualizar inmediatamente para mostrar 00:00:000
         isTimerRunning = true;
     }
 
