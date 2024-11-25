@@ -9,7 +9,7 @@ public class TimerScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI previousTimerText; // Texto TMP del temporizador pausado
 
     [Header("Player Script Reference")]
-    [SerializeField] private MonoBehaviour playerMovementScript; // Referencia al script `PlayerMovementGrappling`
+    [SerializeField] private Grappling playerMovementScript; // Referencia al script `PlayerMovementGrappling`
 
     private float elapsedTime = 0f; // Tiempo transcurrido del temporizador actual
     private bool isTimerRunning = false; // Estado del temporizador

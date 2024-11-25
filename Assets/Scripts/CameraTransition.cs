@@ -24,7 +24,9 @@ public class CameraTransition : MonoBehaviour
     //
     [SerializeField] private PlayerMovementGrappling playerMovement;
     [SerializeField] private PlayerCam camMovement;
+    [SerializeField] private Grappling grappling;
     //
+
 
     void Start()
     {
@@ -53,6 +55,7 @@ public class CameraTransition : MonoBehaviour
         //
         playerMovement.enabled = false;
         camMovement.enabled = false;
+        grappling.enabled = false;
         //
 
         CanvasHud.gameObject.SetActive(false);
@@ -80,6 +83,7 @@ public class CameraTransition : MonoBehaviour
         //
         playerMovement.enabled = false;
         camMovement.enabled = false;
+        grappling.enabled = false;
         //
         CanvasHud.gameObject.SetActive(false);
 

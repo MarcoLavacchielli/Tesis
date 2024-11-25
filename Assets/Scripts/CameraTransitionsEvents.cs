@@ -30,6 +30,7 @@ public class CameraTransitionsEvents : MonoBehaviour
     //
     [SerializeField] private PlayerMovementGrappling playerMovement;
     [SerializeField] private PlayerCam camMovement;
+    [SerializeField] private Grappling grappling;
     //
 
     public void Level2TurnOnLaser()
@@ -141,6 +142,7 @@ public class CameraTransitionsEvents : MonoBehaviour
         //
         playerMovement.enabled = true;
         camMovement.enabled = true;
+        grappling.enabled = true;
         //
 
         CanvasHud.gameObject.SetActive(true);
