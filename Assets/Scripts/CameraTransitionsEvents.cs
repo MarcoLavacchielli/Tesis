@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class CameraTransitionsEvents : MonoBehaviour
 {
-    public GameObject[] NewTraps;  // Array de NewTraps que la cámara seguirá
+    public GameObject[] NewTraps;  // Array de NewTraps que la cï¿½mara seguirï¿½
     public GameObject[] BrandNewTraps;
     public GameObject[] PackOfTraps;
     public GameObject[] Level2Traps;
@@ -15,7 +17,7 @@ public class CameraTransitionsEvents : MonoBehaviour
     public bool TransitionOn;
 
     public Animator Transitionanimator;  // Asigna esto desde el Inspector
-    public string animationName; // Nombre de la animación o trigger
+    public string animationName; // Nombre de la animaciï¿½n o trigger
     public GameObject Player;
     public GameObject CanvasHud;
     public GameObject[] CollisionTrigger;
@@ -32,6 +34,57 @@ public class CameraTransitionsEvents : MonoBehaviour
     [SerializeField] private PlayerCam camMovement;
     [SerializeField] private Grappling grappling;
     //
+    private bool AnimLVL1Triggered;
+    public int currentSceneIndex;
+    //MUY IMPORTENTE: SI NO ESTAS EN EL NIVEL 1 TILDAR EL BOLL A TRUE
+    private void OnEnable()
+    {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+    }
+   
+    public void SkipCinematic()
+    {
+        
+        for(int i = 0; i < NewTraps.Length; i++)
+        {
+            if (NewTraps[i] != null)
+                NewTraps[i].SetActive(true);
+        }
+        for (int i = 0; i < BrandNewTraps.Length; i++)
+        {
+            if(BrandNewTraps[i] != null)
+                BrandNewTraps[i].SetActive(true);
+        }
+        for (int i = 0; i < PackOfTraps.Length; i++)
+        {
+            if(PackOfTraps[i]!=null)
+                PackOfTraps[i].SetActive(true);
+        }
+        for (int i = 0; i < Level2Traps.Length; i++)
+        {
+            if(Level2Traps[i]!=null)
+                Level2Traps[i].SetActive(true);
+        }
+        for (int i = 0; i < Level3Traps.Length; i++)
+        {
+            if(Level3Traps[i]!=null)
+                Level3Traps[i].SetActive(true);
+        }
+        if (AnimLVL1Triggered == false && currentSceneIndex==8)
+        {
+            MultipleLaserAnimation(NewTraps[20], NewTraps[19]);
+        }
+        EndCinematicFunc();
+
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SkipCinematic();
+        }
+    }
+
 
     public void Level2TurnOnLaser()
     {
@@ -41,7 +94,7 @@ public class CameraTransitionsEvents : MonoBehaviour
 
     private IEnumerator MultipleLaserAnimation(GameObject pieza, GameObject pieza2)
     {
-        // Animación de la tapa bajando -20 en Y y luego -20 en Z
+        // Animaciï¿½n de la tapa bajando -20 en Y y luego -20 en Z
         Vector3 destinoTapa1 = Tapa.transform.position + new Vector3(0, -1f, 0);
         Vector3 destinoTapa2 = destinoTapa1 + new Vector3(0, 0, -5f);
 
@@ -61,7 +114,7 @@ public class CameraTransitionsEvents : MonoBehaviour
         Vector3 destino = pieza.transform.position + new Vector3(0, 2.7849f, 0);
         Vector3 destino2 = pieza2.transform.position + new Vector3(0, 2.7849f, 0);
 
-        float duracion = 1.5f; // Duración de la animación
+        float duracion = 1.5f; // Duraciï¿½n de la animaciï¿½n
         float velocidad = 7f / duracion; // Velocidad constante
 
         while (Vector3.Distance(pieza.transform.position, destino) > 0.01f&& Vector3.Distance(pieza2.transform.position, destino2) > 0.01f)
@@ -79,6 +132,8 @@ public class CameraTransitionsEvents : MonoBehaviour
         pieza.transform.position = destino;
         pieza2.transform.position = destino2;
         CurrentTrap = 25;
+        AnimLVL1Triggered = true;
+
     }
     public void FixingThirdLevelMissingLasers()
     {
