@@ -16,6 +16,7 @@ public class TakeDiamont : MonoBehaviour
     public CameraTransition camTransition;
 
     [SerializeField] DiamondChangeMaterial textureChange;
+    [SerializeField] CheckTeleporter check;
 
     void Update()
     {
@@ -26,15 +27,18 @@ public class TakeDiamont : MonoBehaviour
             PickUp();
         }
 
-        if (Input.GetKeyDown(KeyCode.O))
+        /*if (Input.GetKeyDown(KeyCode.O))
         {
-            diamondTake = true;
-        }
+            check.currentWaypointIndex += 1;
+        }*/
     }
 
     void PickUp()
     {
         Destroy(gameObject);
+
+        check.currentWaypointIndex += 1;
+
         foreach (var light in lights)
         {
             light.color = Color.red;

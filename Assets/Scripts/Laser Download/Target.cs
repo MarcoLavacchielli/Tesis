@@ -19,7 +19,7 @@ public class Target : MonoBehaviour
     {
         Debug.Log("Target Hit " + name);
 
-        if (diamond.diamondTake == false)
+        if (diamond.diamondTake == false || diamond.diamondTake == true)
         {
             /*// Reiniciar la escena actual si no se ha tomado el diamante
             Scene currentScene = SceneManager.GetActiveScene();
@@ -28,7 +28,7 @@ public class Target : MonoBehaviour
         }
         else
         {
-            check.Activate();
+            check.Death();
             /*// Detener cualquier movimiento y desactivar física si tiene un Rigidbody
             if (rb != null)
             {

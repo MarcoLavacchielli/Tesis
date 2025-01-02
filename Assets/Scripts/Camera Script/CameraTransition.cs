@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class CameraTransition : MonoBehaviour
 {
+
+    [SerializeField] private JsonSaveGameManager saveGameManager;
+
     public GameObject[] NewTraps;  // Array de NewTraps que la cámara seguirá
     private int CurrentTrap = 0;
 
@@ -20,6 +23,7 @@ public class CameraTransition : MonoBehaviour
 
     public GameObject[] ThingsToDesactivate;
     public GameObject[] ThingsToActivate;  // Nueva lista para objetos a activar
+    public GameObject[] AssistThingsToActivate;  // Nueva lista para objetos a activar ASISTIDOS
 
     //
     [SerializeField] private PlayerMovementGrappling playerMovement;
@@ -32,6 +36,21 @@ public class CameraTransition : MonoBehaviour
     {
         // Asegúrate de que la animación no se reproduzca al inicio
         Transitionanimator.enabled = false;
+
+
+        //
+        if (saveGameManager == null)
+        {
+            saveGameManager = FindObjectOfType<JsonSaveGameManager>();
+        }
+
+        if (saveGameManager == null)
+        {
+            Debug.LogError("JsonSaveGameManager no encontrado en la escena.");
+        }
+
+        Debug.Log("Estado de easyMode: " + saveGameManager.saveData.easyMode);
+        //
     }
 
     void Update()
@@ -111,9 +130,35 @@ public class CameraTransition : MonoBehaviour
 
     private void ActivateThings()  // Nuevo método para activar objetos
     {
+        ActivateAssistThings();
         foreach (GameObject obj in ThingsToActivate)
         {
             obj.SetActive(true);  // Activa cada objeto en la lista
         }
     }
+
+    private void ActivateAssistThings()
+    {
+        if (saveGameManager == null || saveGameManager.saveData == null)
+        {
+            Debug.LogError("saveGameManager o saveData no están configurados.");
+            return;
+        }
+
+        Debug.Log("EasyMode está en: " + saveGameManager.saveData.easyMode);
+
+        foreach (GameObject objAssist in AssistThingsToActivate)
+        {
+            if (saveGameManager.saveData.easyMode)
+            {
+                objAssist.SetActive(true);
+                Debug.Log(objAssist.name + " activado.");
+            }
+            else
+            {
+                Debug.Log(objAssist.name + " no se activó porque EasyMode está desactivado.");
+            }
+        }
+    }
+
 }

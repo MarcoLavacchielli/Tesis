@@ -37,7 +37,7 @@ public class Spike : Trap
         Debug.Log("Spike trap activated!");
 
         // Si el diamante no ha sido tomado, reinicia la escena
-        if (diamond.diamondTake == false)
+        if (diamond.diamondTake == false || diamond.diamondTake == true)
         {
             /*
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -71,7 +71,7 @@ public class Spike : Trap
                 Debug.Log("Jugador teletransportado a la posición del checkpoint: " + checkPoint);
             }
             */
-            check.Activate();
+            check.Death();
         }
     }
 }

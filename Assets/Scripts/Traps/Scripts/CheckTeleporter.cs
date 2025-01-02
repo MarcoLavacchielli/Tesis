@@ -31,7 +31,7 @@ public class CheckTeleporter : MonoBehaviour
         }
     }
 
-    public void Activate()
+    /*public void Activate()
     {
         Debug.Log("Spike trap activated!");
 
@@ -53,7 +53,7 @@ public class CheckTeleporter : MonoBehaviour
             // Restaurar el Rigidbody a no cinemático después de la teletransportación
             StartCoroutine(ResetRigidbody());
         }
-    }
+    }*/
 
     public void Death()
     {

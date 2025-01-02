@@ -10,7 +10,7 @@ public class JsonSaveGameManager : MonoBehaviour
     [SerializeField] public JsonSaveGameKey saveData = new JsonSaveGameKey();
     string path;
 
-    [SerializeField] private UIController uiController;
+    //[SerializeField] private UIController uiController;
 
     void Awake()
     {
