@@ -32,7 +32,7 @@ public class CameraTransitionsEvents : MonoBehaviour
     //
     [SerializeField] private PlayerMovementGrappling playerMovement;
     [SerializeField] private PlayerCam camMovement;
-    [SerializeField] private Grappling grappling;
+    //[SerializeField] private Grappling grappling;
     //
     private bool AnimLVL1Triggered;
     public int currentSceneIndex;
@@ -197,7 +197,7 @@ public class CameraTransitionsEvents : MonoBehaviour
         //
         playerMovement.enabled = true;
         camMovement.enabled = true;
-        grappling.enabled = true;
+        //grappling.enabled = true;
         //
 
         CanvasHud.gameObject.SetActive(true);

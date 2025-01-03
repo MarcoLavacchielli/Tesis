@@ -22,13 +22,14 @@ public class CameraTransition : MonoBehaviour
     public Camera transitionCamera;
 
     public GameObject[] ThingsToDesactivate;
+    public GameObject[] AssistThingsToDesactivate;
     public GameObject[] ThingsToActivate;  // Nueva lista para objetos a activar
     public GameObject[] AssistThingsToActivate;  // Nueva lista para objetos a activar ASISTIDOS
 
     //
     [SerializeField] private PlayerMovementGrappling playerMovement;
     [SerializeField] private PlayerCam camMovement;
-    [SerializeField] private Grappling grappling;
+    //[SerializeField] private Grappling grappling;
     //
 
 
@@ -74,7 +75,7 @@ public class CameraTransition : MonoBehaviour
         //
         playerMovement.enabled = false;
         camMovement.enabled = false;
-        grappling.enabled = false;
+        //grappling.enabled = false;
         //
 
         CanvasHud.gameObject.SetActive(false);
@@ -83,6 +84,17 @@ public class CameraTransition : MonoBehaviour
         {
             obj.SetActive(false);
         }
+
+        // ASSIST DESACTIVATED
+        foreach (GameObject objAssist in AssistThingsToDesactivate)
+        {
+            if (saveGameManager.saveData.easyMode)
+            {
+                objAssist.SetActive(false);
+                //Debug.Log(objAssist.name + " activado.");
+            }
+        }
+        //
 
         moveCameraScript.enabled = false;
         mainCamera.enabled = false;
@@ -102,7 +114,7 @@ public class CameraTransition : MonoBehaviour
         //
         playerMovement.enabled = false;
         camMovement.enabled = false;
-        grappling.enabled = false;
+        //grappling.enabled = false;
         //
         CanvasHud.gameObject.SetActive(false);
 
@@ -110,6 +122,17 @@ public class CameraTransition : MonoBehaviour
         {
             obj.SetActive(false);
         }
+
+        // ASSIST DESACTIVATED
+        foreach (GameObject objAssist in AssistThingsToDesactivate)
+        {
+            if (saveGameManager.saveData.easyMode)
+            {
+                objAssist.SetActive(false);
+                //Debug.Log(objAssist.name + " activado.");
+            }
+        }
+        //
 
         moveCameraScript.enabled = false;
         mainCamera.enabled = false;
