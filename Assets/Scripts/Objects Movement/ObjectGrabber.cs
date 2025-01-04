@@ -34,18 +34,21 @@ public class ObjectGrabber : MonoBehaviour
 
     private void TryGrabObject()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, grabDistance, LayerMask.GetMask("Arrastrable")))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, grabDistance))
         {
-            grabbedObject = hit.collider.gameObject;
-            grabbedRigidbody = grabbedObject.GetComponent<Rigidbody>();
-
-            if (grabbedRigidbody != null)
+            if (hit.collider.CompareTag("Arrastrable"))  // Comprobamos el tag
             {
-                grabbedRigidbody.useGravity = false;
-                grabbedRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-            }
+                grabbedObject = hit.collider.gameObject;
+                grabbedRigidbody = grabbedObject.GetComponent<Rigidbody>();
 
-            IgnoreCollisions(grabbedObject.GetComponent<Collider>(), true);
+                if (grabbedRigidbody != null)
+                {
+                    grabbedRigidbody.useGravity = false;
+                    grabbedRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+                }
+
+                IgnoreCollisions(grabbedObject.GetComponent<Collider>(), true);
+            }
         }
     }
 
