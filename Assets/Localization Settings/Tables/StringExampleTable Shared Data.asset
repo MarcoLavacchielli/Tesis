@@ -38,7 +38,55 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6431965265920
-    m_Key: New Entry
+    m_Key: Level1Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7672812355584
+    m_Key: Level2Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7677522558976
+    m_Key: Level3Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7684342497280
+    m_Key: Level4Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7691317624832
+    m_Key: Level5Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7693175701504
+    m_Key: Level6Key
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10209313505280
+    m_Key: FullScreenKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10284337020928
+    m_Key: MusicKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10393065963520
+    m_Key: SfxKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10462032904192
+    m_Key: AssistKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10536670543872
+    m_Key: SpanishKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10585693569024
+    m_Key: EnglishKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12632732024832
+    m_Key: TeamKey
     m_Metadata:
       m_Items: []
   m_Metadata:

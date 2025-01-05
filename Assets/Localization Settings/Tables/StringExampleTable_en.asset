@@ -38,6 +38,58 @@ MonoBehaviour:
     m_Localized: Go back
     m_Metadata:
       m_Items: []
+  - m_Id: 6431965265920
+    m_Localized: Level 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7672812355584
+    m_Localized: Level 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7677522558976
+    m_Localized: Level 3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7684342497280
+    m_Localized: Level 4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7691317624832
+    m_Localized: Level 5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7693175701504
+    m_Localized: Level 6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10209313505280
+    m_Localized: Full screen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10284337020928
+    m_Localized: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10393065963520
+    m_Localized: Sfx
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10462032904192
+    m_Localized: Assist Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10536670543872
+    m_Localized: Spanish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10585693569024
+    m_Localized: English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12632732024832
+    m_Localized: 'Team:'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
