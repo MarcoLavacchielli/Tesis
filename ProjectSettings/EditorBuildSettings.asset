@@ -53,4 +53,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Cinematicas/DiapoAsincronicaCargaANivel4.unity
     guid: 71241d4b32951a24bbb00e065b3deeec
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: c34ca82ad63975449b7a951240a07dea,
+      type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 1b4e562263b48714caf3166ea1d5ca10,
+      type: 2}
