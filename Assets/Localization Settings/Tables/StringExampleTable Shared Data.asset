@@ -89,6 +89,18 @@ MonoBehaviour:
     m_Key: TeamKey
     m_Metadata:
       m_Items: []
+  - m_Id: 255186660573184
+    m_Key: ResumeKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 255191018455040
+    m_Key: RestartKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 255601393352704
+    m_Key: PauseKey
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

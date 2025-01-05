@@ -90,6 +90,18 @@ MonoBehaviour:
     m_Localized: 'Equipo:'
     m_Metadata:
       m_Items: []
+  - m_Id: 255186660573184
+    m_Localized: Resumir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 255191018455040
+    m_Localized: Reiniciar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 255601393352704
+    m_Localized: Pausa
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

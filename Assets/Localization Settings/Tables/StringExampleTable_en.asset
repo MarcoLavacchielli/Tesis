@@ -90,6 +90,18 @@ MonoBehaviour:
     m_Localized: 'Team:'
     m_Metadata:
       m_Items: []
+  - m_Id: 255186660573184
+    m_Localized: Resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 255191018455040
+    m_Localized: Restart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 255601393352704
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
