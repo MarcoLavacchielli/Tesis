@@ -153,8 +153,14 @@ public class PlayerMovementGrappling : MonoBehaviour
 
     private void MyInput()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        // Movement input using only WASD
+        horizontalInput = 0f;
+        verticalInput = 0f;
+
+        if (Input.GetKey(KeyCode.W)) verticalInput += 1f;
+        if (Input.GetKey(KeyCode.S)) verticalInput -= 1f;
+        if (Input.GetKey(KeyCode.A)) horizontalInput -= 1f;
+        if (Input.GetKey(KeyCode.D)) horizontalInput += 1f;
 
         // Jumping logic
         if (Input.GetKey(jumpKey) && readyToJump && (grounded || (coyoteTimeCounter > 0 && !hasJumped)))
@@ -181,6 +187,7 @@ public class PlayerMovementGrappling : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
         }
     }
+
 
     private void StateHandler()
     {
