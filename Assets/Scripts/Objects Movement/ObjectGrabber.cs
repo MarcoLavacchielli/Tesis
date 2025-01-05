@@ -3,14 +3,15 @@ using UnityEngine;
 public class ObjectGrabber : MonoBehaviour
 {
     [Header("Grab Settings")]
-    public float grabDistance = 3f;          // Distancia máxima para agarrar objetos
-    public float maxGrabRange = 2f;         // Rango máximo para mantener el objeto cerca del jugador
-    public float grabSmoothness = 10f;      // Velocidad de seguimiento al holdPoint
-    public Transform holdPoint;             // Punto donde se sostiene el objeto
-    public float rotationSpeed = 100f;      // Velocidad de rotación al usar las teclas
+    public float grabDistance = 3f;          // Maximum distance to grab objects
+    public float maxGrabRange = 2f;         // Maximum range to keep the object close to the player
+    public float grabSmoothness = 10f;      // Follow speed to the holdPoint
+    public Transform holdPoint;             // Point where the object is held
+    public float rotationSpeed = 100f;      // Rotation speed using keys
+    public LayerMask grabbableLayer;        // Layer for grabbable objects
 
-    private GameObject grabbedObject;       // Referencia al objeto agarrado
-    private Rigidbody grabbedRigidbody;     // Rigidbody del objeto agarrado
+    private GameObject grabbedObject;       // Reference to the grabbed object
+    private Rigidbody grabbedRigidbody;     // Rigidbody of the grabbed object
 
     private void Update()
     {
@@ -34,11 +35,13 @@ public class ObjectGrabber : MonoBehaviour
 
     private void TryGrabObject()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, grabDistance))
+        Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, grabDistance, grabbableLayer);
+
+        foreach (var collider in nearbyObjects)
         {
-            if (hit.collider.CompareTag("Arrastrable"))  // Comprobamos el tag
+            if (collider.CompareTag("Arrastrable"))  // Check tag
             {
-                grabbedObject = hit.collider.gameObject;
+                grabbedObject = collider.gameObject;
                 grabbedRigidbody = grabbedObject.GetComponent<Rigidbody>();
 
                 if (grabbedRigidbody != null)
@@ -48,6 +51,7 @@ public class ObjectGrabber : MonoBehaviour
                 }
 
                 IgnoreCollisions(grabbedObject.GetComponent<Collider>(), true);
+                return; // Exit after grabbing the first valid object
             }
         }
     }
