@@ -13,8 +13,6 @@ public class LockColumn : MonoBehaviour
 
     public Transform CorrectFace;
 
-   /* private float anglePerFace;          // Ángulo que ocupa cada cara
-
     void Start()
     {
         // Cambiar el material de la cara correcta al inicio
@@ -34,50 +32,40 @@ public class LockColumn : MonoBehaviour
         {
             Debug.LogError("El índice del código correcto está fuera de rango.");
         }
-
-        // Calcular el ángulo que ocupa cada cara
-        anglePerFace = 360f / CarasDeLaColumna.Length;
+        CorrectFace = CarasDeLaColumna[codigoCorrecto].transform;
     }
 
     void Update()
     {
         if (!isStopped)
         {
-            // Rotación continua
             transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
-
-            // Detectar la cara alineada con la fila central
-            int currentFace = GetCurrentFaceIndex();
-            if (Input.GetKeyDown(KeyCode.Return) && currentFace == codigoCorrecto)
-            {
-                isStopped = true; // Detener la rotación
-                rotationSpeed = 0;
-                NotifyNextColumn(); // Notificar que puede avanzar
-            }
         }
     }
 
-    private int GetCurrentFaceIndex()
+    public bool TryStopColumn()
     {
-        // Obtener el ángulo actual del nonágono
-        float currentRotation = transform.eulerAngles.y;
-
-        // Asegurarnos de que el ángulo esté en el rango 0-360
-        currentRotation = (currentRotation + 360f) % 360f;
-
-        // Determinar qué cara está en la posición central
-        int faceIndex = Mathf.RoundToInt(currentRotation / anglePerFace) % CarasDeLaColumna.Length;
-        return faceIndex;
+        if (Vector3.Distance(CorrectFace.position, filaCentral.position) < 0.1f)
+        {
+            isStopped = true; // Detiene la columna
+            rotationSpeed = 0; // Deja de rotar
+            return true; // Indica que la columna fue resuelta correctamente
+        }
+        return false; // Indica que el jugador falló
     }
 
-    private void NotifyNextColumn()
+    public void ResetColumn()
     {
-        // Lógica para activar la siguiente columna o verificar desbloqueo
-        Debug.Log("Columna resuelta. Procede a la siguiente.");
+        isStopped = false; // Reactiva la columna
+        rotationSpeed = 50f; // Restaura la velocidad de rotación
     }
-    */
 
-    
+    public bool IsStopped()
+    {
+        return isStopped;
+    }
+
+    /*
         void Start()
         {
             // Cambiar el material de la cara correcta al inicio
@@ -118,51 +106,17 @@ public class LockColumn : MonoBehaviour
 
 
 
-            /* // Rotación continua
-                transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
-
-                // Detección de la cara en la fila central
-                foreach (GameObject cara in CarasDeLaColumna)
-                {
-                    if (IsInCentralRow(cara))
-                    {
-                        // Espera a la tecla Enter
-                        if (Input.GetKeyDown(KeyCode.Return) && IsCorrectDigit(cara))
-                        {
-                            isStopped = true; // Detiene la columna
-                            rotationSpeed = 0; // Deja de rotar
-                            NotifyNextColumn(); // Notifica que la siguiente columna puede activarse
-                        }
-                    }
-                }
-            }*/
+          
         }
     }
         public void IsInCentralRow()
         {
-        if(Vector3.Distance(CorrectFace.transform.position, filaCentral.transform.position) < 0.1f)
-        {
-            isStopped = true; // Detiene la columna
-            rotationSpeed = 0; // Deja de rotar
-            NotifyNextColumn(); // Notifica que la siguiente columna puede activarse
-        }
-
-
-        /*
-        // Verifica si la cara está alineada con la fila central
-            float distance = Mathf.Abs(cara.transform.position.z - filaCentral.position.z);
-        if (distance < 0.002f)
-        {
-            float distancex = Mathf.Abs(cara.transform.position.x - filaCentral.position.x);
-        }
-            return distance < 0.002f; // Tolerancia ajustable*/
-        }
-
-        private bool IsCorrectDigit(GameObject cara)
-        {
-            // Comprueba si la cara actual es la correcta
-            int index = System.Array.IndexOf(CarasDeLaColumna, cara);
-            return index == codigoCorrecto;
+            if(Vector3.Distance(CorrectFace.transform.position, filaCentral.transform.position) < 0.1f)
+            {
+                isStopped = true; // Detiene la columna
+                rotationSpeed = 0; // Deja de rotar
+                NotifyNextColumn(); // Notifica que la siguiente columna puede activarse
+            }
         }
 
         private void NotifyNextColumn()
@@ -170,5 +124,5 @@ public class LockColumn : MonoBehaviour
             // Lógica para activar la siguiente columna o verificar desbloqueo
             Debug.Log("Columna resuelta. Procede a la siguiente.");
         }
-
+    */
 }
