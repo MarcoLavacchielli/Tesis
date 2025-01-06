@@ -3,15 +3,15 @@ using UnityEngine;
 public class ObjectGrabber : MonoBehaviour
 {
     [Header("Grab Settings")]
-    public float grabDistance = 3f;          // Maximum distance to grab objects
-    public float maxGrabRange = 2f;         // Maximum range to keep the object close to the player
-    public float grabSmoothness = 10f;      // Follow speed to the holdPoint
-    public Transform holdPoint;             // Point where the object is held
-    public float rotationSpeed = 100f;      // Rotation speed using keys
-    public LayerMask grabbableLayer;        // Layer for grabbable objects
+    public float grabDistance = 3f;
+    public float maxGrabRange = 2f;
+    public float grabSmoothness = 10f;
+    public Transform holdPoint;
+    public float rotationSpeed = 100f;
+    public LayerMask grabbableLayer;
 
-    private GameObject grabbedObject;       // Reference to the grabbed object
-    private Rigidbody grabbedRigidbody;     // Rigidbody of the grabbed object
+    private GameObject grabbedObject;
+    private Rigidbody grabbedRigidbody;
 
     private void Update()
     {
@@ -39,7 +39,7 @@ public class ObjectGrabber : MonoBehaviour
 
         foreach (var collider in nearbyObjects)
         {
-            if (collider.CompareTag("Arrastrable"))  // Check tag
+            if (collider.CompareTag("Arrastrable"))
             {
                 grabbedObject = collider.gameObject;
                 grabbedRigidbody = grabbedObject.GetComponent<Rigidbody>();
@@ -51,7 +51,7 @@ public class ObjectGrabber : MonoBehaviour
                 }
 
                 IgnoreCollisions(grabbedObject.GetComponent<Collider>(), true);
-                return; // Exit after grabbing the first valid object
+                return;
             }
         }
     }
@@ -84,11 +84,16 @@ public class ObjectGrabber : MonoBehaviour
 
     private void RotateGrabbedObject()
     {
-        float rotationInput = Input.GetKey(KeyCode.LeftArrow) ? -1f : Input.GetKey(KeyCode.RightArrow) ? 1f : 0f;
-
-        if (rotationInput != 0f)
+        float horizontalRotationInput = Input.GetKey(KeyCode.LeftArrow) ? -1f : Input.GetKey(KeyCode.RightArrow) ? 1f : 0f;
+        if (horizontalRotationInput != 0f)
         {
-            grabbedObject.transform.Rotate(Vector3.up, rotationInput * rotationSpeed * Time.deltaTime, Space.World);
+            grabbedObject.transform.Rotate(Vector3.up, horizontalRotationInput * rotationSpeed * Time.deltaTime, Space.World);
+        }
+
+        float verticalRotationInput = Input.GetKey(KeyCode.UpArrow) ? -1f : Input.GetKey(KeyCode.DownArrow) ? 1f : 0f;
+        if (verticalRotationInput != 0f)
+        {
+            grabbedObject.transform.Rotate(Vector3.right, verticalRotationInput * rotationSpeed * Time.deltaTime, Space.World);
         }
     }
 
