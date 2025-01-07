@@ -35,13 +35,15 @@ public class ObjectGrabber : MonoBehaviour
 
     private void TryGrabObject()
     {
-        Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, grabDistance, grabbableLayer);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // Ray desde el centro de la pantalla
+        RaycastHit hit;
 
-        foreach (var collider in nearbyObjects)
+        // Verificar si el Raycast impacta algo en el rango y en la capa correcta
+        if (Physics.Raycast(ray, out hit, grabDistance, grabbableLayer))
         {
-            if (collider.CompareTag("Arrastrable"))  // Check tag
+            if (hit.collider.CompareTag("Arrastrable")) // Verificar el tag del objeto
             {
-                grabbedObject = collider.gameObject;
+                grabbedObject = hit.collider.gameObject;
                 grabbedRigidbody = grabbedObject.GetComponent<Rigidbody>();
 
                 if (grabbedRigidbody != null)
@@ -50,8 +52,7 @@ public class ObjectGrabber : MonoBehaviour
                     grabbedRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
                 }
 
-                IgnoreCollisions(grabbedObject.GetComponent<Collider>(), true);
-                return; // Exit after grabbing the first valid object
+                IgnoreCollisions(hit.collider, true);
             }
         }
     }
