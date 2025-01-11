@@ -72,6 +72,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
+    - _AlphaClipingIntensity: 0.5
     - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
@@ -80,19 +81,26 @@ Material:
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
     - _CullModeForward: 2
+    - _DEFORMAmountOfLine: 20
+    - _DEFORMOffestIntensity: 0.01
     - _DepthOffsetEnable: 0
-    - _DotSize: 5
-    - _DotSpace: 5
+    - _DotSize: 15
+    - _DotSpace: 15
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
+    - _EmissionBajada: 0.5
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _FresnelPower: 3
+    - _Grabbed: 0
+    - _LerpIntensity: 1
     - _NoiseScale: 10
+    - _NotGrabbedIntensity: 0.15
+    - _Opacity: 0.66
     - _OpaqueCullMode: 2
-    - _Power: 0.5
+    - _Power: 0.45
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
@@ -128,6 +136,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
+    - _DEFORMSpeed: {r: 0, g: -0.1, b: 0, a: 0}
     - _DotColor: {r: 0, g: 39.39662, b: 13.32489, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
