@@ -6,6 +6,7 @@ public class LockColumn : MonoBehaviour
 {
     public GameObject[] CarasDeLaColumna; // Array con las caras del nonágono
     public float rotationSpeed = 50f;    // Velocidad de rotación
+    public float restartSpeed = 50f;    // velocidad de cuando te equivocas
     public Transform filaCentral;        // Transform que representa la fila central
     public Material correctMaterial;     // Material para la cara correcta
     private bool isStopped = false;      // Indica si esta columna ya está resuelta
@@ -60,7 +61,7 @@ public class LockColumn : MonoBehaviour
     public void ResetColumn()
     {
         isStopped = false; // Reactiva la columna
-        rotationSpeed = 50f; // Restaura la velocidad de rotación
+        rotationSpeed = restartSpeed; // Restaura la velocidad de rotación
     }
 
     public bool IsStopped()
