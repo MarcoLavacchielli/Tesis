@@ -12,6 +12,7 @@ public class Grappling : MonoBehaviour
     public LayerMask whatIsGrappleable;
     public LayerMask avoidLayer;
     public Image grappleIndicator;
+    public Material grappleMaterial; // Referencia al material con el shader HDRP
 
     public PauseMenu pauseMenu;
 
@@ -50,6 +51,15 @@ public class Grappling : MonoBehaviour
         grappleIndicator.color = Color.white;
 
         rb.interpolation = RigidbodyInterpolation.Interpolate;
+
+        if (grappleMaterial == null)
+        {
+            Debug.LogError("No Material assigned for the grapple effect!");
+        }
+        else
+        {
+            grappleMaterial.SetFloat("_IsActive", 1f); // Aseguramos que comience "apagado"
+        }
     }
 
     private void Update()
@@ -65,7 +75,6 @@ public class Grappling : MonoBehaviour
             else
             {
                 StartGrapple();
-                
             }
         }
 
@@ -76,18 +85,6 @@ public class Grappling : MonoBehaviour
         else
         {
             CheckGrappleable();
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (test == true)
-        {
-            Debug.Log("1: "+rb.velocity);
-            if (rb.velocity.y == 0)
-            {
-                test = false;
-            }
         }
     }
 
@@ -143,11 +140,12 @@ public class Grappling : MonoBehaviour
         startTime = Time.time;
 
         audioM.PlaySfx(2);
+
+        StartCoroutine(AnimateMaterialFloat("_IsActive", 1f, 0f, 0.5f)); // Animamos el float de 1 a 0 al iniciar el gancho
     }
 
     private void MoveTowardsGrapplePoint()
     {
-        // Actualizamos el punto del gancho cada frame, sigue la posición del objeto en movimiento
         Vector3 grapplePoint = grappleTarget.position;
 
         Vector3 direction = (grapplePoint - transform.position).normalized;
@@ -192,9 +190,10 @@ public class Grappling : MonoBehaviour
             Vector3 upwardMomentum = Vector3.up * upwardImpulse;
 
             rb.velocity = forwardMomentum + upwardMomentum;
-            Debug.Log(rb.velocity);
             test = true;
         }
+
+        StartCoroutine(AnimateMaterialFloat("_IsActive", 0f, 1f, 0.5f)); // Animamos el float de 0 a 1 al finalizar el gancho
     }
 
     public void StopGrapple()
@@ -216,6 +215,7 @@ public class Grappling : MonoBehaviour
         if (isGrappling)
         {
             StopGrapple();
+            StartCoroutine(AnimateMaterialFloat("_IsActive", 0f, 1f, 0.5f)); // Suavizamos la desactivación del gancho si se interrumpe
         }
     }
 
@@ -227,5 +227,26 @@ public class Grappling : MonoBehaviour
     public Vector3 GetGrapplePoint()
     {
         return grappleTarget.position; // Devolvemos la posición actual del objeto
+    }
+
+    private IEnumerator AnimateMaterialFloat(string property, float startValue, float endValue, float duration)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float value = Mathf.Lerp(startValue, endValue, elapsed / duration);
+            if (grappleMaterial != null)
+            {
+                grappleMaterial.SetFloat(property, value);
+            }
+            yield return null;
+        }
+
+        if (grappleMaterial != null)
+        {
+            grappleMaterial.SetFloat(property, endValue);
+        }
     }
 }
