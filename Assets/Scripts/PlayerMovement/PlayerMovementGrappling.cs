@@ -59,7 +59,7 @@ public class PlayerMovementGrappling : MonoBehaviour
 
     private Vector3 moveDirection;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
 
     WallRunningAdvanced pwl;
 
