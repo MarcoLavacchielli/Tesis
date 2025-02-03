@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-/// added if(pm.wallrunning) return;
-
 public class Sliding : MonoBehaviour
 {
-
     AudioManager audioM;
 
     [Header("References")]
     public Transform orientation;
     public Transform playerObj;
+    public Transform playercamToTilt; // Referencia a la cámara para inclinar
     private Rigidbody rb;
     private PlayerMovementAdvanced pm;
     private PlayerMovementGrappling pg;
@@ -30,11 +27,14 @@ public class Sliding : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
+    [Header("Camera Tilt")]
+    public float tiltAngle = 10f; // Ángulo de inclinación durante el slide
+    public float tiltSpeed = 5f; // Velocidad de interpolación
+    private float currentTilt = 0f;
 
     private void Awake()
     {
         audioM = FindObjectOfType<AudioManager>();
-
         if (audioM == null)
         {
             Debug.LogError("No AudioManager found in the scene!");
@@ -57,13 +57,11 @@ public class Sliding : MonoBehaviour
 
         if (Input.GetKeyDown(slideKey) && (horizontalInput != 0 || verticalInput != 0))
         {
-            //audioM.PlaySfx(4);
             StartSlide();
         }
 
         if (Input.GetKeyUp(slideKey) && pm.sliding)
         {
-            audioM.StopSFX(4);
             StopSlide();
         }
     }
@@ -72,11 +70,13 @@ public class Sliding : MonoBehaviour
     {
         if (pm.sliding)
             SlidingMovement();
+
+        HandleCameraTilt(); // Aplicar inclinación de la cámara
     }
 
     private void StartSlide()
     {
-        if (pm.wallrunning || pg.activeGrapple) return; // Evitar deslizarse mientras se está grappling
+        if (pm.wallrunning || pg.activeGrapple) return;
 
         pm.sliding = true;
 
@@ -88,20 +88,15 @@ public class Sliding : MonoBehaviour
         slideTimer = maxSlideTime;
     }
 
-
     private void SlidingMovement()
     {
         Vector3 inputDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        // sliding normal
         if (!pm.OnSlope() || rb.velocity.y > -0.1f)
         {
             rb.AddForce(inputDirection.normalized * slideForce, ForceMode.Force);
-
             slideTimer -= Time.deltaTime;
         }
-
-        // sliding down a slope
         else
         {
             rb.AddForce(pm.GetSlopeMoveDirection(inputDirection) * slideForce, ForceMode.Force);
@@ -116,5 +111,12 @@ public class Sliding : MonoBehaviour
         pm.sliding = false;
 
         playerObj.localScale = new Vector3(playerObj.localScale.x, startYScale, playerObj.localScale.z);
+    }
+
+    private void HandleCameraTilt()
+    {
+        float targetTilt = pm.sliding ? -tiltAngle : 0f;
+        currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
+        playercamToTilt.localRotation = Quaternion.Euler(0, 0, currentTilt);
     }
 }

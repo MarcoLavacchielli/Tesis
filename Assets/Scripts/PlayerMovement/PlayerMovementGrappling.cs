@@ -15,6 +15,13 @@ public class PlayerMovementGrappling : MonoBehaviour
 
     public float groundDrag;
 
+
+    [Header("Shader Control")]
+    public Material PostProcessRun;
+    private float shaderValue;
+    private Coroutine shaderCoroutine;
+    private bool isShaderTransitioning = false;
+
     [Header("Jumping")]
     public float jumpForce;
     public float coyoteJumpForce;  // Fuerza del salto durante el Coyote Time
@@ -100,6 +107,12 @@ public class PlayerMovementGrappling : MonoBehaviour
 
         readyToJump = true;
         startYScale = transform.localScale.y;
+
+        if (PostProcessRun != null)
+        {
+            PostProcessRun.SetFloat("_IsActive", 1f);
+            shaderValue = 1f;
+        }
     }
 
     private void Update()
@@ -197,55 +210,79 @@ public class PlayerMovementGrappling : MonoBehaviour
             moveSpeed = 0;
             rb.velocity = Vector3.zero;
             audioM.PauseSFX(13);
+            ChangeShaderValue(1f);
         }
         else if (activeGrapple)
         {
             state = MovementState.grappling;
             moveSpeed = sprintSpeed;
             audioM.PauseSFX(13);
+            ChangeShaderValue(1f);
         }
         else if (swinging)
         {
             state = MovementState.swinging;
             moveSpeed = swingSpeed;
             audioM.PauseSFX(13);
+            ChangeShaderValue(1f);
         }
         else if (Input.GetKey(crouchKey))
         {
             state = MovementState.crouching;
             moveSpeed = crouchSpeed;
-            //audioM.PauseSFX(13);
             PlayWalkSound();
+            ChangeShaderValue(1f);
         }
         else if (grounded && Input.GetKey(sprintKey))
         {
             state = MovementState.sprinting;
             moveSpeed = sprintSpeed;
             PlayWalkSound();
+            Debug.Log("DEBERIA BAJAR");
+
+            // Cambiar el valor del shader solo si no está en transición
+            if (!isShaderTransitioning)
+            {
+                ChangeShaderValue(0f); // Inicia la transición a 0
+                isShaderTransitioning = true; // Marca que la transición ha comenzado
+            }
         }
         else if (grounded)
         {
             state = MovementState.walking;
             moveSpeed = walkSpeed;
             PlayWalkSound();
+
+            // Si el estado ya no es sprinting, cambiar el valor del shader a 1
+            if (state != MovementState.sprinting && isShaderTransitioning)
+            {
+                ChangeShaderValue(1f); // Restablecer el valor del shader a 1
+                isShaderTransitioning = false; // Permitir que la transición se ejecute nuevamente en el futuro
+            }
         }
         else
         {
             state = MovementState.air;
-
-            // Si está en el aire, verificar si está haciendo wallrun
-            if (pwl.wallrunningFlagSound==true)
+            if (pwl.wallrunningFlagSound)
             {
-                // Si está haciendo wallrun, no pausamos el sonido
                 PlayWalkSound();
             }
             else
             {
-                // Si no está haciendo wallrun, pausamos el sonido
                 audioM.PauseSFX(13);
             }
+
+            // Si el estado no es sprinting, poner el shader en 1
+            if (state != MovementState.sprinting && isShaderTransitioning)
+            {
+                ChangeShaderValue(1f); // Restablecer el valor del shader a 1
+                isShaderTransitioning = false; // Permitir que la transición se ejecute nuevamente en el futuro
+            }
+
+            ChangeShaderValue(1f);
         }
     }
+
 
     private void PlayWalkSound()
     {
@@ -438,4 +475,46 @@ public class PlayerMovementGrappling : MonoBehaviour
 
         return velocityXZ + velocityY;
     }
+
+    private void ResetShaderTransition()
+    {
+        isShaderTransitioning = false; // Permite que la transición vuelva a ocurrir
+    }
+
+    private void ChangeShaderValue(float targetValue)
+    {
+        if (shaderCoroutine != null)
+        {
+            StopCoroutine(shaderCoroutine);
+        }
+        shaderCoroutine = StartCoroutine(LerpShaderValue(targetValue));
+    }
+
+    private IEnumerator LerpShaderValue(float targetValue)
+    {
+        float time = 0f;
+        float duration = 0.5f; // Duración de la transición
+        float startValue = shaderValue;
+
+        targetValue = Mathf.Clamp01(targetValue);
+
+        while (time < duration)
+        {
+            shaderValue = Mathf.Lerp(startValue, targetValue, time / duration);
+            PostProcessRun.SetFloat("_IsActive", shaderValue);
+            shaderValue = Mathf.Clamp01(shaderValue);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        shaderValue = targetValue;
+        PostProcessRun.SetFloat("_IsActive", shaderValue);
+
+        // Resetear el flag una vez que la transición ha terminado
+        if (targetValue == 1f)
+        {
+            ResetShaderTransition(); // Permite que se ejecute la transición nuevamente
+        }
+    }
+
 }
