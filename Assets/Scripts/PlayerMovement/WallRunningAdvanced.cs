@@ -62,13 +62,16 @@ public class WallRunningAdvanced : MonoBehaviour
     private PlayerMovementGrappling pg;
     //
 
+    private CameraTiltController camTilt;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovementAdvanced>();
         lg = GetComponent<LedgeGrabbing>();
-
         pg = GetComponent<PlayerMovementGrappling>();
+
+        camTilt = FindObjectOfType<CameraTiltController>(); // Referencia al nuevo controlador de inclinación
     }
 
     private void Update()
@@ -172,17 +175,16 @@ public class WallRunningAdvanced : MonoBehaviour
     private void StartWallRun()
     {
         pm.wallrunning = true;
-
         wallRunTimer = maxWallRunTime;
-
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        // apply camera effects
-        if (cam == null) return;
-        cam.DoFov(90f);
+        if (cam != null)
+            cam.DoFov(90f);
 
         pg.moveSpeed = 6;
         wallrunningFlagSound = true;
+
+        camTilt.SetTilt(wallLeft ? -tiltAngle : tiltAngle); // Ajustar inclinación
     }
 
     private void WallRunningMovement()
@@ -224,12 +226,13 @@ public class WallRunningAdvanced : MonoBehaviour
     {
         pm.wallrunning = false;
 
-        // reset camera effects
-        if (cam == null) return;
-        cam.DoFov(80f);
+        if (cam != null)
+            cam.DoFov(80f);
 
         wallrunningFlagSound = false;
         audioM.PauseSFX(13);
+
+        camTilt.SetTilt(0f); // Restaura inclinación
     }
 
     private void WallJump()
