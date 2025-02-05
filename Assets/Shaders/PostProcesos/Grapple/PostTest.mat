@@ -49,5 +49,5 @@ Material:
     - _Mask_Size: 0.6
     - _SpeedColor: 0.25
     m_Colors:
-    - _Color: {r: 1.1209621, g: 2.670157, b: 2.3026528, a: 0}
+    - _Color: {r: 5.992157, g: 1.3361056, b: 0, a: 0}
   m_BuildTextureStacks: []
