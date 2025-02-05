@@ -32,6 +32,8 @@ public class Sliding : MonoBehaviour
     public float tiltSpeed = 5f; // Velocidad de interpolación
     private float currentTilt = 0f;
 
+    private CameraTiltController camTilt;
+
     private void Awake()
     {
         audioM = FindObjectOfType<AudioManager>();
@@ -48,6 +50,7 @@ public class Sliding : MonoBehaviour
         pg = GetComponent<PlayerMovementGrappling>();
 
         startYScale = playerObj.localScale.y;
+        camTilt = FindObjectOfType<CameraTiltController>(); // Referencia al nuevo controlador de inclinación
     }
 
     private void Update()
@@ -79,13 +82,12 @@ public class Sliding : MonoBehaviour
         if (pm.wallrunning || pg.activeGrapple) return;
 
         pm.sliding = true;
-
         playerObj.localScale = new Vector3(playerObj.localScale.x, slideYScale, playerObj.localScale.z);
         rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
-
         audioM.PlaySfx(4);
-
         slideTimer = maxSlideTime;
+
+        camTilt.SetTilt(-tiltAngle); // Aplica inclinación
     }
 
     private void SlidingMovement()
@@ -109,8 +111,9 @@ public class Sliding : MonoBehaviour
     private void StopSlide()
     {
         pm.sliding = false;
-
         playerObj.localScale = new Vector3(playerObj.localScale.x, startYScale, playerObj.localScale.z);
+
+        camTilt.SetTilt(0f); // Restaura la inclinación
     }
 
     private void HandleCameraTilt()
