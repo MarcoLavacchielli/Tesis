@@ -12,7 +12,7 @@ public class MoveTextOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private float velocidad = 5f;
 
     private Color colorInicial;
-    private Color colorFinal = Color.red;
+    private Color colorFinal = Color.cyan;
 
     private void Start()
     {

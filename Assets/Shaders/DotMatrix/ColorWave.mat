@@ -66,6 +66,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
+    - _Alpha: 1
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
@@ -121,10 +122,10 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - _DEFORMSpeed: {r: 0, g: -0.1, b: 0, a: 0}
-    - _DotColor: {r: 0, g: 2.1185477, b: 1.145682, a: 0}
+    - _DEFORMSpeed: {r: 0, g: 0.025, b: 0, a: 0}
+    - _DotColor: {r: 2.8284273, g: 2.6935027, b: 1.1340393, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FresnelColor: {r: 0, g: 16, b: 1.6799504, a: 0}
+    - _FresnelColor: {r: 21.361254, g: 11.100489, b: 0, a: 0}
     - _TilingAndOffset: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
