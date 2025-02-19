@@ -4,20 +4,27 @@ using UnityEngine;
 public class PowerSwitcher : MonoBehaviour
 {
     [Header("General Settings")]
-    public float grabDistance = 3f;           // Maximum distance to interact with objects
-    public float throwForce = 10f;            // Base force to throw objects
-    public Transform holdPoint;               // Point where the object is held
-    public LayerMask grabbableLayer;          // Layer for grabbable objects
-    public float switchDistanceLimit = 5f;    // Maximum distance to switch places with an object
+    public float grabDistance = 3f;
+    public float throwForce = 10f;
+    public Transform holdPoint;
+    public LayerMask grabbableLayer;
+    public float switchDistanceLimit = 5f;
 
-    private GameObject grabbedObject;         // Currently grabbed object
-    private Rigidbody grabbedRigidbody;       // Rigidbody of the grabbed object
+    private GameObject grabbedObject;
+    private Rigidbody grabbedRigidbody;
+    private Vector3 lastPlayerPosition;
+
+    private void Start()
+    {
+        lastPlayerPosition = transform.position;
+    }
 
     private void Update()
     {
         HandleGrabInput();
         HandleThrowInput();
         HandleSwitchPositionInput();
+        CheckIfPlayerTeleported();
     }
 
     private void FixedUpdate()
@@ -48,6 +55,19 @@ public class PowerSwitcher : MonoBehaviour
         {
             TrySwitchPositionWithNearbyObject();
         }
+    }
+
+    private void CheckIfPlayerTeleported()
+    {
+        float teleportThreshold = 2f;
+        if (Vector3.Distance(transform.position, lastPlayerPosition) > teleportThreshold)
+        {
+            if (grabbedObject != null)
+            {
+                ReleaseObject();
+            }
+        }
+        lastPlayerPosition = transform.position;
     }
 
     private void TryGrabObject()
@@ -90,7 +110,7 @@ public class PowerSwitcher : MonoBehaviour
     private void MoveObjectSmoothly()
     {
         Vector3 direction = holdPoint.position - grabbedObject.transform.position;
-        grabbedRigidbody.velocity = direction * 10f; // Adjust smoothness factor if needed
+        grabbedRigidbody.velocity = direction * 10f;
     }
 
     private void ThrowObject()
@@ -99,10 +119,7 @@ public class PowerSwitcher : MonoBehaviour
         {
             grabbedRigidbody.useGravity = true;
             grabbedRigidbody.constraints = RigidbodyConstraints.None;
-
-            Vector3 throwDirection = Camera.main.transform.forward;
-            grabbedRigidbody.AddForce(throwDirection * throwForce, ForceMode.Impulse);
-
+            grabbedRigidbody.AddForce(Camera.main.transform.forward * throwForce, ForceMode.Impulse);
             grabbedObject = null;
             grabbedRigidbody = null;
         }
@@ -131,59 +148,42 @@ public class PowerSwitcher : MonoBehaviour
         {
             SwitchPositionWithObject(closestObject);
         }
-        else
-        {
-            Debug.Log("No nearby objects to switch positions with or out of range.");
-        }
     }
 
     private void SwitchPositionWithObject(GameObject targetObject)
     {
-        // Disable collisions between the player and the object temporarily
         Rigidbody playerRigidbody = GetComponent<Rigidbody>();
         Rigidbody targetRigidbody = targetObject.GetComponent<Rigidbody>();
 
         if (playerRigidbody != null) playerRigidbody.isKinematic = true;
         if (targetRigidbody != null) targetRigidbody.isKinematic = true;
 
-        // Save initial positions
         Vector3 playerPosition = transform.position;
         Vector3 objectPosition = targetObject.transform.position;
 
-        // Temporarily disable gravity to avoid strange behavior during the swap
         if (targetRigidbody != null)
         {
             targetRigidbody.useGravity = false;
         }
 
-        // Move the player to the object's position
         transform.position = objectPosition;
 
-        // Use a coroutine to move the object after a small delay
         StartCoroutine(MoveObjectAfterDelay(targetObject, playerPosition, playerRigidbody, targetRigidbody));
     }
 
     private IEnumerator MoveObjectAfterDelay(GameObject targetObject, Vector3 targetPosition, Rigidbody playerRigidbody, Rigidbody targetRigidbody)
     {
-        yield return new WaitForFixedUpdate(); // Wait for one physics frame to avoid collision issues
-
-        // Move the object to the player's previous position
+        yield return new WaitForFixedUpdate();
         targetObject.transform.position = targetPosition;
-
-        // Reactivate gravity for the object after the swap
         if (targetRigidbody != null)
         {
             targetRigidbody.useGravity = true;
             targetRigidbody.isKinematic = false;
         }
-
-        // Reactivate the player's Rigidbody if needed
         if (playerRigidbody != null)
         {
             playerRigidbody.isKinematic = false;
         }
-
-        // Re-enable collisions between the player and the object
         Collider playerCollider = GetComponent<Collider>();
         Collider objectCollider = targetObject.GetComponent<Collider>();
         if (playerCollider != null && objectCollider != null)
