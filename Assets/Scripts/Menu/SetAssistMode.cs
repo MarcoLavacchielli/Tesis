@@ -37,4 +37,13 @@ public class SetAssistMode : MonoBehaviour
         // Guarda el cambio en el archivo JSON
         saveGameManager.SaveGame();
     }
+
+    /*public void ToggleAssistMode(bool isActive)
+    {
+        if (difficultyToggle != null)
+        {
+            difficultyToggle.isOn = isActive;
+            OnToggleChanged(isActive); // Aplica los cambios al save data
+        }
+    }*/
 }
