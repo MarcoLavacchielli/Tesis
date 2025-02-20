@@ -264,8 +264,8 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
-    - _WindowColor: {r: 0.7490197, g: 0.091484375, b: 0.4827281, a: 0}
-    - _WindowEmisive: {r: 0.7490197, g: 0.091484375, b: 0.4827281, a: 0}
+    - _WindowColor: {r: 0.7490196, g: 0.09019608, b: 0.29997078, a: 0}
+    - _WindowEmisive: {r: 0.7490196, g: 0.09019608, b: 0.31335205, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1282720578847920995
 MonoBehaviour:
