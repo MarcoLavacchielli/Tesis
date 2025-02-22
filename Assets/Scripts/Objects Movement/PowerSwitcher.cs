@@ -14,9 +14,17 @@ public class PowerSwitcher : MonoBehaviour
     private Rigidbody grabbedRigidbody;
     private Vector3 lastPlayerPosition;
 
+    [Header("Shader Settings")]
+    public Material teleportMaterial;
+
     private void Start()
     {
         lastPlayerPosition = transform.position;
+
+        if (teleportMaterial != null)
+        {
+            teleportMaterial.SetFloat("_IsActive", 0f);
+        }
     }
 
     private void Update()
@@ -166,9 +174,36 @@ public class PowerSwitcher : MonoBehaviour
             targetRigidbody.useGravity = false;
         }
 
+        // Activar el shader
+        if (teleportMaterial != null)
+        {
+            teleportMaterial.SetFloat("_IsActive", 1f);
+        }
+
         transform.position = objectPosition;
 
         StartCoroutine(MoveObjectAfterDelay(targetObject, playerPosition, playerRigidbody, targetRigidbody));
+        StartCoroutine(ResetShaderEffect());
+    }
+
+    private IEnumerator ResetShaderEffect()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        float duration = 0.5f; // Duración de la transición
+        float elapsedTime = 0f;
+        float startValue = 1f;
+        float endValue = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float newValue = Mathf.Lerp(startValue, endValue, elapsedTime / duration);
+            teleportMaterial.SetFloat("_IsActive", newValue);
+            yield return null;
+        }
+
+        teleportMaterial.SetFloat("_IsActive", 0f);
     }
 
     private IEnumerator MoveObjectAfterDelay(GameObject targetObject, Vector3 targetPosition, Rigidbody playerRigidbody, Rigidbody targetRigidbody)
