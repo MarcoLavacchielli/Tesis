@@ -77,6 +77,7 @@ public class CameraTransitionsEvents : MonoBehaviour
         EndCinematicFunc();
 
     }
+    /*
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -84,7 +85,7 @@ public class CameraTransitionsEvents : MonoBehaviour
             SkipCinematic();
         }
     }
-
+    */
 
     public void Level2TurnOnLaser()
     {
