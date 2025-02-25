@@ -44,7 +44,7 @@ Material:
     m_Floats:
     - _Alpha: 1
     - _AlphaSpeed: 5
-    - _IsActive: 0.7361385
+    - _IsActive: 1
     - _Mask_Constrast: 1
     - _Mask_Size: 0.7
     - _SpeedColor: 0.25
