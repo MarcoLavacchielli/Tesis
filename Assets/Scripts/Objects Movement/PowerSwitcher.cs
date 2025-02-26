@@ -17,6 +17,8 @@ public class PowerSwitcher : MonoBehaviour
     [Header("Shader Settings")]
     public Material teleportMaterial;
 
+    [SerializeField] CapsuleCollider charContr;
+
     private void Start()
     {
         lastPlayerPosition = transform.position;
@@ -180,7 +182,28 @@ public class PowerSwitcher : MonoBehaviour
             teleportMaterial.SetFloat("_IsActive", 1f);
         }
 
-        transform.position = objectPosition;
+        //-----------------------------------------------------
+        RaycastHit hit;
+        
+        Vector3 p1 = objectPosition + charContr.center + Vector3.up * - charContr.height * 0.5F;
+        Vector3 p2 = p1 + Vector3.up * charContr.height;
+
+        Vector3 teleportPosition = objectPosition;
+
+        if (Physics.CapsuleCast(p1, p2, charContr.radius, transform.forward, out hit, 1))
+        {
+
+            var distanceToObstacle = hit.distance;
+
+            if (distanceToObstacle < charContr.radius)
+            {
+                teleportPosition = teleportPosition - hit.normal * (charContr.radius - distanceToObstacle);
+            }
+
+        }
+
+        transform.position = teleportPosition;
+        
 
         StartCoroutine(MoveObjectAfterDelay(targetObject, playerPosition, playerRigidbody, targetRigidbody));
         StartCoroutine(ResetShaderEffect());
