@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerSwitcher : MonoBehaviour
@@ -17,7 +18,13 @@ public class PowerSwitcher : MonoBehaviour
     [Header("Shader Settings")]
     public Material teleportMaterial;
 
+    [Header("Editable Colors (HDRP)")]
+    public Color inRangeColor = Color.cyan; // Color cuando esté dentro del rango
+    public Color outOfRangeColor = Color.magenta; // Color cuando esté fuera del rango
+
     [SerializeField] CapsuleCollider charContr;
+
+    private Dictionary<GameObject, Material> objectMaterials = new Dictionary<GameObject, Material>();
 
     private void Start()
     {
@@ -35,6 +42,7 @@ public class PowerSwitcher : MonoBehaviour
         HandleThrowInput();
         HandleSwitchPositionInput();
         CheckIfPlayerTeleported();
+        UpdateTeleportersColor();
     }
 
     private void FixedUpdate()
@@ -176,34 +184,12 @@ public class PowerSwitcher : MonoBehaviour
             targetRigidbody.useGravity = false;
         }
 
-        // Activar el shader
         if (teleportMaterial != null)
         {
             teleportMaterial.SetFloat("_IsActive", 1f);
         }
 
-        //-----------------------------------------------------
-        RaycastHit hit;
-        
-        Vector3 p1 = objectPosition + charContr.center + Vector3.up * - charContr.height * 0.5F;
-        Vector3 p2 = p1 + Vector3.up * charContr.height;
-
-        Vector3 teleportPosition = objectPosition;
-
-        if (Physics.CapsuleCast(p1, p2, charContr.radius, transform.forward, out hit, 1))
-        {
-
-            var distanceToObstacle = hit.distance;
-
-            if (distanceToObstacle < charContr.radius)
-            {
-                teleportPosition = teleportPosition - hit.normal * (charContr.radius - distanceToObstacle);
-            }
-
-        }
-
-        transform.position = teleportPosition;
-        
+        transform.position = objectPosition;
 
         StartCoroutine(MoveObjectAfterDelay(targetObject, playerPosition, playerRigidbody, targetRigidbody));
         StartCoroutine(ResetShaderEffect());
@@ -213,7 +199,7 @@ public class PowerSwitcher : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
 
-        float duration = 0.5f; // Duración de la transición
+        float duration = 0.5f;
         float elapsedTime = 0f;
         float startValue = 1f;
         float endValue = 0f;
@@ -229,6 +215,60 @@ public class PowerSwitcher : MonoBehaviour
         teleportMaterial.SetFloat("_IsActive", 0f);
     }
 
+    private void UpdateTeleportersColor()
+    {
+        Collider[] allTeleporters = Physics.OverlapSphere(transform.position, switchDistanceLimit, grabbableLayer);
+
+        foreach (Collider collider in allTeleporters)
+        {
+            if (collider.CompareTag("Poder de la mano celestial"))
+            {
+                GameObject obj = collider.gameObject;
+
+                if (!objectMaterials.ContainsKey(obj))
+                {
+                    Renderer renderer = obj.GetComponent<Renderer>();
+                    if (renderer != null)
+                    {
+                        objectMaterials[obj] = renderer.material;
+                    }
+                }
+
+                float distance = Vector3.Distance(transform.position, obj.transform.position);
+                if (distance <= switchDistanceLimit)
+                {
+                    SetObjectColor(obj, inRangeColor);
+                }
+                else
+                {
+                    SetObjectColor(obj, outOfRangeColor);
+                }
+            }
+        }
+    }
+
+    private void SetObjectColor(GameObject obj, Color color)
+    {
+        if (objectMaterials.TryGetValue(obj, out Material mat))
+        {
+            if (mat.HasProperty("_BaseColorBallTp"))
+            {
+                mat.SetColor("_BaseColorBallTp", color);
+                mat.SetColor("_EmissionColorBallTp", color * 20f); // Emission color brightness at 7
+            }
+            mat.EnableKeyword("_EMISSION");  // Ensure emission is active
+        }
+    }
+
+    private void IgnoreCollisions(Collider objectCollider, bool ignore)
+    {
+        Collider playerCollider = GetComponent<Collider>();
+        if (playerCollider != null && objectCollider != null)
+        {
+            Physics.IgnoreCollision(playerCollider, objectCollider, ignore);
+        }
+    }
+
     private IEnumerator MoveObjectAfterDelay(GameObject targetObject, Vector3 targetPosition, Rigidbody playerRigidbody, Rigidbody targetRigidbody)
     {
         yield return new WaitForFixedUpdate();
@@ -241,21 +281,6 @@ public class PowerSwitcher : MonoBehaviour
         if (playerRigidbody != null)
         {
             playerRigidbody.isKinematic = false;
-        }
-        Collider playerCollider = GetComponent<Collider>();
-        Collider objectCollider = targetObject.GetComponent<Collider>();
-        if (playerCollider != null && objectCollider != null)
-        {
-            Physics.IgnoreCollision(playerCollider, objectCollider, false);
-        }
-    }
-
-    private void IgnoreCollisions(Collider objectCollider, bool ignore)
-    {
-        Collider playerCollider = GetComponent<Collider>();
-        if (playerCollider != null && objectCollider != null)
-        {
-            Physics.IgnoreCollision(playerCollider, objectCollider, ignore);
         }
     }
 }

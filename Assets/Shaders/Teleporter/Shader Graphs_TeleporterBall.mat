@@ -115,10 +115,10 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - _BaseColorBallTp: {r: 1.035789, g: 0.66981137, b: 2, a: 0}
+    - _BaseColorBallTp: {r: 2.828427, g: 0, b: 0.59940773, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColorBallTp: {r: 82.86638, g: 0, b: 23.101013, a: 0}
+    - _EmissionColorBallTp: {r: 127.999954, g: 0, b: 36.188465, a: 0}
     - _InMInMAx: {r: 7, g: 100, b: 0, a: 0}
     - _Size: {r: 1, g: 1, b: 0, a: 0}
     - _SizeTpObject: {r: 1, g: 1.7, b: 0, a: 0}
