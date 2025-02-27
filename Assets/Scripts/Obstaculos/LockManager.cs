@@ -90,6 +90,11 @@ public class LockManager : MonoBehaviour
                 if (columnaActual > 0)
                 {
                     columnaActual--;
+                    if (audioM != null)
+                    {
+                        audioM.PlaySfx(17); // Puedes ajustar el índice del sonido
+                    }
+
                 }
                 ActivarColumnaActual();
             }

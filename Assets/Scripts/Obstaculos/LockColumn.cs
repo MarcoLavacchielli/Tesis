@@ -8,11 +8,13 @@ public class LockColumn : MonoBehaviour
     public float rotationSpeed = 50f;    // Velocidad de rotación
     public float restartSpeed = 50f;    // velocidad de cuando te equivocas
     public Transform filaCentral;        // Transform que representa la fila central
-    public Material correctMaterial;     // Material para la cara correcta
+    public Material correctMaterial;     // Material para la cara correcta ---Amarillo
+    public Material wellIntroducedCodeMaterial; //VERDE
     private bool isStopped = false;      // Indica si esta columna ya está resuelta
 
     private int codigoCorrecto;          // Índice de la cara correcta (ahora se asigna aleatoriamente)
     private Transform CorrectFace;
+    private Renderer correctFaceRenderer;
 
     void Start()
     {
@@ -26,6 +28,7 @@ public class LockColumn : MonoBehaviour
             if (renderer != null && correctMaterial != null)
             {
                 renderer.material = correctMaterial;
+                correctFaceRenderer = renderer;
             }
             else
             {
@@ -46,11 +49,22 @@ public class LockColumn : MonoBehaviour
             transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
         }
     }
+    public void changeColorToGreen()
+    {
+        Renderer renderer = CarasDeLaColumna[codigoCorrecto].GetComponent<Renderer>();
+        if (renderer != null && correctMaterial != null)
+        {
+            renderer.material = wellIntroducedCodeMaterial;
+        }
+
+
+    }
 
     public bool TryStopColumn()
     {
         if (Vector3.Distance(CorrectFace.position, filaCentral.position) < 0.1f)
         {
+           changeColorToGreen();
             isStopped = true; // Detiene la columna
             rotationSpeed = 0; // Deja de rotar
             return true; // Indica que la columna fue resuelta correctamente
@@ -62,6 +76,11 @@ public class LockColumn : MonoBehaviour
     {
         isStopped = false; // Reactiva la columna
         rotationSpeed = restartSpeed; // Restaura la velocidad de rotación
+        Renderer renderer = CarasDeLaColumna[codigoCorrecto].GetComponent<Renderer>();
+        if (renderer != null && correctMaterial != null)
+        {
+            renderer.material = correctMaterial;
+        }
     }
 
     public bool IsStopped()
