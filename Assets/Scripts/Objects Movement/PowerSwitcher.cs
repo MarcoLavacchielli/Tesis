@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,8 +19,8 @@ public class PowerSwitcher : MonoBehaviour
     public Material teleportMaterial;
 
     [Header("Editable Colors (HDRP)")]
-    public Color inRangeColor = Color.cyan; // Color cuando esté dentro del rango
-    public Color outOfRangeColor = Color.magenta; // Color cuando esté fuera del rango
+    public Color inRangeColor = Color.cyan; // Color cuando estÃ© dentro del rango
+    public Color outOfRangeColor = Color.magenta; // Color cuando estÃ© fuera del rango
 
     [SerializeField] CapsuleCollider charContr;
 

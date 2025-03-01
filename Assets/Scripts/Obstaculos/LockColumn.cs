@@ -6,39 +6,65 @@ public class LockColumn : MonoBehaviour
 {
     public GameObject[] CarasDeLaColumna; // Array con las caras del nonágono
     public float rotationSpeed = 50f;    // Velocidad de rotación
-    public float restartSpeed = 50f;    // velocidad de cuando te equivocas
+    public float restartSpeed = 50f;    // Velocidad cuando se reinicia
     public Transform filaCentral;        // Transform que representa la fila central
-    public Material correctMaterial;     // Material para la cara correcta ---Amarillo
-    public Material wellIntroducedCodeMaterial; //VERDE
+    public Material correctMaterial;     // Material para la cara correcta (Amarillo)
+    public Material wellIntroducedCodeMaterial; // Material cuando el código es correcto (Verde)
+    public Material incorrectMaterial; // Material para las caras incorrectas (Rojo)
     private bool isStopped = false;      // Indica si esta columna ya está resuelta
 
-    private int codigoCorrecto;          // Índice de la cara correcta (ahora se asigna aleatoriamente)
+    private int codigoCorrecto;          // Índice de la cara correcta
     private Transform CorrectFace;
     private Renderer correctFaceRenderer;
 
     void Start()
     {
-        // Asignar aleatoriamente el índice del código correcto
-        codigoCorrecto = Random.Range(0, CarasDeLaColumna.Length);
+        InicializarCandado();
+    }
 
-        // Cambiar el material de la cara correcta al inicio
-        if (CarasDeLaColumna.Length > 0 && codigoCorrecto >= 0 && codigoCorrecto < CarasDeLaColumna.Length)
+    void OnEnable()
+    {
+        ResetearMateriales();
+        InicializarCandado();
+    }
+
+    void InicializarCandado()
+    {
+        if (CarasDeLaColumna.Length == 0)
         {
-            Renderer renderer = CarasDeLaColumna[codigoCorrecto].GetComponent<Renderer>();
-            if (renderer != null && correctMaterial != null)
-            {
-                renderer.material = correctMaterial;
-                correctFaceRenderer = renderer;
-            }
-            else
-            {
-                Debug.LogWarning("El Renderer o el Material de la cara correcta no están asignados.");
-            }
-            CorrectFace = CarasDeLaColumna[codigoCorrecto].transform;
+            Debug.LogError("El array de caras de la columna está vacío.");
+            return;
         }
-        else
+
+        // Si el código ya fue asignado, no lo reasignamos
+        if (codigoCorrecto == 0 && correctFaceRenderer == null)
         {
-            Debug.LogError("El índice del código correcto está fuera de rango o el array está vacío.");
+            codigoCorrecto = Random.Range(0, CarasDeLaColumna.Length);
+        }
+
+        // Asigna el material correcto solo a la cara correcta
+        for (int i = 0; i < CarasDeLaColumna.Length; i++)
+        {
+            Renderer renderer = CarasDeLaColumna[i].GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                renderer.material = (i == codigoCorrecto) ? correctMaterial : incorrectMaterial;
+            }
+        }
+
+        correctFaceRenderer = CarasDeLaColumna[codigoCorrecto].GetComponent<Renderer>();
+        CorrectFace = CarasDeLaColumna[codigoCorrecto].transform;
+    }
+
+    void ResetearMateriales()
+    {
+        for (int i = 0; i < CarasDeLaColumna.Length; i++)
+        {
+            Renderer renderer = CarasDeLaColumna[i].GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                renderer.material = incorrectMaterial;
+            }
         }
     }
 
@@ -49,37 +75,38 @@ public class LockColumn : MonoBehaviour
             transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
         }
     }
+
     public void changeColorToGreen()
     {
-        Renderer renderer = CarasDeLaColumna[codigoCorrecto].GetComponent<Renderer>();
-        if (renderer != null && correctMaterial != null)
+        if (correctFaceRenderer != null && wellIntroducedCodeMaterial != null)
         {
-            renderer.material = wellIntroducedCodeMaterial;
+            correctFaceRenderer.material = wellIntroducedCodeMaterial;
         }
-
-
     }
 
     public bool TryStopColumn()
     {
         if (Vector3.Distance(CorrectFace.position, filaCentral.position) < 0.1f)
         {
-           changeColorToGreen();
-            isStopped = true; // Detiene la columna
-            rotationSpeed = 0; // Deja de rotar
-            return true; // Indica que la columna fue resuelta correctamente
+            changeColorToGreen();
+            isStopped = true;
+            rotationSpeed = 0;
+            return true;
         }
-        return false; // Indica que el jugador falló
+        return false;
     }
 
     public void ResetColumn()
     {
-        isStopped = false; // Reactiva la columna
-        rotationSpeed = restartSpeed; // Restaura la velocidad de rotación
-        Renderer renderer = CarasDeLaColumna[codigoCorrecto].GetComponent<Renderer>();
-        if (renderer != null && correctMaterial != null)
+        isStopped = false;
+        rotationSpeed = restartSpeed;
+        for (int i = 0; i < CarasDeLaColumna.Length; i++)
         {
-            renderer.material = correctMaterial;
+            Renderer renderer = CarasDeLaColumna[i].GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                renderer.material = (i == codigoCorrecto) ? correctMaterial : incorrectMaterial;
+            }
         }
     }
 

@@ -58,5 +58,5 @@ Material:
     - _StaticStep: 0.3
     - _StaticStrenght: 0.1
     m_Colors:
-    - _Color: {r: 8, g: 0, b: 2.6644173, a: 0}
+    - _Color: {r: 0.29211968, g: 10.680627, b: 0, a: 0}
   m_BuildTextureStacks: []

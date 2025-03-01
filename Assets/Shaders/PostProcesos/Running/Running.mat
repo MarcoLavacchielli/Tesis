@@ -20,7 +20,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _AlphaSpeed
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -42,11 +42,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 1
+    - _Alpha: 1.5
     - _AlphaSpeed: 5
     - _IsActive: 1
     - _Mask_Constrast: 1
-    - _Mask_Size: 0.7
+    - _Mask_Size: 0.65
     - _SpeedColor: 0.25
     m_Colors:
     - _Color: {r: 1.3301888, g: 2, b: 1.6191269, a: 0}

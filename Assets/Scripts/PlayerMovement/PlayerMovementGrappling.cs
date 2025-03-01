@@ -517,4 +517,17 @@ public class PlayerMovementGrappling : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        if (PostProcessRun != null)
+        {
+            PostProcessRun.SetFloat("_IsActive", 1f);
+        }
+
+        if (audioM != null)
+        {
+            audioM.PauseSFX(13);
+        }
+    }
+
 }
