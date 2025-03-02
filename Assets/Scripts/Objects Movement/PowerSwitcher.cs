@@ -128,7 +128,7 @@ public class PowerSwitcher : MonoBehaviour
     private void MoveObjectSmoothly()
     {
         Vector3 direction = holdPoint.position - grabbedObject.transform.position;
-        grabbedRigidbody.velocity = direction * 10f;
+        grabbedRigidbody.velocity = direction * 20f;
     }
 
     private void ThrowObject()
