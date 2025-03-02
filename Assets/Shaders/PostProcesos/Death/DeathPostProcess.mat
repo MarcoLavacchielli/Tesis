@@ -43,7 +43,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AmountOfLine: 500
-    - _IsActive: 0.500281
+    - _IsActive: 0
     - _StaticStep: 0.3
     - _StaticStrenght: 0.1
     m_Colors:

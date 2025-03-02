@@ -219,11 +219,14 @@ public class PowerSwitcher : MonoBehaviour
     {
         Collider[] allTeleporters = Physics.OverlapSphere(transform.position, switchDistanceLimit, grabbableLayer);
 
+        HashSet<GameObject> updatedObjects = new HashSet<GameObject>();
+
         foreach (Collider collider in allTeleporters)
         {
             if (collider.CompareTag("Poder de la mano celestial"))
             {
                 GameObject obj = collider.gameObject;
+                updatedObjects.Add(obj);
 
                 if (!objectMaterials.ContainsKey(obj))
                 {
@@ -245,7 +248,24 @@ public class PowerSwitcher : MonoBehaviour
                 }
             }
         }
+
+        // Limpiar objetos que ya no están en rango
+        List<GameObject> objectsToRemove = new List<GameObject>();
+        foreach (var obj in objectMaterials.Keys)
+        {
+            if (!updatedObjects.Contains(obj))
+            {
+                SetObjectColor(obj, outOfRangeColor); // Fuerza el color fuera de rango
+                objectsToRemove.Add(obj);
+            }
+        }
+
+        foreach (var obj in objectsToRemove)
+        {
+            objectMaterials.Remove(obj);
+        }
     }
+
 
     private void SetObjectColor(GameObject obj, Color color)
     {
