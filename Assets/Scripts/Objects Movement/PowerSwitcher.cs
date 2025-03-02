@@ -14,14 +14,13 @@ public class PowerSwitcher : MonoBehaviour
     private GameObject grabbedObject;
     private Rigidbody grabbedRigidbody;
     private Vector3 lastPlayerPosition;
-    private Vector3 velocity = Vector3.zero;
 
     [Header("Shader Settings")]
     public Material teleportMaterial;
 
     [Header("Editable Colors (HDRP)")]
-    public Color inRangeColor = Color.cyan;
-    public Color outOfRangeColor = Color.magenta;
+    public Color inRangeColor = Color.cyan; // Color cuando esté dentro del rango
+    public Color outOfRangeColor = Color.magenta; // Color cuando esté fuera del rango
 
     [SerializeField] CapsuleCollider charContr;
 
@@ -30,6 +29,7 @@ public class PowerSwitcher : MonoBehaviour
     private void Start()
     {
         lastPlayerPosition = transform.position;
+
         if (teleportMaterial != null)
         {
             teleportMaterial.SetFloat("_IsActive", 0f);
@@ -80,7 +80,10 @@ public class PowerSwitcher : MonoBehaviour
         float teleportThreshold = 2f;
         if (Vector3.Distance(transform.position, lastPlayerPosition) > teleportThreshold)
         {
-            if (grabbedObject != null) ReleaseObject();
+            if (grabbedObject != null)
+            {
+                ReleaseObject();
+            }
         }
         lastPlayerPosition = transform.position;
     }
@@ -88,7 +91,9 @@ public class PowerSwitcher : MonoBehaviour
     private void TryGrabObject()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, grabDistance, grabbableLayer))
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, grabDistance, grabbableLayer))
         {
             if (hit.collider.CompareTag("Poder de la mano celestial"))
             {
@@ -99,8 +104,6 @@ public class PowerSwitcher : MonoBehaviour
                 {
                     grabbedRigidbody.useGravity = false;
                     grabbedRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-                    grabbedRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-                    grabbedRigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
                 }
 
                 IgnoreCollisions(hit.collider, true);
@@ -124,10 +127,8 @@ public class PowerSwitcher : MonoBehaviour
 
     private void MoveObjectSmoothly()
     {
-        if (grabbedRigidbody == null) return;
-
-        Vector3 targetPosition = holdPoint.position;
-        grabbedObject.transform.position = Vector3.SmoothDamp(grabbedObject.transform.position, targetPosition, ref velocity, 0.05f);
+        Vector3 direction = holdPoint.position - grabbedObject.transform.position;
+        grabbedRigidbody.velocity = direction * 10f;
     }
 
     private void ThrowObject()
@@ -178,7 +179,10 @@ public class PowerSwitcher : MonoBehaviour
         Vector3 playerPosition = transform.position;
         Vector3 objectPosition = targetObject.transform.position;
 
-        if (targetRigidbody != null) targetRigidbody.useGravity = false;
+        if (targetRigidbody != null)
+        {
+            targetRigidbody.useGravity = false;
+        }
 
         if (teleportMaterial != null)
         {
@@ -231,7 +235,14 @@ public class PowerSwitcher : MonoBehaviour
                 }
 
                 float distance = Vector3.Distance(transform.position, obj.transform.position);
-                SetObjectColor(obj, distance <= switchDistanceLimit ? inRangeColor : outOfRangeColor);
+                if (distance <= switchDistanceLimit)
+                {
+                    SetObjectColor(obj, inRangeColor);
+                }
+                else
+                {
+                    SetObjectColor(obj, outOfRangeColor);
+                }
             }
         }
     }
@@ -243,9 +254,9 @@ public class PowerSwitcher : MonoBehaviour
             if (mat.HasProperty("_BaseColorBallTp"))
             {
                 mat.SetColor("_BaseColorBallTp", color);
-                mat.SetColor("_EmissionColorBallTp", color * 20f);
+                mat.SetColor("_EmissionColorBallTp", color * 20f); // Emission color brightness at 7
             }
-            mat.EnableKeyword("_EMISSION");
+            mat.EnableKeyword("_EMISSION");  // Ensure emission is active
         }
     }
 
