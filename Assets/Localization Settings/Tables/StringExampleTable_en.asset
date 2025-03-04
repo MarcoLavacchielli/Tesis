@@ -102,6 +102,80 @@ MonoBehaviour:
     m_Localized: Pause
     m_Metadata:
       m_Items: []
+  - m_Id: 20971998666637312
+    m_Localized: Click to continue :/_
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971628846465024
+    m_Localized: Simulation v2.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971623687471104
+    m_Localized: Simulation v1.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971687944208384
+    m_Localized: Simulation v3.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971702657826816
+    m_Localized: Simulation v4.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971717585354752
+    m_Localized: Simulation v5.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971747494936576
+    m_Localized: Simulation v6.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20972872184971264
+    m_Localized: "\u25BA Click to continue :/_"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20972967517306880
+    m_Localized: '* Wall running --> Training'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20980400985817088
+    m_Localized: '* Jump --> Training
+
+      * Crouch/Slide --> Training'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20982790048792576
+    m_Localized: '* Grappling Hook --> Training'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21270315745230848
+    m_Localized: '* Chamber 1.0 --> Test.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21272960924991488
+    m_Localized: '* Hold and Grab --> Training'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21274492307324928
+    m_Localized: '* Teleporter --> Training'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21277262104051712
+    m_Localized: "All practice modules \nwere completed successfully."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21277439825100800
+    m_Localized: Click to go to main menu :/_
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21277762388049920
+    m_Localized: Simulation finished
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21278419446743040
+    m_Localized: "\u25BA Click to go to main menu :/_"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

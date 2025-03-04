@@ -102,6 +102,80 @@ MonoBehaviour:
     m_Localized: Pausa
     m_Metadata:
       m_Items: []
+  - m_Id: 20971623687471104
+    m_Localized: Simulacion v1.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971628846465024
+    m_Localized: Simulacion v2.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971687944208384
+    m_Localized: Simulacion v3.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971702657826816
+    m_Localized: Simulacion v4.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971717585354752
+    m_Localized: Simulacion v5.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971747494936576
+    m_Localized: Simulacion v6.0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971998666637312
+    m_Localized: Click para continuar :/_
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20972872184971264
+    m_Localized: "\u25BA Click para continuar :/_"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20972967517306880
+    m_Localized: '* Correr por la pared --> Entrenamiento'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20980400985817088
+    m_Localized: '* Salto --> Entrenamiento
+
+      * Agacharse/Deslizar --> Entrenamiento'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20982790048792576
+    m_Localized: '* Gancho --> Entrenamiento'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21270315745230848
+    m_Localized: '* Camara 1.0 --> Examen.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21272960924991488
+    m_Localized: '* Agarrar y mover --> Entrenamiento'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21274492307324928
+    m_Localized: '* Teletrasporte --> Entrenamiento'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21277262104051712
+    m_Localized: Todos los modulos de pracitca fueron completados con exito
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21277439825100800
+    m_Localized: Click para ir al menu principal :/_
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21277762388049920
+    m_Localized: Simulacion Terminada
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21278419446743040
+    m_Localized: "\u25BA Click para ir al menu principal :/_"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

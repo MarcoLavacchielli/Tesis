@@ -101,6 +101,80 @@ MonoBehaviour:
     m_Key: PauseKey
     m_Metadata:
       m_Items: []
+  - m_Id: 20971623687471104
+    m_Key: Simulacion 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971628846465024
+    m_Key: Simulacion 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971687944208384
+    m_Key: Simulacion 3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971702657826816
+    m_Key: Simulacion 4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971717585354752
+    m_Key: Simulacion 5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971747494936576
+    m_Key: Simulacion 6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20971998666637312
+    m_Key: Click to continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20972872184971264
+    m_Key: Click to continue trianuglo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20972967517306880
+    m_Key: '* Wall running --> Training'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20980400985817088
+    m_Key: '* Jump --> Training
+
+      * Crouch/Slide --> Training'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20982790048792576
+    m_Key: '* Grappling Hook --> Training'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21270315745230848
+    m_Key: '* Chamber 1.0 --> Test.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21272960924991488
+    m_Key: '* Hold and Grab --> Training'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21274492307324928
+    m_Key: '* Teleporter --> Training'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21277262104051712
+    m_Key: "All practice modules \nwere completed successfully."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21277439825100800
+    m_Key: Click to go to main menu :/_
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21277762388049920
+    m_Key: Simulation finished
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21278419446743040
+    m_Key: "\u25BA Click to go to main menu :/_"
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
