@@ -34,6 +34,9 @@ public class AsyncSceneCharge : MonoBehaviour
             panels[i].SetActive(i == 0);
         }
 
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
     }
 
     public void Update()
